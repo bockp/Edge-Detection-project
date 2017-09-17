@@ -12,7 +12,7 @@ For us it would be presenting all *Edge Detection algorithms available in ImageJ
 
 Benchmarking is also needed, though after what Taveau said it's mainly an *improvised* benchmarking system for the first month.
 **AKA., If we make a JS script that runs the algorithm for the different edge detection schemes on the same image, how much time, ressources, etc... does it take for each to run ? how correct were they ? does it depend on the kind of image ?**
-I found an article that might provide hints here: https://doi.org/10.1016/0146-664X(82)90070-3
+I found articles that might provide information on comparing different Edge Detectors: https://doi.org/10.1016/0146-664X(82)90070-3, http://www.cscjournals.org/library/manuscriptinfo.php?mc=IJIP-15
 
 
 ## Development of one or more of the Edge Detectors in JS/ECMA 6 + benchmarking and comparison with previous benchmark.
