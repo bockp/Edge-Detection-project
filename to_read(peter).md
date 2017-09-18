@@ -2,7 +2,9 @@ Some docs I personally want to read, but which might also be interesting for you
 
 
 [Relatively simple explanation of Sobel](https://pdfs.semanticscholar.org/6bca/fdf33445585966ee6fb3371dd1ce15241a62.pdf)
+
 [sciencedirect article comparing the different edge detection algos](http://www.sciencedirect.com/science/article/pii/0146664X82900703)
+
 [image procesing with ImageJ article](https://dspace.library.uu.nl/handle/1874/204900)
 
 
