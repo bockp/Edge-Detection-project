@@ -33,6 +33,8 @@ For the second and third month, I'd guess we compare the performance of our scri
 
 # References
 
+Schindelin, J.; Rueden, C. T. & Hiner, M. C. et al. (2015), ["The ImageJ ecosystem: An open platform for biomedical image analysis"](http://onlinelibrary.wiley.com/doi/10.1002/mrd.22489/full), Molecular Reproduction and Development, PMID 26153368 
+
 * *Scientific Articles*
 * *Books*
 * ***NO websites***
