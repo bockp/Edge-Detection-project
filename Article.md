@@ -13,7 +13,9 @@ ImageJ[0]
 
 ## Sobel
 
-The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[1], 
+The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[1], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms out there.
+
+
 
 ## Canny
 
