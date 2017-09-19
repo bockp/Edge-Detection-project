@@ -28,7 +28,7 @@ and then performing a benchmark on the execution time
 
 * *description of the main algorithms and their implementation in ImageJ. A pacer dans l'ordre chronologique de préférence*
 
-![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.jpg)
+![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.png)
 
 **Fig.1: Edge detection in a 1D continuous space**[bovik]
 
