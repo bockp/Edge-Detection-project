@@ -8,8 +8,6 @@ In our project, we will examine one specific field of image processing : edge de
 The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance”[Bovik]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
 Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach).
 
-![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.jpg) *figure a modifier : changer la légende, ajouter la ref : Bovik....., à déplacer dans metériel et méthodes*
-
 Edge detectors based on the derivative are sensitive to noise, which lead to the development of several algorithms. Most of them use a filter to reduce noise before actually detecting edges in the image.[Bovik]
 These algorithms usually have three main steps:
 - smoothing: use of a filter to suppress the noise.
@@ -33,6 +31,9 @@ Each step (ImageJ, Ecmascript and WebGL implementations) will be benchmarked[ben
 # 2.Material & Methods
 
 * *description of the main algorithms and their implementation in ImageJ. A pacer dans l'ordre chronologique de préférence*
+
+![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.jpg)
+**hhh**
 
 ## Sobel
 
