@@ -37,7 +37,7 @@ and then performing a benchmark on the execution time
 The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[sobel], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms out there.
 
 It works by using a filter mask to look for local maxima and minima in the first derivative of the image.
-it uses two masks, one horizontal and one vertical[sobelAlgo](Fig2), these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
+it uses two masks, one horizontal and one vertical[sobelAlgo] (Fig2), these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
 
 ![Fig.2](https://github.com/bockp/Edge-Detection-project/blob/master/filters.png)
 
@@ -46,9 +46,11 @@ it uses two masks, one horizontal and one vertical[sobelAlgo](Fig2), these masks
 The two resulting images are then combined to get an image representing the approximate  absolute  gradient  magnitude of the original image.
 
 *Faire les photos ou les trouver dans un article ou livre ?!?!?!?*
-![Fig.3](??)
 
-**Fig.3: (a)original image,(b) Sobel x gradient image, (c) sobel y-gradient image, (d)absolute gradient magnitude image**
+
+![Fig.3](https://github.com/bockp/Edge-Detection-project/blob/master/BikesgrayFig3.jpg)
+
+**Fig.3: (a)original image,(b) Sobel Y-gradient image, (c) sobel X-gradient image, (d)absolute gradient magnitude image**
 
 
 
