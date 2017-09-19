@@ -45,21 +45,9 @@ it uses two masks, one horizontal and one vertical[sobelAlgo] (Fig2), these mask
 
 The two resulting images are then combined to get an image representing the approximate  absolute  gradient  magnitude of the original image.
 
-*Faire les photos ou les trouver dans un article ou livre ?!?!?!?*
-
-
 ![Fig.3](https://github.com/bockp/Edge-Detection-project/blob/master/BikesgrayFig3.jpg)
 
 **Fig.3: (a)original image,(b) Sobel Y-gradient image, (c) sobel X-gradient image, (d)absolute gradient magnitude image**
-
-
-
-
-
-
-**to be completed**
-* **include images of both filter results and combined density map**
-* **finish describing algorithm and link to annex with the ImageJ implementation**
 
 ## Canny
 
