@@ -20,20 +20,16 @@ In our project, we shall begin by documenting the 3 main linear edge detection a
 - Convolution with edge templates (Prewit, Sobel, Kirsh)[refs ?]
 - Zero-crossings of Laplacian of Gaussian convolution [ref?]
 - Zero-crossings of directional derivatives of smoothed images (Canny)[ref]
+and then performing a benchmark on the execution time
 
-*Est-ce qu'on doit parler de la suite de notre projet dans ce premier rapport ??*
-
-Then, we will create our own implementations of these algorithms using Ecmascript 6 [ecmascript] and a common Javascript enabled web browser so as to be able to do edge detection in images without relying upon ImageJ.
-Finally, we will implement these algorithms using WebGL[WebGL] so as to take advantage of the processing power of the GPU *??c'est pour ca, non??*.
-Each step (ImageJ, Ecmascript and WebGL implementations) will be benchmarked[benchmark] so as to study the advantages of the different algorithms, and the efficiency of the different implementations.
 
 
 # 2.Material & Methods
 
 * *description of the main algorithms and their implementation in ImageJ. A pacer dans l'ordre chronologique de préférence*
 
-![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.jpg) |
-**hhh** |
+![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.jpg)
+**Fig.1: Edge detection in a 1D continuous space**[bovik]
 
 ## Sobel
 
