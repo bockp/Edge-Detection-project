@@ -32,8 +32,8 @@ Each step (ImageJ, Ecmascript and WebGL implementations) will be benchmarked[ben
 
 * *description of the main algorithms and their implementation in ImageJ. A pacer dans l'ordre chronologique de préférence*
 
-![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.jpg)
-**hhh**
+![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.jpg) |
+**hhh** |
 
 ## Sobel
 
