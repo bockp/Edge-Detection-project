@@ -46,7 +46,7 @@ it uses two masks, one horizontal and one vertical (Fig2)
 
 ![http://aishack.in/tutorials/sobel-laplacian-edge-detectors/](https://github.com/bockp/Edge-Detection-project/blob/master/sobel-kernels1.jpg)
 
-
+*to be completed*
 
 ## Canny
 
