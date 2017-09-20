@@ -3,7 +3,7 @@
 Image processing is one of the most important fields in the domain of computer vision[Bovik]. Indeed, nearly every branch of science has a subdiscipline dedicated to retrieving information from the world, nearly always through the use of recording devices storing that information in the form of discrete images or videos.
 For a computer to make sense of these images, it needs to be able to interprete them, understand them.
 That is where Image Processing comes in, allowing a computer to process an image and detect its major features, and to perform higher-level vision tasks like face recognition.
-In our project, we will examine one specific field of image processing : edge detection.
+In our project, we will examine one specific field of image processing, called edge detection.
 
 The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance”[Bovik]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
 Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach).
@@ -16,11 +16,12 @@ These algorithms usually have three main steps:
 
 Errors in edge detection can be either false positives (classification of non edge pixels as edge pixels) or false negatives (classification of edge pixels as non-edge pixels). There is also a conflict between the correct detection of edges and the precise localization of their position. 
 
-In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms in ImageJ[imagej]:
+In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implentation in the image processing software ImageJ[imagej]:
 - Convolution with edge templates (Prewit, Sobel, Kirsh)[refs ?]
 - Zero-crossings of Laplacian of Gaussian convolution [ref?]
 - Zero-crossings of directional derivatives of smoothed images (Canny)[ref]
-and then performing a benchmark on the execution time
+
+We will then perform a benchmark on the imageJ plugins, in order to compare them by measuring their execution time, the memory load for the JVM, and ?????????
 
 
 
@@ -30,11 +31,13 @@ and then performing a benchmark on the execution time
 
 ![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.png)
 
-**Fig.1: Edge detection in a 1D continuous space**[bovik]
+**Fig.1: Edge detection in a 1D continuous space : fc(x) is the greylevel intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative**[bovik]
 
 ## Sobel
 
 The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[sobel], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms out there.
+
+*Ajouter l'équation de la dérivée seconde + explications*
 
 It works by using a filter mask to look for local maxima and minima in the first derivative of the image.
 it uses two masks, one horizontal and one vertical[sobelAlgo] (Fig2), these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
@@ -49,23 +52,48 @@ The two resulting images are then combined to get an image representing the appr
 
 **Fig.3: (a)original image,(b) Sobel Y-gradient image, (c) sobel X-gradient image, (d)absolute gradient magnitude image**
 
-## Canny
-
-
 ## Laplacian based methods (Laplacian of Gaussian, Marr-Hidreth Filter):
 
 *formulas described in Bovik... to be inserted to illustate each step*
 
-The Laplacian is a 2D isotropic measure of the 2nd spatial derivative (*formula*). It is used to detect regions of rapid intensity change in an image :
-- In the regions of constant intensity (intensity gradient equal to zero), the Laplacian is equal to zero. (*formula*)
-- In regions where there is a change in intensity, the Laplacian is positive on the darker side, and negative on the lighter side. (*formula*)
+The Laplacian is a 2D isotropic measure of the 2nd spatial derivative [Equation.3]. It is used to detect regions of rapid intensity change in an image :
+- In the regions of constant intensity (intensity gradient equal to zero), the Laplacian is equal to zero. 
+- In regions where there is a change in intensity, the Laplacian is positive on the darker side, and negative on the lighter side.
+
+![Equation.3](https://github.com/bockp/Edge-Detection-project/blob/master/laplacian.jpg)
+
+**Equation.3: Laplacian of a continuous greylevel intensity function fc(x,y) [Bovik]** 
+
 This has the effect of highlighting the edges in the image, and can be used as an enhancement technique, by adding the filtered image to the original image. 
 
-The Laplacian operator is usually used on greylevel images, previously smoothed with a Gaussian filter to reduce noise.
-It is also possible to convolve the Gaussian smoothing filter with the Laplacian filter, before convolving this Laplacian of Gaussian (LoG) with the image. (*formula*) The Gaussian and Laplacian kernels are both small so it requires fewer operations than using both filters on the image. Another advantage of the LoG is that it can be calculated in advance as it is independent of the image to process. It is important to note that the result of these edge detectors is highly influenced by the standard deviation used for the Gaussian filter chosen for the smoothing step. 
+The Laplacian can be estimated by designing a pair of 1D 2nd derivative filters and combining them into a 2D filter [Equation.4]
+
+![Equation.4](https://github.com/bockp/Edge-Detection-project/blob/master/discrete_laplacian.jpg)
+
+**Equation.4: Discrete Laplacian estimate for an image f(n1,n2) [Bovik]**
+
+Other 3x3 kernels are :
+
+![Figure](https://github.com/bockp/Edge-Detection-project/blob/master/kernel_laplacian.jpg)
+
+*A remplacer par une figure comme dans la partie Sobel ???*
+
+The Laplacian opeator is usually used on greylevel images, previously smoothed with a Gaussian filter to reduce noise. It is also possible to convolve the Gaussian smoothing filter with the Laplacian filter, before convolving this Laplacian of Gaussian (LoG) [Equation.5] with the image. 
+
+![Equation.5](https://github.com/bockp/Edge-Detection-project/blob/master/LoG.jpg)
+
+**Equation.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function [Bovik]**
+
+To implement a discrete form, a filter can be constructed by sampling this equation after choosing a value for sigma. The Gaussian and Laplacian kernels are both small so it requires fewer operations than using both filters on the image. Another advantage of the LoG is that it can be calculated in advance as it is independent of the image to process. It is important to note that the result of these edge detectors is highly influenced by the standard deviation used for the Gaussian filter chosen for the smoothing step. 
 
 It is not possible to extract directly the edge orientation information from the Laplacian output. To extract the edges, we need to detect the zero-crossings in the output of the Laplacian (or the LoG), i.e. the regions of the image where the Laplacian passes through zero. However this can also happen in regions that are features other than edges in the image and can be the cause of false positives.
-The input of the zero-crossing detector is the LoG filtered image, and the output is a binary image with lines representing the positions of all the zero-crossing points. All of the contour lines are closed lines because the strength of the edge is not considered so even gradual intensity transitions result in a zero-crossing. As we said previously, local minima of the gradient magnitude can cause false edges, that can be eliminated by using a threshold for edge strength, causing breaks in the closed contours.
+The input of the zero-crossing detector is the LoG filtered image, and the output is a binary image with lines representing the positions of all the zero-crossing points. Each pixel of the image is compared to its eight immediate neighbors, and a pixel is classified as a zero-crossing if its sign is different than the sign of its neighbor. [Equation.6] 
+
+![Equation.6](https://github.com/bockp/Edge-Detection-project/blob/master/zero_cross.jpg)
+
+**Equation.6: Zero-crossing classification of a pixel p [Bovik]**
+
+All of the contour lines are closed lines because the strength of the edge is not considered so even gradual intensity transitions result in a zero-crossing. As we said previously, local minima of the gradient magnitude can cause false edges, that can be eliminated by using a threshold for edge strength, causing breaks in the closed contours.
 
 In ImageJ, two plugins provide an implementation of the LoG operator :
 - The Laplacian plugin of FeatureJ package  (*j'ai un lien : https://imagescience.org/meijering/software/featurej/laplacian/ mais pas de publi associée...*)
@@ -74,6 +102,7 @@ This plugin is based on ImageScience, a java library for image processing (*pare
 - The LoG_Filter plugin (*https://imagej.nih.gov/ij/plugins/log-filter.html*).
 This plugin is a standalone and provides more parameters to the user : sigma
 
+## Canny
 
 # 3.Results
 
