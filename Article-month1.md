@@ -39,8 +39,21 @@ The Sobel Operator, introduced in a presentation at the Standford A.I Project in
 
 *Ajouter l'équation de la dérivée seconde + explications*
 
-It works by using a filter mask to look for local maxima and minima in the first derivative of the image.
-it uses two masks, one horizontal and one vertical[sobelAlgo] (Fig2), these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
+It is based on the 1st derivative, or gradient, of the greylevel intensity function [Equation.1]. 
+
+![Equation.1](https://github.com/bockp/Edge-Detection-project/blob/master/gradient.jpg)
+
+**Equation.1: Gradient of a continuous greylevel intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [Bovik]**
+
+After finding all the local extrema of the gradient magnitude, a thresholding is applied and the poits where the magnitude is superior to a given threshold are classified as candidate edge points [Equation.2].
+
+![Equation.2](https://github.com/bockp/Edge-Detection-project/blob/master/threshold.jpg)
+
+**Equation.2: Thresholding of the gradient magnitude, where T is a threshold[Bovik] **
+
+Finally, to obtain edges as zero-width segments, a thinning step is required : if the gradient magnitude is not a local maximum along the gradient direction, the point is suppressed from the edge candidates.
+
+In practice, this algorithm works by using two masks, one horizontal and one vertical[sobelAlgo] (Fig2), these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
 
 ![Fig.2](https://github.com/bockp/Edge-Detection-project/blob/master/filters.png)
 
