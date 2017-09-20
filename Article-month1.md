@@ -31,7 +31,7 @@ We will then perform a benchmark on the imageJ plugins, in order to compare them
 
 ![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.png)
 
-**Fig.1: Edge detection in a 1D continuous space : fc(x) is the greylevel intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[bovik]
+**Fig.1: Edge detection in a 1D continuous space : fc(x) is the greylevel intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edges locations**[Bovik]
 
 ## Sobel
 
@@ -131,7 +131,7 @@ This plugin is a standalone and provides more parameters to the user : sigma
 
 # References
 
-[bovik] Bovik, Alan C., ed. The essential guide to image processing. Academic Press, 2009.
+[Bovik] Bovik, Alan C., ed. The essential guide to image processing. Academic Press, 2009.
 
 [*??quel ref*] 
 
@@ -149,19 +149,8 @@ This plugin is a standalone and provides more parameters to the user : sigma
 [sobel] Sobel, Irwin. (2014). An Isotropic 3X3 Image Gradient Operator. Presentation at Stanford A.I. Project 1968.
 [sobelAlgo] Gupta, Samta, and Susmita Ghosh Mazumdar. "Sobel edge detection algorithm." International journal of computer science and management Research 2.2 (2013): 1578-1583.
 
-# to place
+[marr-hildreth] Marr, D. and Hildreth, E. ["Theory of edge detection"] Proc. R. Soc. Lond. B,270:187-217,1980.
 
-refs :19, 15, 13, 4
-19 : Theory of edge detection (1980) : accessible
-15 : On the discrete representation of the Laplacian of Gaussian (1999) 
-13 : Comparison of edge detectors, a methodology and initial study (1998) : payant
-4 : Edge detector evaluation using empirical ROC curves (2001) : payant
-
-math equations in “The essential guide to image processing , chap 19”
-
-Simple algorithms using Java : http://homepages.inf.ed.ac.uk/rbf/HIPR2/flatjavasrc/ZeroCrossing.java (LoG)
-http://homepages.inf.ed.ac.uk/rbf/HIPR2/flatjavasrc/Canny.java
-http://homepages.inf.ed.ac.uk/rbf/HIPR2/flatjavasrc/Sobel.java
 
 
 * ***NO websites***
