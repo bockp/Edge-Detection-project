@@ -47,7 +47,7 @@ It is based on the 1st derivative, or gradient, of the greylevel intensity funct
 
 After finding all the local extrema of the gradient magnitude, a thresholding is applied and the poits where the magnitude is superior to a given threshold are classified as candidate edge points [Equation.2].
 
-![Equation.2](https://github.com/bockp/Edge-Detection-project/blob/master/threshold.jpg)
+![Equation.2](https://github.com/bockp/Edge-Detection-project/blob/master/gradient_thr.jpg)
 
 **Equation.2: Thresholding of the gradient magnitude, where T is a threshold[Bovik] **
 
