@@ -31,7 +31,7 @@ We will then perform a benchmark on the imageJ plugins, in order to compare them
 
 ![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.png)
 
-**Fig.1: Edge detection in a 1D continuous space : fc(x) is the greylevel intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative**[bovik]
+**Fig.1: Edge detection in a 1D continuous space : fc(x) is the greylevel intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[bovik]
 
 ## Sobel
 
