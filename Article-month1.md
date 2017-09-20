@@ -18,7 +18,7 @@ Errors in edge detection can be either false positives (classification of non ed
 
 In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implentation in the image processing software ImageJ[imagej]:
 - Convolution with edge templates (Prewit, Sobel, Kirsh)[refs ?]
-- Zero-crossings of Laplacian of Gaussian convolution [ref?]
+- Zero-crossings of Laplacian of Gaussian convolution [marr-hildreth]
 - Zero-crossings of directional derivatives of smoothed images (Canny)[ref]
 
 We will then perform a benchmark on the imageJ plugins, in order to compare them by measuring their execution time, the memory load for the JVM, and ?????????
@@ -149,7 +149,7 @@ This plugin is a standalone and provides more parameters to the user : sigma
 [sobel] Sobel, Irwin. (2014). An Isotropic 3X3 Image Gradient Operator. Presentation at Stanford A.I. Project 1968.
 [sobelAlgo] Gupta, Samta, and Susmita Ghosh Mazumdar. "Sobel edge detection algorithm." International journal of computer science and management Research 2.2 (2013): 1578-1583.
 
-[marr-hildreth] Marr, D. and Hildreth, E. ["Theory of edge detection"] Proc. R. Soc. Lond. B,270:187-217,1980.
+[marr-hildreth] Marr, D. and Hildreth, E. Theory of edge detection. Proc. R. Soc. Lond. B,270:187-217,1980.
 
 
 
