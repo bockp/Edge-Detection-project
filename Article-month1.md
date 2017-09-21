@@ -158,6 +158,19 @@ After several demonstration, Canny originally define the Gaussian operator as th
 
 **Fig.6: Gaussian filter and its first derivate [Canny, 1986]**
 
+Even if the Canny model is often used in the edge detection for the image processing, several limits can be seen, mainly the noise which will define false edges and discontinuous edges (mainly linked to textured regions on image (Canny 1986)), even if this model is considered as less sensitive than Sobel and Laplace [Zhao 2012] [Abdelsamea, 2015], and the important time consumption calculation [Chaabane 2014]. 
+
+The implementation of the Canny model is relatively simple. First the image has to be treated by a Gaussian filter, then determine the gradient magnitude, assess if the pixel is a local maxima by comparing its value to its two closer neighbor on the axis in order to find local maxima. This firsts steps lead to a first edge map consisting of binary values (0 and 255). A thresholding is then done on the map by defind a low and high threshold value which will define major and minor pixels used for a thresholding final step hysteresis, (en gros, c'est le fait qu'une valeur x passée dans une transformation puit une transformation reverse ne reviendra pas au niveau initial, sa variation n'est pas totalement réversible, induit noise et écarts au modèle, mais dans la plupart articles ne prennent pas la peine de le redéfinir) all the edge containing value above the higher threshold, will be kept on the map, but the pixels of this edge which are under the lower value will be removed. This last point can lead to disrupted edges [Canny 1986], [Deriche 1987], [Ding 2001], [Bovik 2009], [Abdelsamea 2015].
+
+Several modification where done to the model in order to improve its efficiency, as the Deriche modification, allowing the model to treat an infinite extent which lead to a change of the efficiency of the Canny method according to the values considered after a Fourier transformation, leading to the development of a new fonction with only one constant parameter α (Deriche 1987) (du coup, vu que ça passe par ça, suis pas sure de pouvoir le maintenir, mais on trouve en plugin des filtres Canny-Deriche) [Fig.7], or the Ding modification, able to take into account pixels under the low threshold value in order to correct the edge disruption [Ding 2001].
+
+![Fig7](https://github.com/bockp/Edge-Detection-project/blob/master/images/Deriche_equation.png)
+
+**Fig.7: Gaussian filter and its first derivate [Deriche, 1987]**
+
+Currently, several plugins using this method have been developed : the Edge Detection by Canny-Deriche filtering by Thomas Boudier,  the Edge Detector by Carmelo Pulvirenti, able to use other operators (Laplacian of Gaussian (LoG), DroG) and FeatureJ by Erik Meijering. All of them require from the user a Gaussian kernel value or any other similar parameter which will be involved in the initial treatment step by the Gaussian filter, which will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. 
+(doit encore potasser code FeatureJ pour tt comprendre ses différences avec autres puisque je trouve pas article spécifique)
+
 
 ## Benchmarking process
 
@@ -181,7 +194,6 @@ After several demonstration, Canny originally define the Gaussian operator as th
 [Canny, 1986] Canny, J. A Computational Approach to Edge Detection. IEEE Transactions on Pattern Analysis and Machine Intelligence. 1986; PAMI-8:6, pp. 679-698, Nov. doi: 10.1109/TPAMI.1986.4767851
 
 [Chaabane et al, 2014] Chaabane BS, Fnaiech F. Color edges extraction using statistical features and automatic threshold technique: application to the breast cancer cells. BioMedical Engineering OnLine. 2014;13:4. doi:10.1186/1475-925X-13-4.
-
 
 [Deriche, 1987] Deriche, R. Using Canny's criteria to derive a recursively implemented optimal edge detector. Int J Comput Vision. 1987; 1:167. https://doi.org/10.1007/BF00123164
 
