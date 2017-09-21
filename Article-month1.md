@@ -146,9 +146,12 @@ Three mathematical parameters will be thus define and taken into account to asse
 
 [Bovik] Bovik, Alan C., ed. The essential guide to image processing. Academic Press, 2009.
 
-[Canny, 1986] Canny, J. A Computational Approach to Edge Detection. IEEE Transactions on Pattern Analysis and Machine Intelligence (1986), PAMI-8:6, pp. 679-698, Nov. doi: 10.1109/TPAMI.1986.4767851
+[Canny, 1986] Canny, J. A Computational Approach to Edge Detection. IEEE Transactions on Pattern Analysis and Machine Intelligence. 1986; PAMI-8:6, pp. 679-698, Nov. doi: 10.1109/TPAMI.1986.4767851
 
-[Deriche, 1987] Deriche, R. Using Canny's criteria to derive a recursively implemented optimal edge detector. Int J Comput Vision (1987) 1:167. https://doi.org/10.1007/BF00123164
+[Chaabane et al, 2014] Chaabane BS, Fnaiech F. Color edges extraction using statistical features and automatic threshold technique: application to the breast cancer cells. BioMedical Engineering OnLine. 2014;13:4. doi:10.1186/1475-925X-13-4.
+
+
+[Deriche, 1987] Deriche, R. Using Canny's criteria to derive a recursively implemented optimal edge detector. Int J Comput Vision. 1987; 1:167. https://doi.org/10.1007/BF00123164
 
 [*??quel ref*] 
 
