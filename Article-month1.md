@@ -19,7 +19,7 @@ Errors in edge detection can be either false positives (classification of non ed
 In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implentation in the image processing software ImageJ[imagej]:
 - Convolution with edge templates (Prewit, Sobel, Kirsh)[refs ?]
 - Zero-crossings of Laplacian of Gaussian convolution [marr-hildreth]
-- Zero-crossings of directional derivatives of smoothed images (Canny)[canny, 1986]
+- Zero-crossings of directional derivatives of smoothed images (Canny)[Canny, 1986]
 
 We will then perform a benchmark on the imageJ plugins, in order to compare them by measuring their execution time, the memory load for the JVM, and ?????????
 
