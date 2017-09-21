@@ -119,10 +119,10 @@ This plugin is a standalone and provides more parameters to the user : sigma
 
 The Canny approach use a mathematical representation, through a convolution, in order to define edges in a gray-level image. By cross-section, the signal on an image will be converted as a gradient in a specific direction [Fig.4] and defined a one-dimensional model for which local maxima will correspond to edges. The answer signal will be subdivided into two compounds : a noise function and a edge function. So, the edge is detect by the convolution of the signal with a specific filter which had to maximize the result to a mathematical equation which is the representation of three parameters of optimization. Unlike the others methods, the aim was to be able to combine the detection of the edge, its closer localization on the image and not duplicate the edges founded, this last point is also called the unambiguity of the signal (pas encore sure de ma transition avec la phrase précédente). Three mathematical parameters will be thus define and taken into account to assess the edge function : the signal-to-noise ratio (SNR), the Localization and several constrains. The two first ones will be defined as parameters of equal importance which have to be maximized in parallel, and the third as a constraint. So, the function have to maximize the following equation [Fig.5]
 
-(https://github.com/bockp/Edge-Detection-project/blob/master/initial_signal.png)
+![Fig4](https://github.com/bockp/Edge-Detection-project/blob/master/initial_signal.png)
 **Fig.4: Grey-level signal after the cross section of a target picture**
 
-(https://github.com/bockp/Edge-Detection-project/blob/master/Canny_equation_maximization.png)
+![Fig5](https://github.com/bockp/Edge-Detection-project/blob/master/Canny_equation_maximization.png)
 **Fig.5: Equation used to define the best function to find edges from a grey-level signal [Canny, 1986]**
 
 # 3.Results
@@ -140,6 +140,8 @@ The Canny approach use a mathematical representation, through a convolution, in 
 # References
 
 [Bovik] Bovik, Alan C., ed. The essential guide to image processing. Academic Press, 2009.
+
+[Canny, 1986] Canny, J. A Computational Approach to Edge Detection. IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. PAMI-8, no. 6, pp. 679-698, Nov. 1986. doi: 10.1109/TPAMI.1986.4767851
 
 [*??quel ref*] 
 
