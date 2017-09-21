@@ -1,13 +1,13 @@
 # 1.Introduction
 
-Image processing is one of the most important fields in the domain of computer vision [Bovik]*(indiquer date article)*. Indeed, nearly every branch of science has a subdiscipline dedicated to retrieving information from the world, nearly always through the use of recording devices storing that information in the form of discrete images or videos.*(remplacer le 2eme nearly par almost ?)* For a computer to make sense of these images, it needs to be able to interprete them, understand them.
+Image processing is one of the most important fields in the domain of computer vision [Bovik, 2009]. Indeed, nearly every branch of science has a subdiscipline dedicated to retrieving information from the world, nearly always through the use of recording devices storing that information in the form of discrete images or videos.*(remplacer le 2eme nearly par almost ?)* For a computer to make sense of these images, it needs to be able to interprete them, understand them.
 That is where Image Processing comes in, allowing a computer to process an image and detect its major features, and to perform higher-level vision tasks like face recognition.
 In our project, we will examine one specific field of image processing, called edge detection.
 
-The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance” [Bovik]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
+The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance” [Bovik, 2009]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
 Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach).
 
-Edge detectors based on the derivative are sensitive to noise, which lead to the development of several algorithms. Most of them use a filter to reduce noise before actually detecting edges in the image [Bovik].
+Edge detectors based on the derivative are sensitive to noise, which lead to the development of several algorithms. Most of them use a filter to reduce noise before actually detecting edges in the image [Bovik, 2009].
 These algorithms usually have three main steps:
 - smoothing: use of a filter to suppress the noise.
 - differentiation: amplification of the edges in the image
@@ -43,7 +43,7 @@ The performance and the efficiency of each algorithm can be assess through sever
 
 ![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/images/derivatives.png)
 
-**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[Bovik]
+**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[Bovik, 2009]
 
 ## Sobel
 
@@ -55,13 +55,13 @@ It is based on the 1st derivative, or gradient, of the gray level intensity func
 
 ![Equation.1](https://github.com/bockp/Edge-Detection-project/blob/master/images/gradient.jpg)
 
-**Equation.1: Gradient of a continuous gray level intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [Bovik]**
+**Equation.1: Gradient of a continuous gray level intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [Bovik, 2009]**
 
 After finding all the local extrema of the gradient magnitude, a thresholding is applied and the points where the magnitude is superior to a given threshold are classified as candidate edge points [Equation.2].
 
 ![Equation.2](https://github.com/bockp/Edge-Detection-project/blob/master/images/gradient_thr.jpg)
 
-**Equation.2: Thresholding of the gradient magnitude, where T is the threshold[Bovik] **
+**Equation.2: Thresholding of the gradient magnitude, where T is the threshold[Bovik, 2009] **
 
 Finally, to obtain edges as zero-width segments, a thinning step is required : if the gradient magnitude is not a local maximum along the gradient direction, the point is suppressed from the edge candidates.
 
@@ -87,7 +87,7 @@ The Laplacian is a 2D isotropic measure of the 2nd spatial derivative [Equation.
 
 ![Equation.3](https://github.com/bockp/Edge-Detection-project/blob/master/images/laplacian.jpg)
 
-**Equation.3: Laplacian of a continuous gray level intensity function fc(x,y) [Bovik]** 
+**Equation.3: Laplacian of a continuous gray level intensity function fc(x,y) [Bovik, 2009]** 
 
 This has the effect of highlighting the edges in the image, and can be used as an enhancement technique, by adding the filtered image to the original image. 
 
@@ -95,7 +95,7 @@ The Laplacian can be estimated by designing a pair of 1D 2nd derivative filters 
 
 ![Equation.4](https://github.com/bockp/Edge-Detection-project/blob/master/images/discrete_laplacian.jpg)
 
-**Equation.4: Discrete Laplacian estimate for an image f(n1,n2) [Bovik]**
+**Equation.4: Discrete Laplacian estimate for an image f(n1,n2) [Bovik, 2009]**
 
 Other 3x3 kernels are :
 
@@ -107,7 +107,7 @@ The Laplacian opeator is usually used on gray level images, previously smoothed 
 
 ![Equation.5](https://github.com/bockp/Edge-Detection-project/blob/master/images/LoG.jpg)
 
-**Equation.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function [Bovik]**
+**Equation.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function [Bovik, 2009]**
 
 To implement a discrete form, a filter can be constructed by sampling this equation after choosing a value for sigma. The Gaussian and Laplacian kernels are both small so it requires fewer operations than using both filters on the image. Another advantage of the LoG is that it can be calculated in advance as it is independent of the image being processed. It is important to note that the result of these edge detectors is highly influenced by the standard deviation used for the Gaussian filter chosen for the smoothing step. 
 
@@ -116,7 +116,7 @@ The input of the zero-crossing detector is the LoG filtered image, and the outpu
 
 ![Equation.6](https://github.com/bockp/Edge-Detection-project/blob/master/images/zero_cross.jpg)
 
-**Equation.6: Zero-crossing classification of a pixel p [Bovik]**
+**Equation.6: Zero-crossing classification of a pixel p [Bovik, 2009]**
 
 All of the contour lines are closed lines because the strength of the edge is not considered, so even gradual intensity transitions result in a zero-crossing. As previously indicated, local minima of the gradient magnitude can cause false edges, that can be eliminated by using a threshold for edge strength, causing breaks in the closed contours.
 
@@ -157,7 +157,7 @@ Three mathematical parameters will be thus define and taken into account to asse
 
 # References
 
-[Bovik] Bovik, Alan C., ed. The essential guide to image processing. Academic Press, 2009.
+[Bovik, 2009] Bovik, Alan C., ed. The essential guide to image processing. Academic Press, 2009.
 
 [Canny, 1986] Canny, J. A Computational Approach to Edge Detection. IEEE Transactions on Pattern Analysis and Machine Intelligence. 1986; PAMI-8:6, pp. 679-698, Nov. doi: 10.1109/TPAMI.1986.4767851
 
