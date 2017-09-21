@@ -220,7 +220,7 @@ Currently, several plugins using this method have been developed : the Edge Det
 [benchmark] McNair, Carol Jean, and Kathleen HJ Leibfried. Benchmarking: A tool for continuous improvement. John Wiley & sons, 1992.
 
 [sobel] Sobel, Irwin. (2014). An Isotropic 3X3 Image Gradient Operator. Presentation at Stanford A.I. Project 1968.
-[sobelAlgo] Gupta, Samta, and Susmita Ghosh Mazumdar. "Sobel edge detection algorithm." International journal of computer science and management Research 2.2 (2013): 1578-1583.
+[sobelAlgo] Vincent, O. R., and Olusegun Folorunso. "A descriptive algorithm for sobel image edge detection." Proceedings of Informing Science & IT Education Conference (InSITE). Vol. 40. 2009.
 
 [marr-hildreth] Marr, D. and Hildreth, E. Theory of edge detection. Proc. R. Soc. Lond. B,270:187-217,1980.
 
