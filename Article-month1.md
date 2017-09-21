@@ -28,6 +28,19 @@ We will then perform a benchmark on the imageJ plugins, in order to compare them
 
 * *description of the main algorithms and their implementation in ImageJ. A pacer dans l'ordre chronologique de préférence*
 
+## Input image
+
+The performance and the efficiency of each algorithm can be assess through several parameters: 
+
+- Time processing of the image 
+
+- The number of memory operation needed to treat the input *(pas sure dec e terme, dois recherche plus en avant)*
+
+- The range of level of image's complexity that it is able to treat
+
+*(en gros, préciser ici ce que sera le/les inputs employés, quels paramètres de performance est-ce qu'on décide de traiter)*
+
+
 ![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.png)
 
 **Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[Bovik]
