@@ -41,7 +41,7 @@ The performance and the efficiency of each algorithm can be assess through sever
 *(en gros, préciser ici ce que sera le/les inputs employés, quels paramètres de performance est-ce qu'on décide de traiter)*
 
 
-![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.png)
+![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/images/derivatives.png)
 
 **Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[Bovik]
 
@@ -53,13 +53,13 @@ The Sobel Operator, introduced in a presentation at the Standford A.I Project in
 
 It is based on the 1st derivative, or gradient, of the gray level intensity function [Equation.1]. 
 
-![Equation.1](https://github.com/bockp/Edge-Detection-project/blob/master/gradient.jpg)
+![Equation.1](https://github.com/bockp/Edge-Detection-project/blob/master/images/gradient.jpg)
 
 **Equation.1: Gradient of a continuous gray level intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [Bovik]**
 
 After finding all the local extrema of the gradient magnitude, a thresholding is applied and the points where the magnitude is superior to a given threshold are classified as candidate edge points [Equation.2].
 
-![Equation.2](https://github.com/bockp/Edge-Detection-project/blob/master/gradient_thr.jpg)
+![Equation.2](https://github.com/bockp/Edge-Detection-project/blob/master/images/gradient_thr.jpg)
 
 **Equation.2: Thresholding of the gradient magnitude, where T is the threshold[Bovik] **
 
@@ -67,13 +67,13 @@ Finally, to obtain edges as zero-width segments, a thinning step is required : i
 
 In practice, this algorithm works by using two masks, one horizontal and one vertical[sobelAlgo] (Fig2), these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
 
-![Fig.2](https://github.com/bockp/Edge-Detection-project/blob/master/filters.png)
+![Fig.2](https://github.com/bockp/Edge-Detection-project/blob/master/images/filters.png)
 
 **Fig.2: Sobel horizontal and vertical masks**
 
 The two resulting images are then combined to get an image representing the approximate  absolute  gradient  magnitude of the original image.
 
-![Fig.3](https://github.com/bockp/Edge-Detection-project/blob/master/BikesgrayFig3.jpg)
+![Fig.3](https://github.com/bockp/Edge-Detection-project/blob/master/images/BikesgrayFig3.jpg)
 
 **Fig.3: (a)original image,(b) Sobel Y-gradient image, (c) sobel X-gradient image, (d)absolute gradient magnitude image**
 
@@ -85,7 +85,7 @@ The Laplacian is a 2D isotropic measure of the 2nd spatial derivative [Equation.
 - In the regions of constant intensity (intensity gradient equal to zero), the Laplacian is equal to zero. 
 - In regions where there is a change in intensity, the Laplacian is positive on the darker side, and negative on the lighter side.
 
-![Equation.3](https://github.com/bockp/Edge-Detection-project/blob/master/laplacian.jpg)
+![Equation.3](https://github.com/bockp/Edge-Detection-project/blob/master/images/laplacian.jpg)
 
 **Equation.3: Laplacian of a continuous gray level intensity function fc(x,y) [Bovik]** 
 
@@ -93,19 +93,19 @@ This has the effect of highlighting the edges in the image, and can be used as a
 
 The Laplacian can be estimated by designing a pair of 1D 2nd derivative filters and combining them into a 2D filter [Equation.4]
 
-![Equation.4](https://github.com/bockp/Edge-Detection-project/blob/master/discrete_laplacian.jpg)
+![Equation.4](https://github.com/bockp/Edge-Detection-project/blob/master/images/discrete_laplacian.jpg)
 
 **Equation.4: Discrete Laplacian estimate for an image f(n1,n2) [Bovik]**
 
 Other 3x3 kernels are :
 
-![Figure](https://github.com/bockp/Edge-Detection-project/blob/master/kernel_laplacian.jpg)
+![Figure](https://github.com/bockp/Edge-Detection-project/blob/master/images/kernel_laplacian.jpg)
 
 *A remplacer par une figure comme dans la partie Sobel ???*
 
 The Laplacian opeator is usually used on gray level images, previously smoothed with a Gaussian filter to reduce noise. It is also possible to convolve the Gaussian smoothing filter with the Laplacian filter, before convolving this Laplacian of Gaussian (LoG) [Equation.5] with the image. 
 
-![Equation.5](https://github.com/bockp/Edge-Detection-project/blob/master/LoG.jpg)
+![Equation.5](https://github.com/bockp/Edge-Detection-project/blob/master/images/LoG.jpg)
 
 **Equation.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function [Bovik]**
 
@@ -114,7 +114,7 @@ To implement a discrete form, a filter can be constructed by sampling this equat
 It is not possible to directly extract the edge orientation information from the Laplacian output. To extract the edges, we need to detect the zero-crossings in the output of the Laplacian (or the LoG), i.e. the regions of the image where the Laplacian passes through zero. However this can also happen in regions that are features other than edges in the image and can be the cause of false positives.
 The input of the zero-crossing detector is the LoG filtered image, and the output is a binary image with lines representing the positions of all the zero-crossing points. Each pixel of the image is compared to its eight immediate neighbors, and a pixel is classified as a zero-crossing if its sign is different than the sign of its neighbor. [Equation.6] 
 
-![Equation.6](https://github.com/bockp/Edge-Detection-project/blob/master/zero_cross.jpg)
+![Equation.6](https://github.com/bockp/Edge-Detection-project/blob/master/images/zero_cross.jpg)
 
 **Equation.6: Zero-crossing classification of a pixel p [Bovik]**
 
@@ -131,7 +131,7 @@ This plugin is a standalone and provides more parameters to the user : sigma
 
 The Canny approach use a mathematical representation, through a convolution, in order to define edges in a gray-level image. By cross-section, the signal on an image will be converted as a gradient in a specific direction [Fig.4] and defined a one-dimensional model for which local maxima will correspond to edges. 
 
-![Fig4](https://github.com/bockp/Edge-Detection-project/blob/master/initial_signal.png)
+![Fig4](https://github.com/bockp/Edge-Detection-project/blob/master/images/initial_signal.png)
 
 **Fig.4: Grey-level signal after the cross section of a target picture**
 
@@ -139,7 +139,7 @@ The answer signal will be subdivided into two compounds : a noise function and 
 (pas encore sure de ma transition avec la phrase suivante). 
 Three mathematical parameters will be thus define and taken into account to assess the edge function : the signal-to-noise ratio (SNR), the Localization and several constrains. The two first ones will be defined as parameters of equal importance which have to be maximized in parallel, and the third as a constraint. So, the function have to maximize the following equation [Fig.5]
 
-![Fig5](https://github.com/bockp/Edge-Detection-project/blob/master/Canny_equation_maximization.png)
+![Fig5](https://github.com/bockp/Edge-Detection-project/blob/master/images/Canny_equation_maximization.png)
 
 **Fig.5: Equation used to define the best function to find edges from a grey-level signal [Canny, 1986]**
 
