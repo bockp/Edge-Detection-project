@@ -38,14 +38,13 @@ The performance and the efficiency of each algorithm can be assess through sever
 
 - The range of level of image's complexity that it is able to treat
 
-*(en gros, préciser ici ce que sera le/les inputs employés, quels paramètres de performance est-ce qu'on décide de traiter)*
+*(en gros, préciser ici ce que sera/seront le/les inputs employés, quels paramètres de performance est-ce qu'on décide de traiter)*
 
+## Sobel
 
 ![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/images/derivatives.png)
 
 **Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[Bovik, 2009]
-
-## Sobel
 
 The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[sobel], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms out there.
 
@@ -142,6 +141,26 @@ Three mathematical parameters will be thus define and taken into account to asse
 ![Fig5](https://github.com/bockp/Edge-Detection-project/blob/master/images/Canny_equation_maximization.png)
 
 **Fig.5: Equation used to define the best function to find edges from a grey-level signal [Canny, 1986]**
+
+Maximize the product of SNR and Localization will allow to their simultaneous maximisation, and each parameter is defined on a given interval.  (sais pas si foncièrement utile)
+
+The noise is define as Gaussian random quantity and as the signal is continuous, the mathematical approaches have to use integral instead of correlation to describe the behavior of the signal in relation to the model. (sais pas si foncièrement utile : utile pour comprendre le raisonnement (donc pour moi) mais sont sensés couler de source)
+
+The SNR, assess the quality of a signal according to a model by using the model as numerator and the noise definition as the denominator. In this case, both parameters are defined as integral, respectively the absolute value of a convolution integral and the root-mean-square response to the noise function which will represent the area of dispersion from the model. 
+
+As edges are defined as local maxima, the addition of the firsts derivatives of the edge function and noise function is equal to zero, so both of them are opposite and can be used to define the Localization parameter. It will be defined as the first derivative of the SNR function (suis pas encore pleinement sure qu'on puisse faire cette approximation, formules sont basiquement idem, mais doit voir si méthode de dérivation est bonne).
+
+The last parameter represent the additional constraints, and will be defined as the sum of the series of penalty functions, each of them will be modulated by a specific value which will define the importance of the associated constraint in the model. One of them concern the unambiguity of the signal, as several local maxima close to each other in the vicinity of the edge can lead to the definition of several false boundaries. Thus they define an expression for the distance between adjacent noise peaks in a defined space, using the Rice noises studies about the response of a function to a Gaussian noise (Rice 1945). This solution involve the first and the second derivate of the answer function and lead to the definition of a factor which will define the number of maxima in a specific width which can lead to a false answer. This factor correspond to a fraction of the define interval of the beginning. 
+
+After several demonstration, Canny originally define the Gaussian operator as the most efficient to maximize this equation [Fig.6], and it has the advantage to be easier to implement for a two dimensional model. 
+
+![Fig6](https://github.com/bockp/Edge-Detection-project/blob/master/images/Gaussian_First_Derivate.png)
+
+**Fig.6: Gaussian filter and its first derivate [Canny, 1986]**
+
+
+## Benchmarking process
+
 
 # 3.Results
 
