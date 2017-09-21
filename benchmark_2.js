@@ -1,5 +1,3 @@
-
-
 function benchmarkFunction(img, functionNameString, parameters){
 	// this function takes an imagePlus object (AKA., an image) 
 	//and the String needed to run a function using IJ.run()
@@ -27,12 +25,13 @@ function benchmarkMemory(img, functionNameString, parameters)
 
 function runBenchmark(img, functionNameString, parameters)
 {
-
+	IJ.log("Front loading...\n");
 	//------------------------------------FRONT-LOADING------------------------------
 
 	//front-load 100 times without saving the returned timing
 
 	for(var i = 0; i<100; i++){
+		IJ.log(i);
 		// does running the function itself inside a function cause the memory to get wiped 
 		// once you exit the function ? no idea XS
 		// need to check this !!!
@@ -41,9 +40,11 @@ function runBenchmark(img, functionNameString, parameters)
 		// so doesn't seem to impact anything. can't be really sure, though...
 
 		impDupl = imp.duplicate();
+		//impDupl.show();
 		benchmarkFunction(impDupl,functionNameString,parameters);
 		benchmarkMemory(impDupl,functionNameString,parameters);
-		impDupl.close();
+		//impDupl.close();
+		IJ.run("Close All Windows", "");
 	
 	}
 
@@ -58,20 +59,21 @@ function runBenchmark(img, functionNameString, parameters)
 
 		var time = 0.0; // time variable to add all times to. we shall then divide by 1000 and voila, instant average !
 		var memory = 0;
-
-		for(var j = 0; j < 1000; j++){
+		var loops = 1000;
+		for(var j = 0; j < loops; j++){
 	
 			impDupl = imp.duplicate();
 			time += benchmarkFunction(impDupl,functionNameString,parameters);
 			memory += benchmarkMemory(impDupl,functionNameString,parameters);
-			impDupl.close();
+			//impDupl.close();
+			IJ.run("Close All Windows", "");
 		}
 
 
 
 		// calculate average value of  and return to user explaining how many iterations were used for the average.
-		var average = time/1000;
-		var avg_mem = memory/1000;
+		var average = time/loops;
+		var avg_mem = memory/loops;
 		avg_mem = avg_mem/1048576; //convert bytes to MB
 		IJ.log("The average execution time is "+average+" ms.\n");
 		IJ.log("The average used memory is "+avg_mem.toFixed(2)+" MB.\n");
@@ -103,6 +105,7 @@ IJ.run(imp, "8-bit", ""); //convert image to 8-bit greyscale
 functionNames = ["Find Edges","Log Filter","FeatureJ Laplacian","Canny Edge Detector","FeatureJ Edges"];
 parametersList = ["","sigma=3 filterwidth=2 threshold=0 delta=0 mode=4","compute smoothing=3.0 detect","gaussian=2 low=2.5 high=7.5","compute smoothing=2.0 suppress lower=2.5 higher=7.5"];
 
+
 for (var i=0;i<functionNames.length;i++)
 {
 	functionNameString = functionNames[i];
@@ -110,3 +113,11 @@ for (var i=0;i<functionNames.length;i++)
 	runBenchmark(imp, functionNameString, parameters);
 	IJ.freeMemory(); //garbage collector
 }
+
+
+//runBenchmark(imp, "FeatureJ Edges", "compute smoothing=2.0 suppress lower=2.5 higher=7.5");
+
+
+
+
+
