@@ -1,6 +1,6 @@
 
 
-function benchmarkFunction(img, functionNameString){
+function benchmarkFunction(img, functionNameString, parameters){
 	// this function takes an imagePlus object (AKA., an image) 
 	//and the String needed to run a function using IJ.run()
 	//
@@ -8,7 +8,7 @@ function benchmarkFunction(img, functionNameString){
 
 	
 	var startTime = System.currentTimeMillis();
-	IJ.run(img, functionNameString, "");
+	IJ.run(img, functionNameString, parameters);
 	var endTime = System.currentTimeMillis();	
 	var time = endTime - startTime;
 	return time;
@@ -16,14 +16,78 @@ function benchmarkFunction(img, functionNameString){
 	
 }
 
-function benchmarkMemory(img, functionNameString)
+function benchmarkMemory(img, functionNameString, parameters)
 {
 	IJ.freeMemory(); //run garbage collector
-	IJ.run(img, functionNameString, "");	
+	IJ.run(img, functionNameString, parameters);	
 	var memory = IJ.currentMemory(); //memory currently being used by ImageJ
 	return memory;
 
 }
+
+function runBenchmark(img, functionNameString, parameters)
+{
+
+	//------------------------------------FRONT-LOADING------------------------------
+
+	//front-load 100 times without saving the returned timing
+
+	for(var i = 0; i<100; i++){
+		// does running the function itself inside a function cause the memory to get wiped 
+		// once you exit the function ? no idea XS
+		// need to check this !!!
+
+		//note: before and after I functionalized (AKA., put everything in a function) the script has the same average execution time.
+		// so doesn't seem to impact anything. can't be really sure, though...
+
+		impDupl = imp.duplicate();
+		benchmarkFunction(impDupl,functionNameString,parameters);
+		benchmarkMemory(impDupl,functionNameString,parameters);
+		impDupl.close();
+	
+	}
+
+	//------------------------------------BENCHMARKING------------------------------
+
+	IJ.log("Benchmarking the function "+functionNameString+"\n");
+	var list_time = [];
+	var list_mem = [];
+
+	for (var test=0; test<10;test++){
+		// the Test loop redoes the actual timing loop 10 times to check for variance in the average time found.
+
+		var time = 0.0; // time variable to add all times to. we shall then divide by 1000 and voila, instant average !
+		var memory = 0;
+
+		for(var j = 0; j < 1000; j++){
+	
+			impDupl = imp.duplicate();
+			time += benchmarkFunction(impDupl,functionNameString,parameters);
+			memory += benchmarkMemory(impDupl,functionNameString,parameters);
+			impDupl.close();
+		}
+
+
+
+		// calculate average value of  and return to user explaining how many iterations were used for the average.
+		var average = time/1000;
+		var avg_mem = memory/1000;
+		avg_mem = avg_mem/1048576; //convert bytes to MB
+		IJ.log("The average execution time is "+average+" ms.\n");
+		IJ.log("The average used memory is "+avg_mem.toFixed(2)+" MB.\n");
+		list_time.push(average);
+		list_mem.push(avg_mem);
+	}
+
+	IJ.log("End of benchmark\n");
+	IJ.log("Avg time,Avg memory\n");
+	for(var i=0;i<list_time.length;i++)
+		{
+			IJ.log(list_time[i]+","+list_mem[i]+"\n");
+		}
+	IJ.log("\n");
+}
+
 
 // VARIABLE VARIABLES (XD):
 
@@ -36,59 +100,13 @@ IJ.run(imp, "8-bit", ""); //convert image to 8-bit greyscale
 // and incorporate the loops themselves into a function that take an image,
 // and a functionNameString and runs the benchmark on it ?
 
-functionNameString = "Find Edges";
-// Must be changed depending on which function we want to benchmark.
+functionNames = ["Find Edges","Log Filter","FeatureJ Laplacian","Canny Edge Detector","FeatureJ Edges"];
+parametersList = ["","sigma=3 filterwidth=2 threshold=0 delta=0 mode=4","compute smoothing=3.0 detect","gaussian=2 low=2.5 high=7.5","compute smoothing=2.0 suppress lower=2.5 higher=7.5"];
 
-
-
-
-
-//------------------------------------FRONT-LOADING------------------------------
-
-//front-load 100 times without saving the returned timing
-
-for(var i = 0; i<100; i++){
-	// does running the function itself inside a function cause the memory to get wiped 
-	// once you exit the function ? no idea XS
-	// need to check this !!!
-
-	//note: before and after I functionalized (AKA., put everything in a function) the script has the same average execution time.
-	// so doesn't seem to impact anything. can't be really sure, though...
-
-	impDupl = imp.duplicate();
-	benchmarkFunction(impDupl,functionNameString);
-	impDupl.close();
-	
+for (var i=0;i<functionNames.length;i++)
+{
+	functionNameString = functionNames[i];
+	parameters = parametersList[i];
+	runBenchmark(imp, functionNameString, parameters);
+	IJ.freeMemory(); //garbage collector
 }
-
-//------------------------------------BENCHMARKING------------------------------
-
-
-for (var test=0; test<10;test++){
-	// the Test loop redoes the actual timing loop 10 times to check for variance in the average time found.
-
-	var time = 0.0; // time variable to add all times to. we shall then divide by 1000 and voila, instant average !
-	var memory = 0;
-
-	for(var j = 0; j < 1000; j++){
-	
-		impDupl = imp.duplicate();
-		time += benchmarkFunction(impDupl,functionNameString);
-		memory += benchmarkMemory(impDupl,functionNameString);
-		impDupl.close();
-	}
-
-
-
-	// calculate average value of  and return to user explaining how many iterations were used for the average.
-	var average = time/1000;
-	var avg_mem = memory/1000;
-	avg_mem = avg_mem/1048576; //convert bytes to MB
-	IJ.log("The average execution time is "+average+" ms.\n");
-	IJ.log("The average used memory is "+avg_mem.toFixed(2)+" MB.\n");
-}
-
-IJ.log("End of benchmark\n");
-
-
-
