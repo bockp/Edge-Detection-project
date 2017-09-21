@@ -1,6 +1,6 @@
 # 1.Introduction
 
-Image processing is one of the most important fields in the domain of computer vision [Bovik]. Indeed, nearly every branch of science has a subdiscipline dedicated to retrieving information from the world, nearly always through the use of recording devices storing that information in the form of discrete images or videos.*(remplacer le 2eme nearly par almost ?)* For a computer to make sense of these images, it needs to be able to interprete them, understand them.
+Image processing is one of the most important fields in the domain of computer vision [Bovik]*(indiquer date article)*. Indeed, nearly every branch of science has a subdiscipline dedicated to retrieving information from the world, nearly always through the use of recording devices storing that information in the form of discrete images or videos.*(remplacer le 2eme nearly par almost ?)* For a computer to make sense of these images, it needs to be able to interprete them, understand them.
 That is where Image Processing comes in, allowing a computer to process an image and detect its major features, and to perform higher-level vision tasks like face recognition.
 In our project, we will examine one specific field of image processing, called edge detection.
 
