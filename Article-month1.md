@@ -31,7 +31,7 @@ We will then perform a benchmark on the imageJ plugins, in order to compare them
 
 ![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/derivatives.png)
 
-**Fig.1: Edge detection in a 1D continuous space : fc(x) is the greylevel intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edges locations**[Bovik]
+**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[Bovik]
 
 ## Sobel
 
@@ -39,17 +39,17 @@ The Sobel Operator, introduced in a presentation at the Standford A.I Project in
 
 *Ajouter l'équation de la dérivée seconde + explications*
 
-It is based on the 1st derivative, or gradient, of the greylevel intensity function [Equation.1]. 
+It is based on the 1st derivative, or gradient, of the gray level intensity function [Equation.1]. 
 
 ![Equation.1](https://github.com/bockp/Edge-Detection-project/blob/master/gradient.jpg)
 
-**Equation.1: Gradient of a continuous greylevel intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [Bovik]**
+**Equation.1: Gradient of a continuous gray level intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [Bovik]**
 
-After finding all the local extrema of the gradient magnitude, a thresholding is applied and the poits where the magnitude is superior to a given threshold are classified as candidate edge points [Equation.2].
+After finding all the local extrema of the gradient magnitude, a thresholding is applied and the points where the magnitude is superior to a given threshold are classified as candidate edge points [Equation.2].
 
 ![Equation.2](https://github.com/bockp/Edge-Detection-project/blob/master/gradient_thr.jpg)
 
-**Equation.2: Thresholding of the gradient magnitude, where T is a threshold[Bovik] **
+**Equation.2: Thresholding of the gradient magnitude, where T is the threshold[Bovik] **
 
 Finally, to obtain edges as zero-width segments, a thinning step is required : if the gradient magnitude is not a local maximum along the gradient direction, the point is suppressed from the edge candidates.
 
@@ -75,7 +75,7 @@ The Laplacian is a 2D isotropic measure of the 2nd spatial derivative [Equation.
 
 ![Equation.3](https://github.com/bockp/Edge-Detection-project/blob/master/laplacian.jpg)
 
-**Equation.3: Laplacian of a continuous greylevel intensity function fc(x,y) [Bovik]** 
+**Equation.3: Laplacian of a continuous gray level intensity function fc(x,y) [Bovik]** 
 
 This has the effect of highlighting the edges in the image, and can be used as an enhancement technique, by adding the filtered image to the original image. 
 
@@ -91,22 +91,22 @@ Other 3x3 kernels are :
 
 *A remplacer par une figure comme dans la partie Sobel ???*
 
-The Laplacian opeator is usually used on greylevel images, previously smoothed with a Gaussian filter to reduce noise. It is also possible to convolve the Gaussian smoothing filter with the Laplacian filter, before convolving this Laplacian of Gaussian (LoG) [Equation.5] with the image. 
+The Laplacian opeator is usually used on gray level images, previously smoothed with a Gaussian filter to reduce noise. It is also possible to convolve the Gaussian smoothing filter with the Laplacian filter, before convolving this Laplacian of Gaussian (LoG) [Equation.5] with the image. 
 
 ![Equation.5](https://github.com/bockp/Edge-Detection-project/blob/master/LoG.jpg)
 
 **Equation.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function [Bovik]**
 
-To implement a discrete form, a filter can be constructed by sampling this equation after choosing a value for sigma. The Gaussian and Laplacian kernels are both small so it requires fewer operations than using both filters on the image. Another advantage of the LoG is that it can be calculated in advance as it is independent of the image to process. It is important to note that the result of these edge detectors is highly influenced by the standard deviation used for the Gaussian filter chosen for the smoothing step. 
+To implement a discrete form, a filter can be constructed by sampling this equation after choosing a value for sigma. The Gaussian and Laplacian kernels are both small so it requires fewer operations than using both filters on the image. Another advantage of the LoG is that it can be calculated in advance as it is independent of the image being processed. It is important to note that the result of these edge detectors is highly influenced by the standard deviation used for the Gaussian filter chosen for the smoothing step. 
 
-It is not possible to extract directly the edge orientation information from the Laplacian output. To extract the edges, we need to detect the zero-crossings in the output of the Laplacian (or the LoG), i.e. the regions of the image where the Laplacian passes through zero. However this can also happen in regions that are features other than edges in the image and can be the cause of false positives.
+It is not possible to directly extract the edge orientation information from the Laplacian output. To extract the edges, we need to detect the zero-crossings in the output of the Laplacian (or the LoG), i.e. the regions of the image where the Laplacian passes through zero. However this can also happen in regions that are features other than edges in the image and can be the cause of false positives.
 The input of the zero-crossing detector is the LoG filtered image, and the output is a binary image with lines representing the positions of all the zero-crossing points. Each pixel of the image is compared to its eight immediate neighbors, and a pixel is classified as a zero-crossing if its sign is different than the sign of its neighbor. [Equation.6] 
 
 ![Equation.6](https://github.com/bockp/Edge-Detection-project/blob/master/zero_cross.jpg)
 
 **Equation.6: Zero-crossing classification of a pixel p [Bovik]**
 
-All of the contour lines are closed lines because the strength of the edge is not considered so even gradual intensity transitions result in a zero-crossing. As we said previously, local minima of the gradient magnitude can cause false edges, that can be eliminated by using a threshold for edge strength, causing breaks in the closed contours.
+All of the contour lines are closed lines because the strength of the edge is not considered, so even gradual intensity transitions result in a zero-crossing. As previously indicated, local minima of the gradient magnitude can cause false edges, that can be eliminated by using a threshold for edge strength, causing breaks in the closed contours.
 
 In ImageJ, two plugins provide an implementation of the LoG operator :
 - The Laplacian plugin of FeatureJ package  (*j'ai un lien : https://imagescience.org/meijering/software/featurej/laplacian/ mais pas de publi associée...*)
@@ -119,12 +119,12 @@ This plugin is a standalone and provides more parameters to the user : sigma
 
 # 3.Results
 
-* *examples of the image processing and a benchmark of the features of the different algorithms.*
+* *examples of the image processing and a benchmark of the different algorithms.*
 
 
 # 4.Discussion
 
-* *comparison of benchmarks of different implementations, ways to improve them (probably more towards the second month)*
+* *comparison of benchmarks of different implementations, ways to improve them (probably more towards the second month), recent innovations to imrpove the algorithms.*
 
 # 5.Conclusion
 
