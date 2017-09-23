@@ -5,7 +5,11 @@ That is where Image Processing comes in, allowing a computer to process an image
 In our project, we will examine one specific field of image processing, called edge detection.
 
 The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance” [Bovik, 2009]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
-Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach).
+Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach) [Fig1].
+
+![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/images/derivatives.png)
+
+**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[Bovik, 2009]
 
 Edge detectors based on the derivative are sensitive to noise, which lead to the development of several algorithms. Most of them use a filter to reduce noise before actually detecting edges in the image [Bovik, 2009].
 These algorithms usually have three main steps:
@@ -13,7 +17,7 @@ These algorithms usually have three main steps:
 - differentiation: amplification of the edges in the image
 - decision: detection of edges using 1st or 2nd derivatives usually combined with thresholding.
 
-Errors in edge detection can be either false positives (classification of non edge pixels as edge pixels) or false negatives (classification of edge pixels as non-edge pixels). There is also a conflict between the correct detection of edges and the precise localization of their position. 
+Errors in edge detection can either be false positives (classification of non edge pixels as edge pixels) or false negatives (classification of edge pixels as non-edge pixels). There is also a conflict between the correct detection of edges and the precise localization of their position. 
 
 In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implentation in the image processing software ImageJ[imagej]:
 - Convolution with edge templates (Prewit, Sobel, Kirsh)[refs ?]
@@ -26,29 +30,9 @@ We will then perform a benchmark on the imageJ plugins, in order to compare them
 
 # 2.Material & Methods
 
-* *description of the main algorithms and their implementation in ImageJ. A pacer dans l'ordre chronologique de préférence*
-
-## Input image
-
-The performance and the efficiency of each algorithm can be assess through several parameters: 
-
-- Time processing of the image 
-
-- The number of memory operation needed to treat the input *(pas sure dec e terme, dois recherche plus en avant)*
-
-- The range of level of image's complexity that it is able to treat
-
-*(en gros, préciser ici ce que sera/seront le/les inputs employés, quels paramètres de performance est-ce qu'on décide de traiter)*
-
-## Sobel
-
-![Fig1](https://github.com/bockp/Edge-Detection-project/blob/master/images/derivatives.png)
-
-**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[Bovik, 2009]
+## Sobel 
 
 The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[sobel], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms out there.
-
-*Ajouter l'équation de la dérivée seconde + explications*
 
 It is based on the 1st derivative, or gradient, of the gray level intensity function [Equation.1]. 
 
@@ -173,6 +157,14 @@ Currently, several plugins using this method have been developed : the Edge Det
 
 
 ## Benchmarking process
+
+The performance and the efficiency of each edge detection function can be assessed through several parameters: the execution time necessary for the processing of an input image, the memory load corresponding to this opperation, and *the range of level of image's complexity that it is able to treat* (?).
+
+To perform this benchmark, we implemented a small JavaScript plugin : *nom définitif ?*. This script measures on one hand the time elapsed between the start and the end of a given ImageJ or plugin function, and on the other hand the memory used by ImageJ JVM at the end of this function. Java uses a garbage collector to handle memory allocation so our results have to be treated cautiously,even if we forced the garbage collector to run before the execution of the function. 
+
+*Ajouter l'étape de pré-benchmark, Peter vu que tu l'a implémentée*
+For both measurements, we ran the operation 10000 times, while averaging the values each 1000 iterations. This allowed us to compute the variance of our data. 
+*Ajouter la description de la machine utilisée : ref processeur, vitesse, conso, OS, version de Java*
 
 
 # 3.Results
