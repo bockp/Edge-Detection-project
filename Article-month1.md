@@ -92,7 +92,7 @@ The Laplacian opeator is usually used on gray level images, previously smoothed 
 
 **Equation.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function [Bovik, 2009]**
 
-To implement a discrete form, a filter can be constructed by sampling this equation after choosing a value for sigma. The Gaussian and Laplacian kernels are both small so it requires fewer operations than using both filters on the image. Another advantage of the LoG is that it can be calculated in advance as it is independent of the image being processed. It is important to note that the result of these edge detectors is highly influenced by the standard deviation used for the Gaussian filter chosen for the smoothing step. 
+To implement a discrete form, a filter can be constructed by sampling this equation after choosing a value for sigma. The Gaussian and Laplacian kernels are both small so it requires fewer operations than using both filters on the image. Another advantage of the LoG is that it can be calculated in advance as it is independent of the image being processed. It is important to note that the result of these edge detectors is highly influenced by the standard deviation used for the Gaussian filter chosen for the smoothing step. The LoG can also be approximated by the Difference of Gaussian (DoG).
 
 It is not possible to directly extract the edge orientation information from the Laplacian output. To extract the edges, we need to detect the zero-crossings in the output of the Laplacian (or the LoG), i.e. the regions of the image where the Laplacian passes through zero. However this can also happen in regions that are features other than edges in the image and can be the cause of false positives.
 The input of the zero-crossing detector is the LoG filtered image, and the output is a binary image with lines representing the positions of all the zero-crossing points. Each pixel of the image is compared to its eight immediate neighbors, and a pixel is classified as a zero-crossing if its sign is different than the sign of its neighbor. [Equation.6] 
@@ -104,11 +104,11 @@ The input of the zero-crossing detector is the LoG filtered image, and the outpu
 All of the contour lines are closed lines because the strength of the edge is not considered, so even gradual intensity transitions result in a zero-crossing. As previously indicated, local minima of the gradient magnitude can cause false edges, that can be eliminated by using a threshold for edge strength, causing breaks in the closed contours.
 
 In ImageJ, two plugins provide an implementation of the LoG operator :
-- The Laplacian plugin of FeatureJ package  (*j'ai un lien : https://imagescience.org/meijering/software/featurej/laplacian/ mais pas de publi associée...*)
+- The Laplacian plugin of FeatureJ package, created by Erik Meijering (*j'ai un lien : https://imagescience.org/meijering/software/featurej/laplacian/ mais pas de publi associée...*)
 This plugin is based on ImageScience, a java library for image processing (*pareil : https://imagescience.org/meijering/software/imagescience/ *) which provides tools for computing the LoG of an image and detecting the zero-crossings. The only parameter accessible to the user is the "laplacian smoothing scale", meaning the standard deviation used for the Gaussian kernel.
 (*résumé rapide du workflow de l'algorithme*)
-- The LoG_Filter plugin (*https://imagej.nih.gov/ij/plugins/log-filter.html*).
-This plugin is a standalone and provides more parameters to the user : sigma
+- The LoG_Filter plugin, by Lokesh Taxali and Jesse Jin (*https://imagej.nih.gov/ij/plugins/log-filter.html*).
+This plugin is composed of a unique class file and provides more parameters to the user : sigma (standard deviation for the Gaussian filter), filter width (size of the LoG kernel), threshold for 1D DoG filtering, and delta (level for adjusting zero-crossings). Unlike the previous plugin, this one involves thresholding of the LoG output with a Difference of Gaussians. Moreover, its use is limited to 8-bit images.
 
 ## Canny
 
@@ -152,7 +152,7 @@ Several modification where done to the model in order to improve its efficiency,
 
 **Fig.7: Gaussian filter and its first derivate [Deriche, 1987]**
 
-Currently, several plugins using this method have been developed : the Edge Detection by Canny-Deriche filtering by Thomas Boudier,  the Edge Detector by Carmelo Pulvirenti, able to use other operators (Laplacian of Gaussian (LoG), DroG) and FeatureJ by Erik Meijering. All of them require from the user a Gaussian kernel value or any other similar parameter which will be involved in the initial treatment step by the Gaussian filter, which will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. 
+Currently, several plugins using this method have been developed : the Edge Detection by Canny-Deriche filtering by Thomas Boudier,  the Edge Detector by Carmelo Pulvirenti, able to use other operators (Laplacian of Gaussian (LoG), DroG) and FeatureJ Edges by Erik Meijering. All of them require from the user a Gaussian kernel value or any other similar parameter which will be involved in the initial treatment step by the Gaussian filter, and will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. 
 (doit encore potasser code FeatureJ pour tt comprendre ses différences avec autres puisque je trouve pas article spécifique)
 
 
