@@ -177,7 +177,7 @@ The results obtained with each edge detection function were obtained with the sa
 
 The output of ImageJ Find Edges function is an 8-bit image in wich the contours are in white [Fig.5].
 
-![Fig.5](https://github.com/bockp/Edge-Detection-project/tree/master/images/Sobel.jpg)
+![Fig.5](https://github.com/bockp/Edge-Detection-project/blob/master/images/Sobel.jpg)
 
 **Fig.5: Result of Find Edges function. 1:Input image, 2:Output image**
 
@@ -185,7 +185,7 @@ The output of ImageJ Find Edges function is an 8-bit image in wich the contours 
 
 With this function, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values -1, 0 or 1, the zero-crossings overlaid to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.6]. All the contour lines have a single-pixel width, and due to the DoG filtering they are not closed.
 
-![Fig.6](https://github.com/bockp/Edge-Detection-project/tree/master/Log_Filter.jpg)
+![Fig.6](https://github.com/bockp/Edge-Detection-project/blob/master/images/Log_Filter.jpg)
 
 **Fig.6: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1:Input image, 2:LoG output, 3:Absolute value of filtering, 4:Results representing values -1,0 or 1, 5:Zero-crossings overlaid to input image, 6:Zero-crossings **
 
@@ -193,7 +193,7 @@ With this function, we can compute the output of the LoG filtering (in a 0 to 25
 
 This function only provides the display of the output of the LoG and the zero-crossing detector [Fig.7]. The contours are also of single-pixel width and in absence of a thresholding all contours are closed lines.
 
-![Fig.7](https://github.com/bockp/Edge-Detection-project/tree/master/Laplacian.jpg)
+![Fig.7](https://github.com/bockp/Edge-Detection-project/blob/master/images/Laplacian.jpg)
 
 **Fig.7: Result of FeatureJ Laplacian plugin, with smoothing scale=3 1:Input image, 2:LoG output, 3:Zero-crossings **
 
@@ -201,7 +201,7 @@ This function only provides the display of the output of the LoG and the zero-cr
 
 The output of this function is a binary image where the edge pixels are white [Fig.8].
 
-![Fig.8](https://github.com/bockp/Edge-Detection-project/tree/master/Canny.jpg)
+![Fig.8](https://github.com/bockp/Edge-Detection-project/blob/master/images/Canny.jpg)
 
 **Fig.8: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
 
@@ -209,7 +209,7 @@ The output of this function is a binary image where the edge pixels are white [F
 
 The output of this function is also binary image where the edge pixels are white [Fig.9].
 
-![Fig.9](https://github.com/bockp/Edge-Detection-project/tree/master/Edges.jpg)
+![Fig.9](https://github.com/bockp/Edge-Detection-project/blob/master/images/Edges.jpg)
 
 **Fig.9: Result of FeatureJ Edges plugin, with smoothing scale=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
 
