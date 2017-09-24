@@ -152,8 +152,8 @@ Several modification where done to the model in order to improve its efficiency,
 
 **Equation.9: Gaussian filter and its first derivate [Deriche, 1987]**
 
-Currently, several plugins using this method have been developed for ImageJ : the Edge Detection by Canny-Deriche filtering by Thomas Boudier,  the Edge Detector by Carmelo Pulvirenti, able to use other operators (Laplacian of Gaussian (LoG), DroG) and FeatureJ Edges by Erik Meijering. All of them require from the user a Gaussian kernel value or any other similar parameter which will be involved in the initial treatment step by the Gaussian filter, and will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. 
-*(doit encore potasser code FeatureJ pour tt comprendre ses différences avec autres puisque je trouve pas article spécifique)*
+Currently, several plugins using this method have been developed for ImageJ : the Edge Detection by Canny-Deriche filtering by Thomas Boudier,  the Edge Detector by Carmelo Pulvirenti, able to use other operators (LoG, DroG) and FeatureJ Edges by Erik Meijering. All of them require from the user a Gaussian kernel value or any other similar parameter which will be involved in the initial treatment step by the Gaussian filter, and will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. 
+*(doit encore potasser code FeatureJ pour tt comprendre ses différences avec autres puisque je trouve pas article spécifique)* *décrire les paramètres demandés et leur utilité*
 
 ## Benchmarking process
 
@@ -183,7 +183,7 @@ The output of ImageJ Find Edges function is an 8-bit image in wich the contours 
 
 # Log\_Filter plugin (LoG algorithm)
 
-With this function, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values as -1, 0 or 1, the zero-crossings overlayed to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.6]. All the contour lines have a single-pixel width, and due to the DoG filtering they are not closed.
+With this function, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values -1, 0 or 1, the zero-crossings overlaid to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.6]. All the contour lines have a single-pixel width, and due to the DoG filtering they are not closed.
 
 ![Fig.6](https://github.com/bockp/Edge-Detection-project/tree/master/Log_Filter.jpg)
 
@@ -197,11 +197,30 @@ This function only provides the display of the output of the LoG and the zero-cr
 
 **Fig.7: Result of FeatureJ Laplacian plugin, with sigma=3 1:Input image, 2:LoG output, 3:Zero-crossings **
 
+# Canny Edge Detector plugin (Canny algorithm)
+
+The output of this function is a binary image where the edge pixels are white [Fig.8].
+
+![Fig.8](https://github.com/bockp/Edge-Detection-project/tree/master/Canny.jpg)
+
+**Fig.8: Result of Canny Edge Detector plugin, with sigma=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
+
+# FeatureJ plugin (Canny algorithm)
+
+The output of this function is also binary image where the edge pixels are white [Fig.9].
+
+![Fig.9](https://github.com/bockp/Edge-Detection-project/tree/master/Edges.jpg)
+
+**Fig.9: Result of FeatureJ Edges plugin, with sigma=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
+
+*Autre plugin pour Canny ?????*
+
+
 # 4.Discussion
 
-* *comparison of benchmarks of different implementations, ways to improve them (probably more towards the second month), recent innovations to imrpove the algorithms.*
+*comparison of benchmarks of different implementations, ways to improve them (probably more towards the second month), recent innovations to imrpove the algorithms.*
 
-* hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
+*hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
 
 # 5.Conclusion
 
