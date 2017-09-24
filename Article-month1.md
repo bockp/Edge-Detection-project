@@ -151,7 +151,7 @@ Even if Canny model is often used in edge detection for image processing, severa
 
 The implementation of the Canny model is relatively simple. First the image has to be treated by a Gaussian filter, then determine the gradient magnitude, assess if the pixel is a local maxima by comparing its value to its two closer neighbor on the axis in order to find local maxima. This firsts steps lead to a first edge map consisting of binary values (0 and 255). A thresholding is then done on the map by defind a low and high threshold value which will define major and minor pixels used for a thresholding final step hysteresis, (en gros, c'est le fait qu'une valeur x passée dans une transformation puit une transformation reverse ne reviendra pas au niveau initial, sa variation n'est pas totalement réversible, induit noise et écarts au modèle, mais dans la plupart articles ne prennent pas la peine de le redéfinir) all the edge containing value above the higher threshold, will be kept on the map, but the pixels of this edge which are under the lower value will be removed. This last point can lead to disrupted edges [Canny, 1986], [Deriche, 1987], [Ding et al, 2001], [Bovik, 2009], [Abdelsamea et al, 2015].
 
-Several modification where done to the model in order to improve its efficiency, as the Deriche modification, allowing the model to treat an infinite extent which lead to a change of the efficiency of the Canny method according to the values considered after a Fourier transformation, leading to the development of a new fonction with only one constant parameter α (Deriche 1987) (du coup, vu que ça passe par ça, suis pas sure de pouvoir le maintenir, mais on trouve en plugin des filtres Canny-Deriche) [Fig.7], or the Ding modification, able to take into account pixels under the low threshold value in order to correct the edge disruption [Ding et al, 2001].
+Several modification where done to the model in order to improve its efficiency, as the Deriche modification, allowing the model to treat an infinite extent which lead to a change of the efficiency of the Canny method according to the values considered after a Fourier transformation, leading to the development of a new fonction with only one constant parameter α (Deriche 1987) *(du coup, vu que ça passe par ça, suis pas sure de pouvoir le maintenir, mais on trouve en plugin des filtres Canny-Deriche)* [Fig.7], or the Ding modification, able to take into account pixels under the low threshold value in order to correct the edge disruption [Ding et al, 2001].
 
 ![Fig7](https://github.com/bockp/Edge-Detection-project/blob/master/images/Deriche_equation.png)
 
@@ -174,12 +174,39 @@ For both measurements, we ran the operation 10000 times, while averaging the val
 
 # 3.Results
 
-* *examples of the image processing and a benchmark of the different algorithms.*
+* *examples of the image processing and a benchmark of the different algorithms. A tester avec des images RGB ??*
 
+The results obtained with each edge detection function were obtained with the same image : Lena, 8-bit, 256x256 pixels. This is also the image that was used for the benchmark. 
+
+# Find Edges function (Sobel algorithm)
+
+The output of ImageJ Find Edges function is an 8-bit image in wich the contours are in white [Fig.5].
+
+![Fig.5](https://github.com/bockp/Edge-Detection-project/tree/master/images/Sobel.jpg)
+
+**Fig.5: Result of Find Edges function. 1:Input image, 2:Output image**
+
+# Log\_Filter plugin (LoG algorithm)
+
+With this function, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values as -1, 0 or 1, the zero-crossings overlayed to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.6]. All the contour lines have a single-pixel width, and due to the DoG filtering they are not closed.
+
+![Fig.6](https://github.com/bockp/Edge-Detection-project/tree/master/Log_Filter.jpg)
+
+**Fig.6: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1:Input image, 2:LoG output, 3:Zero-crossings A REFAIRE**
+
+# FeatureJ Laplacian plugin (LoG algorithm)
+
+This function only provides the display of the output of the LoG and the zero-crossing detector [Fig.7]. The contours are also of single-pixel width and in absence of a thresholding all contours are closed lines.
+
+![Fig.7](https://github.com/bockp/Edge-Detection-project/tree/master/Laplacian.jpg)
+
+**Fig.7: Result of FeatureJ Laplacian plugin, with sigma=3 1:Input image, 2:LoG output, 3:Zero-crossings **
 
 # 4.Discussion
 
 * *comparison of benchmarks of different implementations, ways to improve them (probably more towards the second month), recent innovations to imrpove the algorithms.*
+
+* hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
 
 # 5.Conclusion
 
