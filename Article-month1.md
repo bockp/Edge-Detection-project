@@ -1,3 +1,8 @@
+# Authors : Bock Peter, Ostertag Cécilia, Thierry Ophélie
+
+# Edge detection
+
+
 # 1.Introduction
 
 Image processing is one of the most important fields in the domain of computer vision [Bovik, 2009]. Indeed, nearly every branch of science has a subdiscipline dedicated to retrieving information from the world, almost always through the use of recording devices storing that information in the form of discrete images or videos. For a computer to make sense of these images, it needs to be able to interprete them, understand them.
@@ -112,37 +117,37 @@ This plugin is composed of a unique class file and provides more parameters to t
 
 ## Canny
 
-The Canny approach use a mathematical representation, through a convolution, in order to define edges in a gray-level image. By cross-section, the signal on an image will be converted as a gradient in a specific direction [Fig.4] and defined a one-dimensional model for which local maxima will correspond to edges. 
+The Canny approach uses a mathematical representation, through a convolution, in order to define edges in a gray-level image. By cross-section, the signal on an image will be converted to a gradient in a specific direction [Fig.4] and will define a one-dimensional model for which the local maxima will correspond to edges. 
 
 ![Fig4](https://github.com/bockp/Edge-Detection-project/blob/master/images/initial_signal.png)
 
-**Fig.4: Grey-level signal after the cross section of a target picture**
+**Fig.4: Grey-level signal after the cross section of a target picture *SOURCE ?* **
 
-The answer signal will be subdivided into two compounds : a noise function and a edge function. So, the edge is detect by the convolution of the signal with a specific filter which had to maximize the result to a mathematical equation which is the representation of three parameters of optimization. Unlike the others methods, the aim was to be able to combine the detection of the edge, its closer localization on the image and not duplicate the edges founded, this last point is also called the unambiguity of the signal 
-(pas encore sure de ma transition avec la phrase suivante). 
-Three mathematical parameters will be thus define and taken into account to assess the edge function : the signal-to-noise ratio (SNR), the Localization and several constrains. The two first ones will be defined as parameters of equal importance which have to be maximized in parallel, and the third as a constraint. So, the function have to maximize the following equation [Fig.5]
+The answer signal will be subdivided into two compounds : a noise function and an edge function. So the edge is detected by the convolution of the signal with a specific filter which had to maximize the result to a mathematical equation which is the representation of three parameters of optimization. Unlike the other methods, the aim of this approach is to be able to combine the detection of the edge, its closer localization on the image, and to not duplicate the edges founded (this last point is also called the unambiguity of the signal).
+*(pas encore sure de ma transition avec la phrase suivante).* 
+Three mathematical parameters will be thus defined and taken into account to assess the edge function : the signal-to-noise ratio (SNR), the localization and several constraints. The two first ones will be defined as parameters of equal importance which have to be maximized in parallel, and the third as a constraint. The function has to maximize the following equation [Fig.5]
 
 ![Fig5](https://github.com/bockp/Edge-Detection-project/blob/master/images/Canny_equation_maximization.png)
 
 **Fig.5: Equation used to define the best function to find edges from a grey-level signal [Canny, 1986]**
 
-Maximize the product of SNR and Localization will allow to their simultaneous maximisation, and each parameter is defined on a given interval.  (sais pas si foncièrement utile)
+Maximizing the product of SNR and localization will allow to their simultaneous maximisation *(?)*, and each parameter is defined on a given interval.  *(sais pas si foncièrement utile)*
 
-The noise is define as Gaussian random quantity and as the signal is continuous, the mathematical approaches have to use integral instead of correlation to describe the behavior of the signal in relation to the model. (sais pas si foncièrement utile : utile pour comprendre le raisonnement (donc pour moi) mais sont sensés couler de source)
+The noise is defined as Gaussian random quantity and as the signal is continuous, the mathematical approaches have to use the integral instead of the correlation to describe the behavior of the signal in relation to the model. *(sais pas si foncièrement utile : utile pour comprendre le raisonnement (donc pour moi) mais sont sensés couler de source)*
 
-The SNR, assess the quality of a signal according to a model by using the model as numerator and the noise definition as the denominator. In this case, both parameters are defined as integral, respectively the absolute value of a convolution integral and the root-mean-square response to the noise function which will represent the area of dispersion from the model. 
+The SNR assesses the quality of a signal according to a model, by using the model as numerator and the noise definition as the denominator. In this case, both parameters are defined as integral, respectively the absolute value of a convolution integral and the root-mean-square response to the noise function which will represent the area of dispersion from the model. 
 
-As edges are defined as local maxima, the addition of the firsts derivatives of the edge function and noise function is equal to zero, so both of them are opposite and can be used to define the Localization parameter. It will be defined as the first derivative of the SNR function (suis pas encore pleinement sure qu'on puisse faire cette approximation, formules sont basiquement idem, mais doit voir si méthode de dérivation est bonne).
+As edges are defined as local maxima, the addition of the firsts derivatives of the edge function and noise function is equal to zero, so both of them are opposite and can be used to define the localization parameter. It will be defined as the first derivative of the SNR function *(suis pas encore pleinement sure qu'on puisse faire cette approximation, formules sont basiquement idem, mais doit voir si méthode de dérivation est bonne)*.
 
-The last parameter represent the additional constraints, and will be defined as the sum of the series of penalty functions, each of them will be modulated by a specific value which will define the importance of the associated constraint in the model. One of them concern the unambiguity of the signal, as several local maxima close to each other in the vicinity of the edge can lead to the definition of several false boundaries. Thus they define an expression for the distance between adjacent noise peaks in a defined space, using the Rice noises studies about the response of a function to a Gaussian noise [Rice, 1945]. This solution involve the first and the second derivate of the answer function and lead to the definition of a factor which will define the number of maxima in a specific width which can lead to a false answer. This factor correspond to a fraction of the define interval of the beginning. 
+The last parameter represents the additional constraints, and will be defined as the sum of the series of penalty functions, each of them will be modulated by a specific value which will define the importance of the associated constraint in the model. One of them concerns the unambiguity of the signal, as several local maxima close to each other in the vicinity of the edge can lead to the definition of several false boundaries. Thus they define an expression for the distance between adjacent noise peaks in a defined space, using the Rice noises studies about the response of a function to a Gaussian noise [Rice, 1945]. This solution involves the first and the second derivative of the answer function and leads to the definition of a factor which will define the number of maxima in a specific width which can lead to a false answer. This factor corresponds to a fraction of the define interval of the beginning. 
 
-After several demonstration, Canny originally define the Gaussian operator as the most efficient to maximize this equation [Fig.6], and it has the advantage to be easier to implement for a two dimensional model. 
+After several demonstrations, Canny originally defined the Gaussian operator as the most efficient to maximize this equation [Fig.6], and it has the advantage to be easier to implement for a two dimensional model. 
 
 ![Fig6](https://github.com/bockp/Edge-Detection-project/blob/master/images/Gaussian_First_Derivate.png)
 
 **Fig.6: Gaussian filter and its first derivate [Canny, 1986]**
 
-Even if the Canny model is often used in the edge detection for the image processing, several limits can be seen, mainly the noise which will define false edges and discontinuous edges (mainly linked to textured regions on image (Canny 1986)), even if this model is considered as less sensitive than Sobel and Laplace [Zhao et al, 2012] [Abdelsamea et al, 2015], and the important time consumption calculation [Chaabane et al, 2014]. 
+Even if Canny model is often used in edge detection for image processing, several limits can be seen, mainly the noise which will define false edges and discontinuous edges (mainly linked to textured regions on image [Canny 1986]), even if this model is considered as less sensitive to noise than Sobel's and Laplace's [Zhao et al, 2012] [Abdelsamea et al, 2015], and the important time consumption calculation [Chaabane et al, 2014]. 
 
 The implementation of the Canny model is relatively simple. First the image has to be treated by a Gaussian filter, then determine the gradient magnitude, assess if the pixel is a local maxima by comparing its value to its two closer neighbor on the axis in order to find local maxima. This firsts steps lead to a first edge map consisting of binary values (0 and 255). A thresholding is then done on the map by defind a low and high threshold value which will define major and minor pixels used for a thresholding final step hysteresis, (en gros, c'est le fait qu'une valeur x passée dans une transformation puit une transformation reverse ne reviendra pas au niveau initial, sa variation n'est pas totalement réversible, induit noise et écarts au modèle, mais dans la plupart articles ne prennent pas la peine de le redéfinir) all the edge containing value above the higher threshold, will be kept on the map, but the pixels of this edge which are under the lower value will be removed. This last point can lead to disrupted edges [Canny, 1986], [Deriche, 1987], [Ding et al, 2001], [Bovik, 2009], [Abdelsamea et al, 2015].
 
