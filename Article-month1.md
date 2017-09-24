@@ -107,7 +107,7 @@ The input of the zero-crossing detector is the LoG filtered image, and the outpu
 All of the contour lines are closed lines because the strength of the edge is not considered, so even gradual intensity transitions result in a zero-crossing. As previously indicated, local minima of the gradient magnitude can cause false edges, that can be eliminated by using a threshold for edge strength, causing breaks in the closed contours.
 
 In ImageJ, two plugins provide an implementation of the LoG operator.
-The first one is the Laplacian plugin included in the FeatureJ package created by Erik Meijering. This plugin is based on ImageScience, a java library for image processing, which provides tools for computing the LoG of an image and detecting the zero-crossings. The only parameter accessible to the user is the "laplacian smoothing scale", meaning the standard deviation used for the Gaussian kernel.
+The first one is the Laplacian plugin included in the FeatureJ package created by Erik Meijering. This plugin is based on ImageScience, a java library for image processing, which provides tools for computing the LoG of an image and detecting the zero-crossings. The only parameter accessible to the user is the laplacian smoothing scale, meaning the standard deviation used for the Gaussian kernel.
 The second one is the LoG\_Filter plugin, by Lokesh Taxali and Jesse Jin. This plugin is composed of a unique class file and provides more parameters to the user : sigma (standard deviation for the Gaussian filter), filter width (size of the LoG kernel), threshold for 1D DoG filtering, and delta (level for adjusting zero-crossings). Unlike the previous plugin, this one involves thresholding of the LoG output with a Difference of Gaussians. Moreover, its use is limited to 8-bit images.
 
 ## Canny
@@ -187,7 +187,7 @@ With this function, we can compute the output of the LoG filtering (in a 0 to 25
 
 ![Fig.6](https://github.com/bockp/Edge-Detection-project/tree/master/Log_Filter.jpg)
 
-**Fig.6: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1:Input image, 2:LoG output, 3:Zero-crossings A REFAIRE**
+**Fig.6: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1:Input image, 2:LoG output, 3:Absolute value of filtering, 4:Results representing values -1,0 or 1, 5:Zero-crossings overlaid to input image, 6:Zero-crossings **
 
 # FeatureJ Laplacian plugin (LoG algorithm)
 
@@ -195,7 +195,7 @@ This function only provides the display of the output of the LoG and the zero-cr
 
 ![Fig.7](https://github.com/bockp/Edge-Detection-project/tree/master/Laplacian.jpg)
 
-**Fig.7: Result of FeatureJ Laplacian plugin, with sigma=3 1:Input image, 2:LoG output, 3:Zero-crossings **
+**Fig.7: Result of FeatureJ Laplacian plugin, with smoothing scale=3 1:Input image, 2:LoG output, 3:Zero-crossings **
 
 # Canny Edge Detector plugin (Canny algorithm)
 
@@ -203,7 +203,7 @@ The output of this function is a binary image where the edge pixels are white [F
 
 ![Fig.8](https://github.com/bockp/Edge-Detection-project/tree/master/Canny.jpg)
 
-**Fig.8: Result of Canny Edge Detector plugin, with sigma=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
+**Fig.8: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
 
 # FeatureJ plugin (Canny algorithm)
 
@@ -211,7 +211,7 @@ The output of this function is also binary image where the edge pixels are white
 
 ![Fig.9](https://github.com/bockp/Edge-Detection-project/tree/master/Edges.jpg)
 
-**Fig.9: Result of FeatureJ Edges plugin, with sigma=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
+**Fig.9: Result of FeatureJ Edges plugin, with smoothing scale=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
 
 *Autre plugin pour Canny ?????*
 
