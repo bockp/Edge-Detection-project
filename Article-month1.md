@@ -124,7 +124,7 @@ Three mathematical parameters will be thus defined and taken into account to ass
 
 ![Equation.7](https://github.com/bockp/Edge-Detection-project/blob/master/images/Canny_equation_maximization.png)
 
-**Equation.7: Equation used to define the best function to find edges from a grey-level signal [^Canny, 1986]**
+**Equation.7: Equation used to define the best function to find edges from a grey-level signal [^CAN1986]**
 
 Maximizing the product of SNR and localization will allow to their simultaneous maximisation *(?)*, and each parameter is defined on a given interval.  *(sais pas si foncièrement utile)*
 
@@ -252,7 +252,7 @@ All in all, the 2 Canny implementations themselves seem to be nearly identical, 
 
 [^Bovik, 2009] Bovik, Alan C., ed. The essential guide to image processing. Academic Press, 2009.
 
-[^Canny, 1986] Canny, J. A Computational Approach to Edge Detection. IEEE Transactions on Pattern Analysis and Machine Intelligence. 1986; PAMI-8:6, pp. 679-698, Nov. doi: 10.1109/TPAMI.1986.4767851
+[^CAN1986] Canny, J. A Computational Approach to Edge Detection. IEEE Transactions on Pattern Analysis and Machine Intelligence. 1986; PAMI-8:6, pp. 679-698, Nov. doi: 10.1109/TPAMI.1986.4767851
 
 [^Chaabane et al, 2014] Chaabane BS, Fnaiech F. Color edges extraction using statistical features and automatic threshold technique: application to the breast cancer cells. BioMedical Engineering OnLine. 2014;13:4. doi:10.1186/1475-925X-13-4.
 
