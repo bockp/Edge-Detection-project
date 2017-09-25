@@ -218,6 +218,25 @@ The output of this function is also binary image where the edge pixels are white
 
 # 4.Discussion
 
+## Qualitative Comparison
+
+ As can be seen in the above examples (Fig.5-9), the different algorithms have very different results.
+ 
+ For the Sobel algorithm, the edges are outlined correctly, though it also outlines a lot of noise (shadows).
+ 
+ The LoG algorithms, on the other hand, give an output with nearly no noise if configured properly, although they lose quite a bit of precision.
+ Though that itself depends on the implementation.
+ As can be seen in the difference of output between the Log\_filter plugin (Fig.6 Image 5-6), which detects the edges pretty well without noise in the result, but misses out on edges which were blurred in the original image.
+ The FeatureJ implementation (Fig.7 Image 3), on the other hand, creates an output image that seems to simplify the definition of an edge to the point where they are detected in a disorganized fashion that leaves one struggling to identify the initial image.
+ This is most likely due to an improperly configured threshold, that is set too high and therefore identifies the slightest variation in pixel values as indicative of an edge.
+ 
+ The Canny implementation (Fig.8-9) give a better result than both the Sobel (less noise) and the LoG implementation (detecting the real edges more accurately).
+They are not perfect, and miss edges where the pixel values do not vary greatly on each side, and invents edges in the presence of differences due to lighting.
+
+All in all, the 2 Canny implementations themselves seem to be nearly identical, though the FeatureJ implementation has more continuous edges than the Canny Edge Detector.
+ 
+ 
+
 *comparison of benchmarks of different implementations, ways to improve them (probably more towards the second month), recent innovations to imrpove the algorithms.*
 
 *hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
