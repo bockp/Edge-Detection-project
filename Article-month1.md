@@ -1,9 +1,10 @@
-# Authors : Bock Peter, Ostertag Cécilia, Thierry Ophélie
+
 
 # Edge detection
 
+# Authors : Cécilia Ostertag, Ophélie Thierry, Peter Bock
 
-# 1.Introduction
+# Introduction
 
 Image processing is one of the most important fields in the domain of computer vision [Bovik, 2009]. Indeed, nearly every branch of science has a subdiscipline dedicated to retrieving information from the world, almost always through the use of recording devices storing that information in the form of discrete images or videos. For a computer to make sense of these images, it needs to be able to interprete them, understand them.
 That is where Image Processing comes in, allowing a computer to process an image and detect its major features, and to perform higher-level vision tasks like face recognition.
@@ -33,7 +34,7 @@ We will then perform a benchmark on the imageJ plugins, in order to compare them
 
 
 
-# 2.Material & Methods
+# Material & Methods
 
 ## Sobel 
 
@@ -167,13 +168,13 @@ For both measurements, we ran the operation 10000 times, while averaging the val
 *Essayer avec le MemoryMonitor*
 
 
-# 3.Results
+# Results
 
 * *examples of the image processing and a benchmark of the different algorithms. A tester avec des images RGB ??*
 
 The results obtained with each edge detection function were obtained with the same image : Lena, 8-bit, 256x256 pixels. This is also the image that was used for the benchmark. 
 
-# Find Edges function (Sobel algorithm)
+## Find Edges function (Sobel algorithm)
 
 The output of ImageJ Find Edges function is an 8-bit image in wich the contours are in white [Fig.5].
 
@@ -181,7 +182,7 @@ The output of ImageJ Find Edges function is an 8-bit image in wich the contours 
 
 **Fig.5: Result of Find Edges function. 1:Input image, 2:Output image**
 
-# Log\_Filter plugin (LoG algorithm)
+## Log\_Filter plugin (LoG algorithm)
 
 With this function, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values -1, 0 or 1, the zero-crossings overlaid to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.6]. All the contour lines have a single-pixel width, and due to the DoG filtering they are not closed.
 
@@ -189,7 +190,7 @@ With this function, we can compute the output of the LoG filtering (in a 0 to 25
 
 **Fig.6: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1:Input image, 2:LoG output, 3:Absolute value of filtering, 4:Results representing values -1,0 or 1, 5:Zero-crossings overlaid to input image, 6:Zero-crossings **
 
-# FeatureJ Laplacian plugin (LoG algorithm)
+## FeatureJ Laplacian plugin (LoG algorithm)
 
 This function only provides the display of the output of the LoG and the zero-crossing detector [Fig.7]. The contours are also of single-pixel width and in absence of a thresholding all contours are closed lines.
 
@@ -197,7 +198,7 @@ This function only provides the display of the output of the LoG and the zero-cr
 
 **Fig.7: Result of FeatureJ Laplacian plugin, with smoothing scale=3 1:Input image, 2:LoG output, 3:Zero-crossings **
 
-# Canny Edge Detector plugin (Canny algorithm)
+## Canny Edge Detector plugin (Canny algorithm)
 
 The output of this function is a binary image where the edge pixels are white [Fig.8].
 
@@ -205,7 +206,7 @@ The output of this function is a binary image where the edge pixels are white [F
 
 **Fig.8: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
 
-# FeatureJ plugin (Canny algorithm)
+## FeatureJ plugin (Canny algorithm)
 
 The output of this function is also binary image where the edge pixels are white [Fig.9].
 
@@ -216,19 +217,18 @@ The output of this function is also binary image where the edge pixels are white
 *Autre plugin pour Canny ?????*
 
 
-# 4.Discussion
+# Discussion
 
 ## Qualitative Comparison
 
- As can be seen in the above examples (Fig.5-9), the different algorithms have very different results.
+ As can be seen in the above examples (Fig.5-9), the quality of the resulting pattern detection depends a lot on which algorithm is used, and with what parameters.
  
- For the Sobel algorithm, the edges are outlined correctly, though it also outlines a lot of noise (shadows).
+ For the Sobel algorithm, the edges are outlined correctly, though it also outlines noise (shadows, changes in color) as edges.
  
- The LoG algorithms, on the other hand, give an output with nearly no noise if configured properly, although they lose quite a bit of precision.
+ The LoG algorithms, on the other hand, give an output with a lower amount of misidentified noise if configured properly, although they do not identify all of the edges.
  Though that itself depends on the implementation.
- As can be seen in the difference of output between the Log\_filter plugin (Fig.6 Image 5-6), which detects the edges pretty well without noise in the result, but misses out on edges which were blurred in the original image.
- The FeatureJ implementation (Fig.7 Image 3), on the other hand, creates an output image that seems to simplify the definition of an edge to the point where they are detected in a disorganized fashion that leaves one struggling to identify the initial image.
- This is most likely due to an improperly configured threshold, that is set too high and therefore identifies the slightest variation in pixel values as indicative of an edge.
+ As can be seen in the difference of output between the Log\_filter plugin (Fig.6 Image 5-6), which detects most edges without noise in the result, but misses out on edges which were blurred in the original image and the FeatureJ implementation (Fig.7 Image 3), that creates an output image that identifies edges everywhere in the image, leading to an output image that is hard to compare with the original image.
+ This error on the part of the FeatureJ implementation is most likely due to an improperly configured threshold, that is too high and therefore identifies very small variations in pixel values as indicative of an edge, whereas they are probably due to noise.
  
  The Canny implementation (Fig.8-9) give a better result than both the Sobel (less noise) and the LoG implementation (detecting the real edges more accurately).
 They are not perfect, and miss edges where the pixel values do not vary greatly on each side, and invents edges in the presence of differences due to lighting.
@@ -241,43 +241,50 @@ All in all, the 2 Canny implementations themselves seem to be nearly identical, 
 
 *hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
 
-# 5.Conclusion
+# Conclusion
 
 
 # References
 
-*Ordre pour les références ?????*
-
-[Abdelsamea et al, 2015] M. Abdelsamea MM, Gnecco G, Gaber MM, and Elyan E. On the Relationship between Variational Level Set-Based and SOM-Based Active Contours. Computational Intelligence and Neuroscience. 2015;2015:109029. doi:10.1155/2015/109029
-
-[Bovik, 2009] Bovik, Alan C., ed. The essential guide to image processing. Academic Press, 2009.
-
-[Canny, 1986] Canny, J. A Computational Approach to Edge Detection. IEEE Transactions on Pattern Analysis and Machine Intelligence. 1986; PAMI-8:6, pp. 679-698, Nov. doi: 10.1109/TPAMI.1986.4767851
-
-[Chaabane et al, 2014] Chaabane BS, Fnaiech F. Color edges extraction using statistical features and automatic threshold technique: application to the breast cancer cells. BioMedical Engineering OnLine. 2014;13:4. doi:10.1186/1475-925X-13-4.
-
-[Ding et al, 2001] Ding L, Goshtasby A. On the canny edge detector. Pattern recognition. 2001;34. pp. 721-725 
-
-[Deriche, 1987] Deriche, R. Using Canny's criteria to derive a recursively implemented optimal edge detector. Int J Comput Vision. 1987; 1:167. https://doi.org/10.1007/BF00123164
-
-[Rice, 1945] Rice, S. O. Mathematical Analysis of Random Noise. Bell System Technical Journal.1945;24. pp. 46–156. doi:10.1002/j.1538-7305.1945.tb00453.x
-
-[Zhao et al, 2012] Zhao J, Zheng W, Zhang L, Tian H. Segmentation of ultrasound images of thyroid nodule for assisting fine needle aspiration cytology. Health Information Science and Systems. 2013;1:5. doi:10.1186/2047-2501-1-5.
+*Selon Taveeau, l'ordre sera automatique si l'on recode les reference avec le format suivant:*
+ds doc:
+[^REF]
+ds ref:
+[^REF] : reference style Vancouver
 
 
-[imagej] : Schindelin, J.; Rueden, C. T. & Hiner, M. C. et al. (2015), ["The ImageJ ecosystem: An open platform for biomedical image analysis"](http://onlinelibrary.wiley.com/doi/10.1002/mrd.22489/full), Molecular Reproduction and Development, PMID 26153368 
 
-[ecmascript] ECMAScript, E. C. M. A., and European Computer Manufacturers Association. "Ecmascript language specification." (2011).
 
-[WebGL] Marrin, Chris. "Webgl specification." Khronos WebGL Working Group (2011).
 
-[benchmark] McNair, Carol Jean, and Kathleen HJ Leibfried. Benchmarking: A tool for continuous improvement. John Wiley & sons, 1992.
+[Abdelsamea2015] : Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
 
-[Sobel,1968] Sobel, Irwin. (2014). An Isotropic 3X3 Image Gradient Operator. Presentation at Stanford A.I. Project 1968.
-[sobelAlgo] Vincent, O. R., and Olusegun Folorunso. "A descriptive algorithm for sobel image edge detection." Proceedings of Informing Science & IT Education Conference (InSITE). Vol. 40. 2009.
+[Bovik2009] : Bovik AC, editor. The essential guide to image processing. Academic Press; 2009 Jul 8.
 
-[Marr-Hildreth,1980] Marr, D. and Hildreth, E. Theory of edge detection. Proc. R. Soc. Lond. B,270:187-217,1980.
+[Canny1986] : Canny J. A computational approach to edge detection. IEEE Transactions on pattern analysis and machine intelligence. 1986 Nov(6):679-98.
 
+[Chaabane2014] : Chaabane SB, Fnaiech F. Color edges extraction using statistical features and automatic threshold technique: application to the breast cancer cells. Biomedical engineering online. 2014 Jan 23;13(1):4.
+
+[Ding2001] : Ding L, Goshtasby A. On the Canny edge detector. Pattern Recognition. 2001 Mar 31;34(3):721-5.
+
+[Deriche1987] : Deriche R. Using Canny's criteria to derive a recursively implemented optimal edge detector. International journal of computer vision. 1987 Jun 1;1(2):167-87.
+
+[Rice1945] : Rice SO. Mathematical analysis of random noise. The Bell System Technical Journal. 1945 Jan;24(1):46-156.
+
+[Zhao2012] : Zhao J, Zheng W, Zhang L, Tian H. Segmentation of ultrasound images of thyroid nodule for assisting fine needle aspiration cytology. Health information science and systems. 2013 Dec 1;1(1):5.
+
+[schind2015] : Schindelin J, Rueden CT, Hiner MC, Eliceiri KW. The ImageJ ecosystem: An open platform for biomedical image analysis. Molecular reproduction and development. 2015 Jul 1;82(7-8):518-29.
+
+[ecma2011] : ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
+
+[MAR2011] : Marrin C. Webgl specification. Khronos WebGL Working Group. 2011.
+
+[benchmark] : McNair CJ, Leibfried KH. Benchmarking: A tool for continuous improvement. John Wiley & sons; 1992.
+
+[Sobel1968] : Sobel I. An isotropic 3× 3 image gradient operator, presentation at Stanford Artificial Intelligence Project (SAIL).
+
+[sobelAlgo] : Vincent OR, Folorunso O. A descriptive algorithm for sobel image edge detection. InProceedings of Informing Science & IT Education Conference (InSITE) 2009 Jun 12 (Vol. 40, pp. 97-107).
+
+[Marr-Hildreth,1980] : Marr D, Hildreth E. Theory of edge detection. Proceedings of the Royal Society of London B: Biological Sciences. 1980 Feb 29;207(1167):187-217.
 
 
 * ***NO websites***
