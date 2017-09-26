@@ -11,7 +11,20 @@ That is where Image Processing comes in, allowing a computer to process an image
 In our project, we will examine one specific field of image processing, called edge detection.
 
 The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance” [^BOV2009]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
-Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach) [Fig.1].
+Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. 
+
+In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implentation in the image processing software ImageJ[^SCH2015]:
+- Convolution with edge templates (Prewit, Sobel, Kirsh)[^SOB1968]
+- Zero-crossings of Laplacian of Gaussian convolution [^MAR1980]
+- Zero-crossings of directional derivatives of smoothed images (Canny)[^CAN1986]
+
+We will then perform a benchmark on the imageJ plugins, in order to compare them by measuring their execution time and the memory load for the JVM.
+
+# Material & Methods
+
+## Edge-detection theory
+
+The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach) [Fig.1].
 
 ![Fig.1](https://github.com/bockp/Edge-Detection-project/blob/master/images/derivatives.png)
 
@@ -24,15 +37,6 @@ These algorithms usually have three main steps:
 - decision: detection of edges using 1st or 2nd derivatives usually combined with thresholding.
 
 Errors in edge detection can either be false positives (classification of non edge pixels as edge pixels) or false negatives (classification of edge pixels as non-edge pixels). There is also a conflict between the correct detection of edges and the precise localization of their position. 
-
-In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implentation in the image processing software ImageJ[^SCH2015]:
-- Convolution with edge templates (Prewit, Sobel, Kirsh)[^SOB1968]
-- Zero-crossings of Laplacian of Gaussian convolution [^MAR1980]
-- Zero-crossings of directional derivatives of smoothed images (Canny)[^CAN1986]
-
-We will then perform a benchmark on the imageJ plugins, in order to compare them by measuring their execution time and the memory load for the JVM.
-
-# Material & Methods
 
 ## Sobel 
 
@@ -234,7 +238,7 @@ For the JVM memory load [Fig.11 and Fig.12], we can see that Find Edges uses the
 
 ## Qualitative Comparison
 
-As can be seen in the above examples [Fig.5-9], the quality of the resulting edge detection depends a lot on which algorithm is used, and with what parameters.
+As can be seen in the above examples [Fig.5-9], the quality of the resulting edge detection depends a lot on which algorithm is used, and with what parameters. The outputs of all functions show us that the strong contours, corresponding to the hat,the face and the hair are well identified, while the contours of the details, like the hat's feathers are not detected.
  
 For the Sobel algorithm, the edges are outlined correctly, though it also outlines noise (shadows, changes in color) as edges.
  
