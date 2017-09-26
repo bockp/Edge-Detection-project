@@ -157,19 +157,18 @@ Currently, several plugins using this method have been developed for ImageJ : th
 
 ## Benchmarking process
 
-The performance and the efficiency of each edge detection function can be assessed through several parameters: the execution time necessary for the processing of an input image, the memory load corresponding to this opperation, and *the range of level of image's complexity that it is able to treat* (?).
+The performance and the efficiency of each edge detection function can be assessed through several parameters: the execution time necessary for the processing of an input image and the memory load corresponding to this opperation.
 
-To perform this benchmark, we implemented a small JavaScript plugin : *nom définitif ?*. This script measures on one hand the time elapsed between the start and the end of a given ImageJ or plugin function, and on the other hand the memory used by ImageJ JVM at the end of this function. Java uses a garbage collector to handle memory allocation so our results have to be treated cautiously,even if we forced the garbage collector to run before the execution of the function. 
+To perform this benchmark, we implemented a small JavaScript plugin : *benchmark.js*. This script measures on one hand the time elapsed between the start and the end of a given ImageJ or plugin function, and on the other hand the memory used by ImageJ JVM at the end of this function. Java uses a garbage collector to handle memory allocation so our results have to be treated cautiously,even if we forced the garbage collector to run before the execution of the function. 
 
-*Ajouter l'étape de pré-benchmark, Peter vu que tu l'a implémentée*
-For both measurements, we ran the operation 10000 times, while averaging the values each 1000 iterations. This allowed us to compute the variance of our data. 
-*Ajouter la description de la machine utilisée : ref processeur, vitesse, conso, OS, version de Java*
-*Essayer avec le MemoryMonitor*
+For both measurements we ran the operation 100 times, after a front loading step consisting of running each function five times without recording the results. This was done to avoid outliers in our data, because the first executions of a function are usually slower.
+
+The benchmark was done on Linux, with the version 1.51q of ImageJ, using Java 1.8.0\_112 (64-bits). *Ajouter la description de la machine utilisée : ref processeur, vitesse, conso, OS*
 
 
 # Results
 
-* *examples of the image processing and a benchmark of the different algorithms. A tester avec des images RGB ??*
+* A tester avec des images RGB ??????????????????????*
 
 The results obtained with each edge detection function were obtained with the same image : Lena, 8-bit, 256x256 pixels. This is also the image that was used for the benchmark. 
 
@@ -215,6 +214,13 @@ The output of this function is also binary image where the edge pixels are white
 
 *Autre plugin pour Canny ?????*
 
+## Benchmark results
+
+The results of the benchmark for the execution time [Fig.10] show that the Find Edges function is the quickest to run on this machine, with a mean of 0.88 ms, followed by Log\_Filter, FeatureJ Laplacian and FeatureJ Edges which do not have a mean execution time superior to 50 ms. However the Canny Edge Detector plugin has an average exectution time of 205.2 ms.
+
+![Fig.10](https://github.com/bockp/Edge-Detection-project/blob/master/images/bench_time.jpg)
+
+**Fig.10: Result of the benchmark for the execution time of ImageJ edge detection functions**
 
 # Discussion
 
