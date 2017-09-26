@@ -30,9 +30,7 @@ In our project, we shall begin by documenting the 3 main linear edge detection a
 - Zero-crossings of Laplacian of Gaussian convolution [^MAR1980]
 - Zero-crossings of directional derivatives of smoothed images (Canny)[^CAN1986]
 
-We will then perform a benchmark on the imageJ plugins, in order to compare them by measuring their execution time, the memory load for the JVM, *and ?????????*
-
-
+We will then perform a benchmark on the imageJ plugins, in order to compare them by measuring their execution time and the memory load for the JVM.
 
 # Material & Methods
 
@@ -163,7 +161,7 @@ To perform this benchmark, we implemented a small JavaScript plugin : *benchmark
 
 For both measurements we ran the operation 100 times, after a front loading step consisting of running each function five times without recording the results. This was done to avoid outliers in our data, because the first executions of a function are usually slower.
 
-The benchmark was done on Linux, with the version 1.51q of ImageJ, using Java 1.8.0\_112 (64-bits). *Ajouter la description de la machine utilisée : ref processeur, vitesse, conso, OS*
+The benchmark was done on Linux, with the version 1.51q of ImageJ, using Java 1.8.0\_112 (64-bits).  *Ajouter la description de la machine utilisée : ref processeur, vitesse, conso, OS, et la charge processeur*
 
 
 # Results
@@ -236,19 +234,23 @@ For the JVM memory load [Fig.11 and Fig.12], we can see that Find Edges uses the
 
 ## Qualitative Comparison
 
- As can be seen in the above examples (Fig.5-9), the quality of the resulting pattern detection depends a lot on which algorithm is used, and with what parameters.
+As can be seen in the above examples [Fig.5-9], the quality of the resulting edge detection depends a lot on which algorithm is used, and with what parameters.
  
- For the Sobel algorithm, the edges are outlined correctly, though it also outlines noise (shadows, changes in color) as edges.
+For the Sobel algorithm, the edges are outlined correctly, though it also outlines noise (shadows, changes in color) as edges.
  
- The LoG algorithms, on the other hand, give an output with a lower amount of misidentified noise if configured properly, although they do not identify all of the edges.
- Though that itself depends on the implementation.
- As can be seen in the difference of output between the Log\_filter plugin (Fig.6 Image 5-6), which detects most edges without noise in the result, but misses out on edges which were blurred in the original image and the FeatureJ implementation (Fig.7 Image 3), that creates an output image that identifies edges everywhere in the image, leading to an output image that is hard to compare with the original image.
- This error on the part of the FeatureJ implementation is most likely due to an improperly configured threshold, that is too high and therefore identifies very small variations in pixel values as indicative of an edge, whereas they are probably due to noise.
+The Laplacian based algorithms, on the other hand, give an output with a lower amount of misidentified noise if configured properly, although they do not identify all of the edges.
+As can be seen in the difference of output between the Log\_filter plugin [Fig.6 Image 5-6], which detects most edges without noise in the result, but misses out on edges which were blurred in the original image and the FeatureJ implementation [Fig.7 Image 3], that creates an output image that identifies edges everywhere in the image, leading to an output image that is hard to compare with the original image.
+This error on the part of the FeatureJ implementation is most likely due the absence of thresholding, leading to the identification of very small variations in pixel values as indicative of an edge, whereas they are probably due to noise. Indeed, choosing a higher standard deviation for the gaussian filtering reduces the number of false positives but also reduces the precision for true positive edges [Fig.13].
  
- The Canny implementation (Fig.8-9) give a better result than both the Sobel (less noise) and the LoG implementation (detecting the real edges more accurately).
-They are not perfect, and miss edges where the pixel values do not vary greatly on each side, and invents edges in the presence of differences due to lighting.
+![Fig.13](https://github.com/bockp/Edge-Detection-project/blob/master/images/Laplace_sigma.jpg)
 
-All in all, the 2 Canny implementations themselves seem to be nearly identical, though the FeatureJ implementation has more continuous edges than the Canny Edge Detector.
+**Fig.13: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=1, 3:smoothing scale=3, 4:smoothing scale=5 **
+ 
+We must note that comparing these two results is difficult because the parameters provided to the user for the computation are not the same, except for the gaussian standard deviation. The results optimization is also different : while the FeatureJ plugin stops at the detection of the zero-crossings, the Log\_Filter uses an additional DoG filtering as a threshold on the LoG output.
+ 
+The two Canny implementations [Fig.8-9] give a better result than both the Sobel implementation, because they are less sensible to noise, and the LoG implementation, because they detect the real edges more accurately.
+They are not perfect, and miss edges where the pixel values do not vary sharply on each side, and create edges in the presence of differences due to lighting.
+All in all, the 2 Canny implementations themselves seem to be nearly identical, though the FeatureJ implementation detects more continuous edges than the Canny Edge Detector.
  
  
 
