@@ -163,16 +163,14 @@ The performance and the efficiency of each edge detection function can be assess
 
 To perform this benchmark, we implemented a small JavaScript plugin : *benchmark.js*. This script measures on one hand the time elapsed between the start and the end of a given ImageJ or plugin function, and on the other hand the memory used by ImageJ JVM at the end of this function. Java uses a garbage collector to handle memory allocation so our results have to be treated cautiously,even if we forced the garbage collector to run before the execution of the function. 
 
-For both measurements we ran the operation 100 times, after a front loading step consisting of running each function five times without recording the results. This was done to avoid outliers in our data, because the first executions of a function are usually slower.
+For both measurements we ran the operation 100 times, after a front loading step consisting of running each function five times without recording the results. This was done to avoid outliers in our data, because the first executions of a function are usually slower. The image used for this benchmark is Lena, 8-bit, 256x256 pixels. 
 
 The benchmark was done on Linux, with the version 1.51q of ImageJ, using Java 1.8.0\_112 (64-bits).  *Ajouter la description de la machine utilisée : ref processeur, vitesse, conso, OS, et la charge processeur*
 
 
 # Results
 
-* A tester avec des images RGB ??????????????????????*
-
-The results obtained with each edge detection function were obtained with the same image : Lena, 8-bit, 256x256 pixels. This is also the image that was used for the benchmark. 
+The results obtained with each edge detection function were obtained with the same image : Lena 256x256 pixels. All plugins except Canny Edge Detector can only be used on greyscale images, so we chose to use the 8-bit version of this image. 
 
 ## Find Edges function (Sobel algorithm)
 
@@ -254,13 +252,18 @@ We must note that comparing these two results is difficult because the parameter
  
 The two Canny implementations [Fig.8-9] give a better result than both the Sobel implementation, because they are less sensible to noise, and the LoG implementation, because they detect the real edges more accurately.
 They are not perfect, and miss edges where the pixel values do not vary sharply on each side, and create edges in the presence of differences due to lighting.
-All in all, the 2 Canny implementations themselves seem to be nearly identical, though the FeatureJ implementation detects more continuous edges than the Canny Edge Detector.
+All in all, the 2 Canny implementations give nearly identical results, though the FeatureJ implementation detects more continuous edges than the Canny Edge Detector.
+Canny edge detector is the only plugin working on RGB images, and gives an output similar to the one obtained with the 8-bit image [Fig.14].
+
+![Fig.14](https://github.com/bockp/Edge-Detection-project/blob/master/images/CannyRGB.jpg)
+
+**Fig.14: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image **
 
 ## Performance comparison
 
 *WHY is Canny Edge Detector so slowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww ????????????*
  
- 
+ *comparer Canny edge detecor 8-bit et RGB*
 
 *comparison of benchmarks of different implementations, ways to improve them (probably more towards the second month), recent innovations to imrpove the algorithms.*
 
