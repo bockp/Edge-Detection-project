@@ -216,11 +216,21 @@ The output of this function is also binary image where the edge pixels are white
 
 ## Benchmark results
 
-The results of the benchmark for the execution time [Fig.10] show that the Find Edges function is the quickest to run on this machine, with a mean of 0.88 ms, followed by Log\_Filter, FeatureJ Laplacian and FeatureJ Edges which do not have a mean execution time superior to 50 ms. However the Canny Edge Detector plugin has an average exectution time of 205.2 ms.
+The results of the benchmark for the execution time [Fig.10 and Fig.12] show that the Find Edges function is the quickest to run on this machine, with a mean of 0.88 ms, followed by Log\_Filter, FeatureJ Laplacian and FeatureJ Edges which do not have a mean execution time superior to 50 ms. However the Canny Edge Detector plugin has an average exectution time of 205.8 ms.
 
-![Fig.10](https://github.com/bockp/Edge-Detection-project/blob/master/images/bench_time.jpg)
+![Fig.10](https://github.com/bockp/Edge-Detection-project/blob/master/images/bench_time.png)
 
 **Fig.10: Result of the benchmark for the execution time of ImageJ edge detection functions**
+
+For the JVM memory load [Fig.11 and Fig.12], we can see that Find Edges uses the least memory, with a mean of 27.4 MegaBytes. Then the three functions Canny Edge Detector, FeatureJ Edges and Log\_Filter have an average of about 50 MB. And finally the most memory expensive function is FeatureJ Laplacian with a mean of 55 MB.
+
+![Fig.11](https://github.com/bockp/Edge-Detection-project/blob/master/images/bench_memory.png)
+
+**Fig.11: Result of the benchmark for the memory load of ImageJ edge detection functions**
+
+![Fig.12](https://github.com/bockp/Edge-Detection-project/blob/master/images/bench.png)
+
+**Fig.12: Average execution time and used memory for ImageJ edge detection functions**
 
 # Discussion
 
