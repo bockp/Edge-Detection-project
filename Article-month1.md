@@ -6,18 +6,18 @@
 
 # Introduction
 
-Image processing is one of the most important fields in the domain of computer vision [Bovik, 2009]. Indeed, nearly every branch of science has a subdiscipline dedicated to retrieving information from the world, almost always through the use of recording devices storing that information in the form of discrete images or videos. For a computer to make sense of these images, it needs to be able to interprete them, understand them.
+Image processing is one of the most important fields in the domain of computer vision [^BOV2009]. Indeed, nearly every branch of science has a subdiscipline dedicated to retrieving information from the world, almost always through the use of recording devices storing that information in the form of discrete images or videos. For a computer to make sense of these images, it needs to be able to interprete them, understand them.
 That is where Image Processing comes in, allowing a computer to process an image and detect its major features, and to perform higher-level vision tasks like face recognition.
 In our project, we will examine one specific field of image processing, called edge detection.
 
-The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance” [Bovik, 2009]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
+The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance” [^BOV2009]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
 Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach) [Fig.1].
 
 ![Fig.1](https://github.com/bockp/Edge-Detection-project/blob/master/images/derivatives.png)
 
-**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[Bovik, 2009]
+**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[^BOV2009]
 
-Edge detectors based on the derivative are sensitive to noise, which lead to the development of several algorithms. Most of them use a filter to reduce noise before actually detecting edges in the image [Bovik, 2009].
+Edge detectors based on the derivative are sensitive to noise, which lead to the development of several algorithms. Most of them use a filter to reduce noise before actually detecting edges in the image [^BOV2009].
 These algorithms usually have three main steps:
 - smoothing: use of a filter to suppress the noise.
 - differentiation: amplification of the edges in the image
@@ -25,10 +25,10 @@ These algorithms usually have three main steps:
 
 Errors in edge detection can either be false positives (classification of non edge pixels as edge pixels) or false negatives (classification of edge pixels as non-edge pixels). There is also a conflict between the correct detection of edges and the precise localization of their position. 
 
-In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implentation in the image processing software ImageJ[imagej]:
-- Convolution with edge templates (Prewit, Sobel, Kirsh)[Sobel, 1968]
-- Zero-crossings of Laplacian of Gaussian convolution [Marr-Hildreth, 1980]
-- Zero-crossings of directional derivatives of smoothed images (Canny)[Canny, 1986]
+In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implentation in the image processing software ImageJ[^SCH2015]:
+- Convolution with edge templates (Prewit, Sobel, Kirsh)[^SOB1968]
+- Zero-crossings of Laplacian of Gaussian convolution [^MAR1980]
+- Zero-crossings of directional derivatives of smoothed images (Canny)[^CAN1986]
 
 We will then perform a benchmark on the imageJ plugins, in order to compare them by measuring their execution time, the memory load for the JVM, *and ?????????*
 
@@ -38,23 +38,23 @@ We will then perform a benchmark on the imageJ plugins, in order to compare them
 
 ## Sobel 
 
-The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[sobel], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms out there.
+The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[^SOB1968], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms out there.
 
 It is based on the 1st derivative, or gradient, of the gray level intensity function [Equation.1]. 
 
 ![Equation.1](https://github.com/bockp/Edge-Detection-project/blob/master/images/gradient.jpg)
 
-**Equation.1: Gradient of a continuous gray level intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [Bovik, 2009]**
+**Equation.1: Gradient of a continuous gray level intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [^BOV2009]**
 
 After finding all the local extrema of the gradient magnitude, a thresholding is applied and the points where the magnitude is superior to a given threshold are classified as candidate edge points [Equation.2].
 
 ![Equation.2](https://github.com/bockp/Edge-Detection-project/blob/master/images/gradient_thr.jpg)
 
-**Equation.2: Thresholding of the gradient magnitude, where T is the threshold[Bovik, 2009] **
+**Equation.2: Thresholding of the gradient magnitude, where T is the threshold[^BOV2009] **
 
 Finally, to obtain edges as zero-width segments, a thinning step is required : if the gradient magnitude is not a local maximum along the gradient direction, the point is suppressed from the edge candidates.
 
-In practice, this algorithm works by using two masks, one horizontal and one vertical[sobelAlgo] [Fig.2], these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
+In practice, this algorithm works by using two masks, one horizontal and one vertical[^VIN2009] [Fig.2], these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
 
 ![Fig.2](https://github.com/bockp/Edge-Detection-project/blob/master/images/filters.png)
 
@@ -64,7 +64,7 @@ The two resulting images are then combined to get an image representing the appr
 
 ![Fig.3](https://github.com/bockp/Edge-Detection-project/blob/master/images/BikesgrayFig3.jpg)
 
-**Fig.3: (a)original image,(b) Sobel Y-gradient image, (c) sobel X-gradient image, (d)absolute gradient magnitude image**
+**Fig.3: (a)original image,(b) sobel Y-gradient image, (c) sobel X-gradient image, (d)absolute gradient magnitude image**
 
 ## Laplacian based methods:
 
@@ -74,7 +74,7 @@ The Laplacian is a 2D isotropic measure of the 2nd spatial derivative [Equation.
 
 ![Equation.3](https://github.com/bockp/Edge-Detection-project/blob/master/images/laplacian.jpg)
 
-**Equation.3: Laplacian of a continuous gray level intensity function fc(x,y) [Bovik, 2009]** 
+**Equation.3: Laplacian of a continuous gray level intensity function fc(x,y) [^BOV2009]** 
 
 This has the effect of highlighting the edges in the image, and can be used as an enhancement technique, by adding the filtered image to the original image. 
 
@@ -82,19 +82,18 @@ The Laplacian can be estimated by designing a pair of 1D 2nd derivative filters 
 
 ![Equation.4](https://github.com/bockp/Edge-Detection-project/blob/master/images/discrete_laplacian.jpg)
 
-**Equation.4: Discrete Laplacian estimate for an image f(n1,n2) [Bovik, 2009]**
+**Equation.4: Discrete Laplacian estimate for an image f(n1,n2) [^BOV2009]**
 
 Other 3x3 kernels are :
 
 ![Figure](https://github.com/bockp/Edge-Detection-project/blob/master/images/kernel_laplacian.jpg)
 
-*A remplacer par une figure comme dans la partie Sobel ???*
 
 The Laplacian opeator is usually used on gray level images, previously smoothed with a Gaussian filter to reduce noise. It is also possible to convolve the Gaussian smoothing filter with the Laplacian filter, before convolving this Laplacian of Gaussian (LoG) [Equation.5] with the image. 
 
 ![Equation.5](https://github.com/bockp/Edge-Detection-project/blob/master/images/LoG.jpg)
 
-**Equation.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function [Bovik, 2009]**
+**Equation.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function [^BOV2009]**
 
 To implement a discrete form, a filter can be constructed by sampling this equation after choosing a value for sigma. The Gaussian and Laplacian kernels are both small so it requires fewer operations than using both filters on the image. Another advantage of the LoG is that it can be calculated in advance as it is independent of the image being processed. It is important to note that the result of these edge detectors is highly influenced by the standard deviation used for the Gaussian filter chosen for the smoothing step. The LoG can also be approximated by the Difference of Gaussian (DoG).
 
@@ -103,7 +102,7 @@ The input of the zero-crossing detector is the LoG filtered image, and the outpu
 
 ![Equation.6](https://github.com/bockp/Edge-Detection-project/blob/master/images/zero_cross.jpg)
 
-**Equation.6: Zero-crossing classification of a pixel p [Bovik, 2009]**
+**Equation.6: Zero-crossing classification of a pixel p [^BOV2009]**
 
 All of the contour lines are closed lines because the strength of the edge is not considered, so even gradual intensity transitions result in a zero-crossing. As previously indicated, local minima of the gradient magnitude can cause false edges, that can be eliminated by using a threshold for edge strength, causing breaks in the closed contours.
 
@@ -117,7 +116,7 @@ The Canny approach uses a mathematical representation, through a convolution, in
 
 ![Fig.4](https://github.com/bockp/Edge-Detection-project/blob/master/images/initial_signal.png)
 
-**Fig.4: Grey-level signal after the cross section of a target picture [Canny, 1986]**
+**Fig.4: Grey-level signal after the cross section of a target picture [^CAN1986]**
 
 The answer signal will be subdivided into two compounds : a noise function and an edge function. So the edge is detected by the convolution of the signal with a specific filter which had to maximize the result to a mathematical equation which is the representation of three parameters of optimization. Unlike the other methods, the aim of this approach is to be able to combine the detection of the edge, its closer localization on the image, and to not duplicate the edges founded (this last point is also called the unambiguity of the signal).
 *(pas encore sure de ma transition avec la phrase suivante).* 
@@ -125,7 +124,7 @@ Three mathematical parameters will be thus defined and taken into account to ass
 
 ![Equation.7](https://github.com/bockp/Edge-Detection-project/blob/master/images/Canny_equation_maximization.png)
 
-**Equation.7: Equation used to define the best function to find edges from a grey-level signal [Canny, 1986]**
+**Equation.7: Equation used to define the best function to find edges from a grey-level signal [^CAN1986]**
 
 Maximizing the product of SNR and localization will allow to their simultaneous maximisation *(?)*, and each parameter is defined on a given interval.  *(sais pas si foncièrement utile)*
 
@@ -135,23 +134,23 @@ The SNR assesses the quality of a signal according to a model, by using the mode
 
 As edges are defined as local maxima, the addition of the firsts derivatives of the edge function and noise function is equal to zero, so both of them are opposite and can be used to define the localization parameter. It will be defined as the first derivative of the SNR function *(suis pas encore pleinement sure qu'on puisse faire cette approximation, formules sont basiquement idem, mais doit voir si méthode de dérivation est bonne)*.
 
-The last parameter represents the additional constraints, and will be defined as the sum of the series of penalty functions, each of them will be modulated by a specific value which will define the importance of the associated constraint in the model. One of them concerns the unambiguity of the signal, as several local maxima close to each other in the vicinity of the edge can lead to the definition of several false boundaries. Thus they define an expression for the distance between adjacent noise peaks in a defined space, using the Rice noises studies about the response of a function to a Gaussian noise [^Rice, 1945]. This solution involves the first and the second derivative of the answer function and leads to the definition of a factor which will define the number of maxima in a specific width which can lead to a false answer. This factor corresponds to a fraction of the define interval of the beginning. 
+The last parameter represents the additional constraints, and will be defined as the sum of the series of penalty functions, each of them will be modulated by a specific value which will define the importance of the associated constraint in the model. One of them concerns the unambiguity of the signal, as several local maxima close to each other in the vicinity of the edge can lead to the definition of several false boundaries. Thus they define an expression for the distance between adjacent noise peaks in a defined space, using the Rice noises studies about the response of a function to a Gaussian noise [^RIC1945]. This solution involves the first and the second derivative of the answer function and leads to the definition of a factor which will define the number of maxima in a specific width which can lead to a false answer. This factor corresponds to a fraction of the define interval of the beginning. 
 
 After several demonstrations, Canny originally defined the Gaussian operator as the most efficient to maximize this equation [Equation.8], and it has the advantage to be easier to implement for a two dimensional model. 
 
 ![Equation.8](https://github.com/bockp/Edge-Detection-project/blob/master/images/Gaussian_First_Derivate.png)
 
-**Equation.8: Gaussian filter and its first derivate [Canny, 1986]**
+**Equation.8: Gaussian filter and its first derivate [^CAN1986]**
 
-Even if Canny model is often used in edge detection for image processing, several limits can be seen, mainly the noise which will define false edges and discontinuous edges (mainly linked to textured regions on image [Canny 1986]), even if this model is considered as less sensitive to noise than Sobel's and Laplace's [Zhao et al, 2012] [Abdelsamea et al, 2015], and the important time consumption calculation [Chaabane et al, 2014]. 
+Even if Canny model is often used in edge detection for image processing, several limits can be seen, mainly the noise which will define false edges and discontinuous edges (mainly linked to textured regions on image [^CAN1986]), even if this model is considered as less sensitive to noise than Sobel's and Laplace's [^ZHA2012] [^ABD2015], and the important time consumption calculation [^CHAA2014]. 
 
-The implementation of the Canny model is relatively simple. First the image has to be treated by a Gaussian filter, then determine the gradient magnitude, assess if the pixel is a local maxima by comparing its value to its two closer neighbor on the axis in order to find local maxima. This firsts steps lead to a first edge map consisting of binary values (0 and 255). A thresholding is then done on the map by defind a low and high threshold value which will define major and minor pixels used for a thresholding final step hysteresis, (en gros, c'est le fait qu'une valeur x passée dans une transformation puit une transformation reverse ne reviendra pas au niveau initial, sa variation n'est pas totalement réversible, induit noise et écarts au modèle, mais dans la plupart articles ne prennent pas la peine de le redéfinir) all the edge containing value above the higher threshold, will be kept on the map, but the pixels of this edge which are under the lower value will be removed. This last point can lead to disrupted edges [Canny, 1986], [Deriche, 1987], [Ding et al, 2001], [Bovik, 2009], [Abdelsamea et al, 2015].
+The implementation of the Canny model is relatively simple. First the image has to be treated by a Gaussian filter, then determine the gradient magnitude, assess if the pixel is a local maxima by comparing its value to its two closer neighbor on the axis in order to find local maxima. This firsts steps lead to a first edge map consisting of binary values (0 and 255). A thresholding is then done on the map by defind a low and high threshold value which will define major and minor pixels used for a thresholding final step hysteresis, (en gros, c'est le fait qu'une valeur x passée dans une transformation puit une transformation reverse ne reviendra pas au niveau initial, sa variation n'est pas totalement réversible, induit noise et écarts au modèle, mais dans la plupart articles ne prennent pas la peine de le redéfinir) all the edge containing value above the higher threshold, will be kept on the map, but the pixels of this edge which are under the lower value will be removed. This last point can lead to disrupted edges [^CAN1986], [^DER1987], [^DIN2001], [^BOV2009], [^ABD2015].
 
-Several modification where done to the model in order to improve its efficiency, as the Deriche modification, allowing the model to treat an infinite extent which lead to a change of the efficiency of the Canny method according to the values considered after a Fourier transformation, leading to the development of a new fonction with only one constant parameter α (Deriche 1987) *(du coup, vu que ça passe par ça, suis pas sure de pouvoir le maintenir, mais on trouve en plugin des filtres Canny-Deriche)* [Equation.9], or the Ding modification, able to take into account pixels under the low threshold value in order to correct the edge disruption [Ding et al, 2001].
+Several modification where done to the model in order to improve its efficiency, as the Deriche modification, allowing the model to treat an infinite extent which lead to a change of the efficiency of the Canny method according to the values considered after a Fourier transformation, leading to the development of a new fonction with only one constant parameter α (Deriche 1987) *(du coup, vu que ça passe par ça, suis pas sure de pouvoir le maintenir, mais on trouve en plugin des filtres Canny-Deriche)* [Equation.9], or the Ding modification, able to take into account pixels under the low threshold value in order to correct the edge disruption [^DIN2001].
 
 ![Equation.9](https://github.com/bockp/Edge-Detection-project/blob/master/images/Deriche_equation.png)
 
-**Equation.9: Gaussian filter and its first derivate [Deriche, 1987]**
+**Equation.9: Gaussian filter and its first derivate [^DER1987]**
 
 Currently, several plugins using this method have been developed for ImageJ : the Edge Detection by Canny-Deriche filtering by Thomas Boudier,  the Edge Detector by Carmelo Pulvirenti, able to use other operators (LoG, DroG) and FeatureJ Edges by Erik Meijering. All of them require from the user a Gaussian kernel value or any other similar parameter which will be involved in the initial treatment step by the Gaussian filter, and will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. 
 *(doit encore potasser code FeatureJ pour tt comprendre ses différences avec autres puisque je trouve pas article spécifique)* *décrire les paramètres demandés et leur utilité*
@@ -256,35 +255,41 @@ ds ref:
 
 
 
-[Abdelsamea2015] : Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
+[^ABD2015] : Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
 
-[Bovik2009] : Bovik AC, editor. The essential guide to image processing. Academic Press; 2009 Jul 8.
+[^BOV2009] : Bovik AC, editor. The essential guide to image processing. Academic Press; 2009 Jul 8.
 
-[Canny1986] : Canny J. A computational approach to edge detection. IEEE Transactions on pattern analysis and machine intelligence. 1986 Nov(6):679-98.
+[^CAN1986] : Canny J. A computational approach to edge detection. IEEE Transactions on pattern analysis and machine intelligence. 1986 Nov(6):679-98.
 
-[Chaabane2014] : Chaabane SB, Fnaiech F. Color edges extraction using statistical features and automatic threshold technique: application to the breast cancer cells. Biomedical engineering online. 2014 Jan 23;13(1):4.
+[^CHAA2014] : Chaabane SB, Fnaiech F. Color edges extraction using statistical features and automatic threshold technique: application to the breast cancer cells. Biomedical engineering online. 2014 Jan 23;13(1):4.
 
-[Ding2001] : Ding L, Goshtasby A. On the Canny edge detector. Pattern Recognition. 2001 Mar 31;34(3):721-5.
+[^DIN2001] : Ding L, Goshtasby A. On the Canny edge detector. Pattern Recognition. 2001 Mar 31;34(3):721-5.
 
-[Deriche1987] : Deriche R. Using Canny's criteria to derive a recursively implemented optimal edge detector. International journal of computer vision. 1987 Jun 1;1(2):167-87.
+[^DER1987] : Deriche R. Using Canny's criteria to derive a recursively implemented optimal edge detector. International journal of computer vision. 1987 Jun 1;1(2):167-87.
 
-[Rice1945] : Rice SO. Mathematical analysis of random noise. The Bell System Technical Journal. 1945 Jan;24(1):46-156.
+[^RIC1945] : Rice SO. Mathematical analysis of random noise. The Bell System Technical Journal. 1945 Jan;24(1):46-156.
 
-[Zhao2012] : Zhao J, Zheng W, Zhang L, Tian H. Segmentation of ultrasound images of thyroid nodule for assisting fine needle aspiration cytology. Health information science and systems. 2013 Dec 1;1(1):5.
+[^ZHA2012] : Zhao J, Zheng W, Zhang L, Tian H. Segmentation of ultrasound images of thyroid nodule for assisting fine needle aspiration cytology. Health information science and systems. 2013 Dec 1;1(1):5.
 
-[schind2015] : Schindelin J, Rueden CT, Hiner MC, Eliceiri KW. The ImageJ ecosystem: An open platform for biomedical image analysis. Molecular reproduction and development. 2015 Jul 1;82(7-8):518-29.
+[^SCH2015] : Schindelin J, Rueden CT, Hiner MC, Eliceiri KW. The ImageJ ecosystem: An open platform for biomedical image analysis. Molecular reproduction and development. 2015 Jul 1;82(7-8):518-29.
 
-[ecma2011] : ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
 
-[MAR2011] : Marrin C. Webgl specification. Khronos WebGL Working Group. 2011.
 
-[benchmark] : McNair CJ, Leibfried KH. Benchmarking: A tool for continuous improvement. John Wiley & sons; 1992.
 
-[Sobel1968] : Sobel I. An isotropic 3× 3 image gradient operator, presentation at Stanford Artificial Intelligence Project (SAIL).
+[^SOB1968] : Sobel I. An isotropic 3× 3 image gradient operator, presentation at Stanford Artificial Intelligence Project (SAIL).
 
-[sobelAlgo] : Vincent OR, Folorunso O. A descriptive algorithm for sobel image edge detection. InProceedings of Informing Science & IT Education Conference (InSITE) 2009 Jun 12 (Vol. 40, pp. 97-107).
+[^VIN2009] : Vincent OR, Folorunso O. A descriptive algorithm for sobel image edge detection. InProceedings of Informing Science & IT Education Conference (InSITE) 2009 Jun 12 (Vol. 40, pp. 97-107).
 
-[Marr-Hildreth,1980] : Marr D, Hildreth E. Theory of edge detection. Proceedings of the Royal Society of London B: Biological Sciences. 1980 Feb 29;207(1167):187-217.
+[^MAR1980] : Marr D, Hildreth E. Theory of edge detection. Proceedings of the Royal Society of London B: Biological Sciences. 1980 Feb 29;207(1167):187-217.
 
 
 * ***NO websites***
+
+
+
+not used in this part, but for next parts :
+[ecma2011] : ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
+[MAR2011] : Marrin C. Webgl specification. Khronos WebGL Working Group. 2011.
+
+*je trouve pas d'utilisation de cette citation ? -peter :*
+[benchmark] : McNair CJ, Leibfried KH. Benchmarking: A tool for continuous improvement. John Wiley & sons; 1992.
