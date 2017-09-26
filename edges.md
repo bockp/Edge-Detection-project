@@ -13,7 +13,7 @@ In our project, we will examine one specific field of image processing, called e
 The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance” [^BOV2009]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
 Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. 
 
-In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implentation in the image processing software ImageJ[^SCH2015]:
+In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implementation in the image processing software ImageJ[^SCH2015]:
 - Convolution with edge templates (Prewit, Sobel, Kirsh)[^SOB1968]
 - Zero-crossings of Laplacian of Gaussian convolution [^MAR1980]
 - Zero-crossings of directional derivatives of smoothed images (Canny)[^CAN1986]
@@ -261,20 +261,28 @@ Canny edge detector is the only plugin working on RGB images, and gives an outpu
 
 ## Performance comparison
 
-*WHY is Canny Edge Detector so slowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww ????????????*
- 
- *comparer Canny edge detecor 8-bit et RGB*
-
 *comparison of benchmarks of different implementations, ways to improve them (probably more towards the second month), recent innovations to imrpove the algorithms.*
+*WHY is Canny Edge Detector so slowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww ???????????? --> aller voir dans l'implémentation*
 
 *hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
+ 
+ *comparer Canny edge detecor 8-bit et RGB*
+An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. However, according to our results [Fig.15], this is not the case for either parameters. 
+
+
+![Fig.15](https://github.com/bockp/Edge-Detection-project/blob/master/images/CannyRGBPlot.jpg)
+
+**Fig.15: Result of Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
+ 
 
 # Conclusion
 
+*de toutes les fonctions disponibles à travers imagej, Find Edges (Sobel) est la plus rapide et la plus légère en terme de mémoire, mais le plugin Canny Edge Detector bien que très lent est capable de traiter des images RGB donc utile pour un utilisateur dans ce cas de figure*
+* parler des nouvelles optimisations pour les images couleur*
 
 # References
 
-*Selon Taveeau, l'ordre sera automatique si l'on recode les reference avec le format suivant:*
+*Selon Taveau, l'ordre sera automatique si l'on recode les reference avec le format suivant:*
 ds doc:
 [^REF]
 ds ref:
