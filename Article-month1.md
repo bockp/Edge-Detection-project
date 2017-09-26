@@ -2,7 +2,7 @@
 
 # Edge detection
 
-# Authors : Cécilia Ostertag, Ophélie Thierry, Peter Bock
+# Authors : Cécilia Ostertag*, Ophélie Thierry, Peter Bock
 
 # Introduction
 
