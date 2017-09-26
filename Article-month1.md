@@ -255,6 +255,10 @@ We must note that comparing these two results is difficult because the parameter
 The two Canny implementations [Fig.8-9] give a better result than both the Sobel implementation, because they are less sensible to noise, and the LoG implementation, because they detect the real edges more accurately.
 They are not perfect, and miss edges where the pixel values do not vary sharply on each side, and create edges in the presence of differences due to lighting.
 All in all, the 2 Canny implementations themselves seem to be nearly identical, though the FeatureJ implementation detects more continuous edges than the Canny Edge Detector.
+
+## Performance comparison
+
+*WHY is Canny Edge Detector so slowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww ????????????*
  
  
 
