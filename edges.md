@@ -44,7 +44,7 @@ The Sobel Operator, introduced in a presentation at the Standford A.I Project in
 
 It is based on the 1st derivative, or gradient, of the gray level intensity function [Equation.1]. 
 
-![Equation.1](https://github.com/bockp/Edge-Detection-project/blob/master/images/gradient.jpg)
+![Equation.1](/images/gradient.jpg)
 
 **Equation.1: Gradient of a continuous gray level intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [^BOV2009]**
 
