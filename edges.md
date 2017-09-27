@@ -270,7 +270,7 @@ Canny edge detector is the only plugin working on RGB images, and gives an outpu
 An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. However, according to our results [Fig.15], this is not the case for either parameters. 
 
 
-![Fig.15](/images/CannyRGBPlot.jpg)
+![Fig.15](/images/CannyRGBPlot.jpeg)
 
 **Fig.15: Result of Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
  
