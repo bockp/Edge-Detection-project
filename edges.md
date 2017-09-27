@@ -58,13 +58,13 @@ Finally, to obtain edges as zero-width segments, a thinning step is required : i
 
 In practice, this algorithm works by using two masks, one horizontal and one vertical[^VIN2009] [Fig.2], these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
 
-![Fig.2](https://github.com/bockp/Edge-Detection-project/blob/master/images/filters.png)
+![Fig.2](/images/filters.png)
 
 **Fig.2: Sobel horizontal and vertical masks**
 
 The two resulting images are then combined to get an image representing the approximate  absolute  gradient  magnitude of the original image [Fig.3].
 
-![Fig.3](https://github.com/bockp/Edge-Detection-project/blob/master/images/BikesgrayFig3.jpg)
+![Fig.3](/images/BikesgrayFig3.jpg)
 
 **Fig.3: (a)original image,(b) sobel Y-gradient image, (c) sobel X-gradient image, (d)absolute gradient magnitude image**
 
@@ -74,7 +74,7 @@ The Laplacian is a 2D isotropic measure of the 2nd spatial derivative [Equation.
 - In the regions of constant intensity (intensity gradient equal to zero), the Laplacian is equal to zero. 
 - In regions where there is a change in intensity, the Laplacian is positive on the darker side, and negative on the lighter side.
 
-![Equation.3](https://github.com/bockp/Edge-Detection-project/blob/master/images/laplacian.jpg)
+![Equation.3](/images/laplacian.jpg)
 
 **Equation.3: Laplacian of a continuous gray level intensity function fc(x,y) [^BOV2009]** 
 
@@ -82,18 +82,18 @@ This has the effect of highlighting the edges in the image, and can be used as a
 
 The Laplacian can be estimated by designing a pair of 1D 2nd derivative filters and combining them into a 2D filter [Equation.4]
 
-![Equation.4](https://github.com/bockp/Edge-Detection-project/blob/master/images/discrete_laplacian.jpg)
+![Equation.4](/images/discrete_laplacian.jpg)
 
 **Equation.4: Discrete Laplacian estimate for an image f(n1,n2) [^BOV2009]**
 
 Other 3x3 kernels are :
 
-![Figure](https://github.com/bockp/Edge-Detection-project/blob/master/images/kernel_laplacian.jpg)
+![Figure](/images/kernel_laplacian.jpg)
 
 
 The Laplacian opeator is usually used on gray level images, previously smoothed with a Gaussian filter to reduce noise. It is also possible to convolve the Gaussian smoothing filter with the Laplacian filter, before convolving this Laplacian of Gaussian (LoG) [Equation.5] with the image. 
 
-![Equation.5](https://github.com/bockp/Edge-Detection-project/blob/master/images/LoG.jpg)
+![Equation.5](/images/LoG.jpg)
 
 **Equation.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function [^BOV2009]**
 
@@ -102,7 +102,7 @@ To implement a discrete form, a filter can be constructed by sampling this equat
 It is not possible to directly extract the edge orientation information from the Laplacian output. To extract the edges, we need to detect the zero-crossings in the output of the Laplacian (or the LoG), i.e. the regions of the image where the Laplacian passes through zero. However this can also happen in regions that are features other than edges in the image and can be the cause of false positives.
 The input of the zero-crossing detector is the LoG filtered image, and the output is a binary image with lines representing the positions of all the zero-crossing points. Each pixel of the image is compared to its eight immediate neighbors, and a pixel is classified as a zero-crossing if its sign is different than the sign of its neighbor. [Equation.6] 
 
-![Equation.6](https://github.com/bockp/Edge-Detection-project/blob/master/images/zero_cross.jpg)
+![Equation.6](/images/zero_cross.jpg)
 
 **Equation.6: Zero-crossing classification of a pixel p [^BOV2009]**
 
@@ -116,7 +116,7 @@ The second one is the LoG\_Filter plugin, by Lokesh Taxali and Jesse Jin. This p
 
 The Canny approach uses a mathematical representation, through a convolution, in order to define edges in a gray-level image. By cross-section, the signal on an image will be converted to a gradient in a specific direction [Fig.4] and will define a one-dimensional model for which the local maxima will correspond to edges. 
 
-![Fig.4](https://github.com/bockp/Edge-Detection-project/blob/master/images/initial_signal.png)
+![Fig.4](/images/initial_signal.png)
 
 **Fig.4: Grey-level signal after the cross section of a target picture [^CAN1986]**
 
@@ -124,7 +124,7 @@ The answer signal will be subdivided into two compounds : a noise function and 
 *(pas encore sure de ma transition avec la phrase suivante).* 
 Three mathematical parameters will be thus defined and taken into account to assess the edge function : the signal-to-noise ratio (SNR), the localization and several constraints. The two first ones will be defined as parameters of equal importance which have to be maximized in parallel, and the third as a constraint. The function has to maximize the following equation [Equation.7]
 
-![Equation.7](https://github.com/bockp/Edge-Detection-project/blob/master/images/Canny_equation_maximization.png)
+![Equation.7](/images/Canny_equation_maximization.png)
 
 **Equation.7: Equation used to define the best function to find edges from a grey-level signal [^CAN1986]**
 
@@ -140,7 +140,7 @@ The last parameter represents the additional constraints, and will be defined as
 
 After several demonstrations, Canny originally defined the Gaussian operator as the most efficient to maximize this equation [Equation.8], and it has the advantage to be easier to implement for a two dimensional model. 
 
-![Equation.8](https://github.com/bockp/Edge-Detection-project/blob/master/images/Gaussian_First_Derivate.png)
+![Equation.8](/images/Gaussian_First_Derivate.png)
 
 **Equation.8: Gaussian filter and its first derivate [^CAN1986]**
 
@@ -150,7 +150,7 @@ The implementation of the Canny model is relatively simple. First the image has 
 
 Several modification where done to the model in order to improve its efficiency, as the Deriche modification, allowing the model to treat an infinite extent which lead to a change of the efficiency of the Canny method according to the values considered after a Fourier transformation, leading to the development of a new fonction with only one constant parameter α (Deriche 1987) *(du coup, vu que ça passe par ça, suis pas sure de pouvoir le maintenir, mais on trouve en plugin des filtres Canny-Deriche)* [Equation.9], or the Ding modification, able to take into account pixels under the low threshold value in order to correct the edge disruption [^DIN2001].
 
-![Equation.9](https://github.com/bockp/Edge-Detection-project/blob/master/images/Deriche_equation.png)
+![Equation.9](/images/Deriche_equation.png)
 
 **Equation.9: Gaussian filter and its first derivate [^DER1987]**
 
@@ -176,7 +176,7 @@ The results obtained with each edge detection function were obtained with the sa
 
 The output of ImageJ Find Edges function is an 8-bit image in wich the contours are in white [Fig.5].
 
-![Fig.5](https://github.com/bockp/Edge-Detection-project/blob/master/images/Sobel.jpg)
+![Fig.5](/images/Sobel.jpg)
 
 **Fig.5: Result of Find Edges function. 1:Input image, 2:Output image**
 
@@ -184,7 +184,7 @@ The output of ImageJ Find Edges function is an 8-bit image in wich the contours 
 
 With this function, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values -1, 0 or 1, the zero-crossings overlaid to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.6]. All the contour lines have a single-pixel width, and due to the DoG filtering they are not closed.
 
-![Fig.6](https://github.com/bockp/Edge-Detection-project/blob/master/images/Log_Filter.jpg)
+![Fig.6](/images/Log_Filter.jpg)
 
 **Fig.6: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1:Input image, 2:LoG output, 3:Absolute value of filtering, 4:Results representing values -1,0 or 1, 5:Zero-crossings overlaid to input image, 6:Zero-crossings **
 
@@ -192,7 +192,7 @@ With this function, we can compute the output of the LoG filtering (in a 0 to 25
 
 This function only provides the display of the output of the LoG and the zero-crossing detector [Fig.7]. The contours are also of single-pixel width and in absence of a thresholding all contours are closed lines.
 
-![Fig.7](https://github.com/bockp/Edge-Detection-project/blob/master/images/Laplace.jpg)
+![Fig.7](/images/Laplace.jpg)
 
 **Fig.7: Result of FeatureJ Laplacian plugin, with smoothing scale=3 1:Input image, 2:LoG output, 3:Zero-crossings **
 
@@ -200,7 +200,7 @@ This function only provides the display of the output of the LoG and the zero-cr
 
 The output of this function is a binary image where the edge pixels are white [Fig.8].
 
-![Fig.8](https://github.com/bockp/Edge-Detection-project/blob/master/images/Canny.jpg)
+![Fig.8](/images/Canny.jpg)
 
 **Fig.8: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
 
@@ -208,7 +208,7 @@ The output of this function is a binary image where the edge pixels are white [F
 
 The output of this function is also binary image where the edge pixels are white [Fig.9].
 
-![Fig.9](https://github.com/bockp/Edge-Detection-project/blob/master/images/Edges.jpg)
+![Fig.9](/images/Edges.jpg)
 
 **Fig.9: Result of FeatureJ Edges plugin, with smoothing scale=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
 
@@ -218,17 +218,17 @@ The output of this function is also binary image where the edge pixels are white
 
 The results of the benchmark for the execution time [Fig.10 and Fig.12] show that the Find Edges function is the quickest to run on this machine, with a mean of 0.88 ms, followed by Log\_Filter, FeatureJ Laplacian and FeatureJ Edges which do not have a mean execution time superior to 50 ms. However the Canny Edge Detector plugin has an average exectution time of 205.8 ms.
 
-![Fig.10](https://github.com/bockp/Edge-Detection-project/blob/master/images/bench_time.png)
+![Fig.10](/images/bench_time.png)
 
 **Fig.10: Result of the benchmark for the execution time of ImageJ edge detection functions**
 
 For the JVM memory load [Fig.11 and Fig.12], we can see that Find Edges uses the least memory, with a mean of 27.4 MegaBytes. Then the three functions Canny Edge Detector, FeatureJ Edges and Log\_Filter have an average of about 50 MB. And finally the most memory expensive function is FeatureJ Laplacian with a mean of 55 MB.
 
-![Fig.11](https://github.com/bockp/Edge-Detection-project/blob/master/images/bench_memory.png)
+![Fig.11](/images/bench_memory.png)
 
 **Fig.11: Result of the benchmark for the memory load of ImageJ edge detection functions**
 
-![Fig.12](https://github.com/bockp/Edge-Detection-project/blob/master/images/bench.png)
+![Fig.12](/images/bench.png)
 
 **Fig.12: Average execution time and used memory for ImageJ edge detection functions**
 
@@ -244,7 +244,7 @@ The Laplacian based algorithms, on the other hand, give an output with a lower a
 As can be seen in the difference of output between the Log\_filter plugin [Fig.6 Image 5-6], which detects most edges without noise in the result, but misses out on edges which were blurred in the original image and the FeatureJ implementation [Fig.7 Image 3], that creates an output image that identifies edges everywhere in the image, leading to an output image that is hard to compare with the original image.
 This error on the part of the FeatureJ implementation is most likely due the absence of thresholding, leading to the identification of very small variations in pixel values as indicative of an edge, whereas they are probably due to noise. Indeed, choosing a higher standard deviation for the gaussian filtering reduces the number of false positives but also reduces the precision for true positive edges [Fig.13].
  
-![Fig.13](https://github.com/bockp/Edge-Detection-project/blob/master/images/Laplace_sigma.jpg)
+![Fig.13](/images/Laplace_sigma.jpg)
 
 **Fig.13: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=1, 3:smoothing scale=3, 4:smoothing scale=5 **
  
@@ -255,7 +255,7 @@ They are not perfect, and miss edges where the pixel values do not vary sharply 
 All in all, the 2 Canny implementations give nearly identical results, though the FeatureJ implementation detects more continuous edges than the Canny Edge Detector.
 Canny edge detector is the only plugin working on RGB images, and gives an output similar to the one obtained with the 8-bit image [Fig.14].
 
-![Fig.14](https://github.com/bockp/Edge-Detection-project/blob/master/images/CannyRGB.jpg)
+![Fig.14](/images/CannyRGB.jpg)
 
 **Fig.14: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image **
 
@@ -270,7 +270,7 @@ Canny edge detector is the only plugin working on RGB images, and gives an outpu
 An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. However, according to our results [Fig.15], this is not the case for either parameters. 
 
 
-![Fig.15](https://github.com/bockp/Edge-Detection-project/blob/master/images/CannyRGBPlot.jpg)
+![Fig.15](/images/CannyRGBPlot.jpg)
 
 **Fig.15: Result of Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
  
