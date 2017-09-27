@@ -26,7 +26,7 @@ We will then perform a benchmark on the imageJ plugins, in order to compare them
 
 The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach) [Fig.1].
 
-![Fig.1](/images/derivatives.png)
+![Fig.1](images/derivatives.png)
 
 **Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[^BOV2009]
 
