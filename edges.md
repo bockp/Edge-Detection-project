@@ -161,7 +161,7 @@ Currently, several plugins using this method have been developed for ImageJ : th
 
 The performance and the efficiency of each edge detection function can be assessed through several parameters: the execution time necessary for the processing of an input image and the memory load corresponding to this opperation.
 
-To perform this benchmark, we implemented a small JavaScript plugin : *benchmark.js*. This script measures on one hand the time elapsed between the start and the end of a given ImageJ or plugin function, and on the other hand the memory used by ImageJ JVM at the end of this function. Java uses a garbage collector to handle memory allocation so our results have to be treated cautiously,even if we forced the garbage collector to run before the execution of the function. 
+To perform this benchmark[^MCN1992], we implemented a small JavaScript plugin : *benchmark.js*. This script measures, on one hand the time elapsed between the start and the end of a given ImageJ or plugin function, and on the other hand the memory used by ImageJ JVM at the end of this function. Java uses a garbage collector to handle memory allocation so our results have to be treated cautiously,even if we forced the garbage collector to run before the execution of the function. 
 
 For both measurements we ran the operation 100 times, after a front loading step consisting of running each function five times without recording the results. This was done to avoid outliers in our data, because the first executions of a function are usually slower. The image used for this benchmark is Lena, 8-bit, 256x256 pixels. 
 
@@ -272,7 +272,7 @@ An RGB image being more complex because of its 3 channels, we would have expecte
 
 ![Fig.15](/images/CannyRGBPlot.jpeg)
 
-**Fig.15: Result of Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
+**Fig.15: Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
  
 
 # Conclusion
@@ -310,23 +310,10 @@ ds ref:
 
 [^SCH2015] : Schindelin J, Rueden CT, Hiner MC, Eliceiri KW. The ImageJ ecosystem: An open platform for biomedical image analysis. Molecular reproduction and development. 2015 Jul 1;82(7-8):518-29.
 
-
-
-
 [^SOB1968] : Sobel I. An isotropic 3× 3 image gradient operator, presentation at Stanford Artificial Intelligence Project (SAIL).
 
 [^VIN2009] : Vincent OR, Folorunso O. A descriptive algorithm for sobel image edge detection. InProceedings of Informing Science & IT Education Conference (InSITE) 2009 Jun 12 (Vol. 40, pp. 97-107).
 
 [^MAR1980] : Marr D, Hildreth E. Theory of edge detection. Proceedings of the Royal Society of London B: Biological Sciences. 1980 Feb 29;207(1167):187-217.
 
-
-* ***NO websites***
-
-
-
-not used in this part, but for next parts :
-[ecma2011] : ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
-[MAR2011] : Marrin C. Webgl specification. Khronos WebGL Working Group. 2011.
-
-*je trouve pas d'utilisation de cette citation ? -peter :*
-[benchmark] : McNair CJ, Leibfried KH. Benchmarking: A tool for continuous improvement. John Wiley & sons; 1992.
+[^MCN1992] : McNair CJ, Leibfried KH. Benchmarking: A tool for continuous improvement. John Wiley & sons; 1992.
