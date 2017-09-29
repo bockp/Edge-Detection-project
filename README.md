@@ -1,5 +1,18 @@
 # Tiny Image in Javascript (TIJ) project
 
+Each group of three students must choose a subject among this list:
+
+*  Analyze: Analyze Particles (as in ImageJ)
+*  Edge: Edge Detection: Sobel, Laplace, Canny, etc.
+*  FilterLin: Filters 2D (linear filter): Convolve, Mean, Gaussian Blur, etc.
+*  FilterRank: Filters 2D (rank filters): Median, Min, Max, Variance
+*  FFT: Fourier Transform + Correlation
+*  Hough: Hough Transform : Line and Circle detection
+*  Threshold: Thresholding methods: by hand, automatic: Otsu, etc. (as in ImageJ).
+*  Morpho: Mathematical Morphology: dilate, erode, open, close, Hit or Miss, skeletonize, EDM, UEP with structuring element (plugin ImageJ).
+*  Contrast: 'Adjust > Brighntess and Contrast' and 'Enhance Contrast' operations of ImageJ with Normalize and Equalize.
+
+
 # Our Subject -> Edge Detection: Sobel, Laplace, Canny, etc.
 
 The aim of this project is to develop one or more image processing features in a classical image toolbox.
