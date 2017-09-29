@@ -234,9 +234,9 @@ For the JVM memory load [Fig.11 and Fig.12], we can see that Find Edges uses the
 
 Given that the Canny Edge Detector plugin can also be used on RGB images, we also ran a benchmark comparing the execution time and memory load difference for this plugin on RGB and 8-bit images[Fig.15].
 
-![Fig.15](images/CannyRGBPlot.jpeg)
+![Fig.13](images/CannyRGBPlot.jpeg)
 
-**Fig.15: Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
+**Fig.13: Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
 # Discussion
 
 ## Qualitative Comparison
@@ -247,42 +247,49 @@ For the Sobel algorithm, the edges are outlined correctly, though it also outlin
  
 The Laplacian based algorithms, on the other hand, give an output with a lower amount of misidentified noise if configured properly, although they do not identify all of the edges.
 As can be seen in the difference of output between the Log\_filter plugin [Fig.6 Image 5-6], which detects most edges without noise in the result, but misses out on edges which were blurred in the original image and the FeatureJ implementation [Fig.7 Image 3], that creates an output image that identifies edges everywhere in the image, leading to an output image that is hard to compare with the original image.
-This error on the part of the FeatureJ implementation is most likely due the absence of thresholding, leading to the identification of very small variations in pixel values as indicative of an edge, whereas they are probably due to noise. Indeed, choosing a higher standard deviation for the gaussian filtering reduces the number of false positives but also reduces the precision for true positive edges [Fig.13].
+This error on the part of the FeatureJ implementation is most likely due the absence of thresholding, leading to the identification of very small variations in pixel values as indicative of an edge, whereas they are probably due to noise. Indeed, choosing a higher standard deviation for the gaussian filtering reduces the number of false positives but also reduces the precision for true positive edges [Fig.14].
  
-![Fig.13](images/Laplace_sigma.jpg)
+![Fig.14](images/Laplace_sigma.jpg)
 
-**Fig.13: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=1, 3:smoothing scale=3, 4:smoothing scale=5 **
+**Fig.14: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=1, 3:smoothing scale=3, 4:smoothing scale=5 **
  
 We must note that comparing these two results is difficult because the parameters provided to the user for the computation are not the same, except for the gaussian standard deviation. The results optimization is also different : while the FeatureJ plugin stops at the detection of the zero-crossings, the Log\_Filter uses an additional DoG filtering as a threshold on the LoG output.
  
 The two Canny implementations [Fig.8-9] give a better result than both the Sobel implementation, because they are less sensible to noise, and the LoG implementation, because they detect the real edges more accurately.
 They are not perfect, and miss edges where the pixel values do not vary sharply on each side, and create edges in the presence of differences due to lighting.
 All in all, the 2 Canny implementations give nearly identical results, though the FeatureJ implementation detects more continuous edges than the Canny Edge Detector.
-Canny edge detector is the only plugin working on RGB images, and gives an output similar to the one obtained with the 8-bit image [Fig.14].
+Canny edge detector is the only plugin working on RGB images, and gives an output similar to the one obtained with the 8-bit image [Fig.15].
 
-![Fig.14](images/CannyRGB.jpg)
+![Fig.15](images/CannyRGB.jpg)
 
-**Fig.14: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image **
+**Fig.15: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image **
 
 ## Performance Comparison
 
-*recent innovations to improve the algorithms.*
+As can be seen in our benchmark results[Fig.10-12], the Sobel algorithm is the fastest Edge Detection implementation in ImageJ, followed by the Laplacian implementations and then the FeatureJ Edge implementation of the Canny algorithm.
+The Canny Edge Detector implementation is up to 3 times slower than it's FeatureJ implementation, making it the slowest of all the functions.
+
+As far as memory load goes, most of the algorithms use an average of around 50 MB, with the FeatureJ Laplacian being slightly more voracious (55MB), and the Find Edges (Sobel) algorithm using only 27MB of memory on average.
+Sobel being the simplest algorithm, we expected it would also be the least memory intensive, since it only uses first derivatives to determine edges, while the other alogrithms go as far as second derivatives.
+ 
+ *hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
+ 
+The two Laplacian implementations are difficult to compare, as they do not offer the same customizable parameteres, which might skew the results. The Canny algorithms, though, do offer the same customizable parameters, and can therefore be compared without the danger that a changed parameter is the cause of the differences observed, instead of the implementation itself. 
+
+As far as the enormous difference in speed between the Canny Edge Detector plugin and the FeatureJ Edge implementation goes, if we compare the speed and memory load of running the Canny Edge Detector on an RGB image versus on an 8-bit version of that same image, we see no real difference in speed or memory load[Fig.13].
+
+An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. However, according to our results[Fig.13], this is not the case for either parameters.
+This could mean that the Canny Edge Detector algorithm uses the same process for the 8-bit images that it uses on the more complex RGB images, which would explain why even on the relatively simple 8-bit format it takes sucha  long time.
+
 *WHY is Canny Edge Detector so slowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww ???????????? --> aller voir dans l'implémentation*
 
-*hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
- 
- 
- 
- *comparer Canny edge detecor 8-bit et RGB*
- 
- An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. However, according to our results[Fig.15], this is not the case for either parameters.
-
- 
 
 # Conclusion
 
-*de toutes les fonctions disponibles à travers imagej, Find Edges (Sobel) est la plus rapide et la plus légère en terme de mémoire, mais le plugin Canny Edge Detector bien que très lent est capable de traiter des images RGB donc utile pour un utilisateur dans ce cas de figure*
-* parler des nouvelles optimisations pour les images couleur*
+Of all the functions in ImageJ, the fastest and least memory intensive is the Sobel Find Edges implementation, though the function giving the best results (least amount of false positives and false negatives) is the FeatureJ implementation of the Canny Edge Detection algorithm.
+We can't dismiss the Canny EDge Detector implementation entirely, though, as it is the only one studied capable of processing RGB images.
+
+*parler des nouvelles optimisations pour les images couleur*
 
 # References
 
