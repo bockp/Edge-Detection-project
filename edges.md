@@ -271,6 +271,8 @@ Canny edge detector is the only plugin working on RGB images, and gives an outpu
 
 *hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
  
+ 
+ 
  *comparer Canny edge detecor 8-bit et RGB*
  
  An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. However, according to our results[Fig.15], this is not the case for either parameters.
