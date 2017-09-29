@@ -232,6 +232,11 @@ For the JVM memory load [Fig.11 and Fig.12], we can see that Find Edges uses the
 
 **Fig.12: Average execution time and used memory for ImageJ edge detection functions**
 
+Given that the Canny Edge Detector plugin can also be used on RGB images, we also ran a benchmark comparing the execution time and memory load difference for this plugin on RGB and 8-bit images[Fig.15].
+
+![Fig.15](images/CannyRGBPlot.jpeg)
+
+**Fig.15: Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
 # Discussion
 
 ## Qualitative Comparison
@@ -259,20 +264,17 @@ Canny edge detector is the only plugin working on RGB images, and gives an outpu
 
 **Fig.14: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image **
 
-## Performance comparison
+## Performance Comparison
 
-*comparison of benchmarks of different implementations, ways to improve them (probably more towards the second month), recent innovations to imrpove the algorithms.*
+*recent innovations to improve the algorithms.*
 *WHY is Canny Edge Detector so slowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww ???????????? --> aller voir dans l'implémentation*
 
 *hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
  
  *comparer Canny edge detecor 8-bit et RGB*
-An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. However, according to our results [Fig.15], this is not the case for either parameters. 
+ 
+ An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. However, according to our results[Fig.15], this is not the case for either parameters.
 
-
-![Fig.15](images/CannyRGBPlot.jpeg)
-
-**Fig.15: Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
  
 
 # Conclusion
@@ -281,16 +283,6 @@ An RGB image being more complex because of its 3 channels, we would have expecte
 * parler des nouvelles optimisations pour les images couleur*
 
 # References
-
-*Selon Taveau, l'ordre sera automatique si l'on recode les reference avec le format suivant:*
-ds doc:
-[^REF]
-ds ref:
-[^REF] : reference style Vancouver
-
-
-
-
 
 [^ABD2015]: Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
 
