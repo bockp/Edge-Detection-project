@@ -322,3 +322,9 @@ We can't dismiss the Canny EDge Detector implementation entirely, though, as it 
 [^MAR1980]: Marr D, Hildreth E. Theory of edge detection. Proceedings of the Royal Society of London B: Biological Sciences. 1980 Feb 29;207(1167):187-217.
 
 [^MCN1992]: McNair CJ, Leibfried KH. Benchmarking: A tool for continuous improvement. John Wiley & sons; 1992.
+
+[^TRA1993]: Trahanias P.E and Venetsanopoulos A.N. Color edge detection using vector order statistics. IEEE
+Trans. Image Process., 2(2):259–264, 1993. 
+
+[^SCH1997]:Scharcanski J and Venetsanopoulos A.N. Edge detection of color images using directional
+operators. IEEE Trans. Circuits Syst. Video Technol., 7(2):397–401, 1997. 
