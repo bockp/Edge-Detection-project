@@ -18,7 +18,7 @@ In our project, we shall begin by documenting the 3 main linear edge detection a
 - Zero-crossings of Laplacian of Gaussian convolution [^MAR1980]
 - Zero-crossings of directional derivatives of smoothed images (Canny)[^CAN1986]
 
-We will then perform a benchmark on the imageJ plugins, in order to compare them by measuring their execution time and the memory load for the JVM.
+We will then perform a benchmark on the ImageJ plugins, in order to compare them by measuring their execution time and the memory load for the JVM.
 
 # Material & Methods
 
@@ -28,7 +28,7 @@ The derivative or the gradient of the grey level intensity can be used to detect
 
 ![Fig.1](images/derivatives.png)
 
-**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The dotted lines represent the edge locations**[^BOV2009]
+**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The vertical dotted lines represent the edge locations**[^BOV2009]
 
 Edge detectors based on the derivative are sensitive to noise, which lead to the development of several algorithms. Most of them use a filter to reduce noise before actually detecting edges in the image [^BOV2009].
 These algorithms usually have three main steps:
