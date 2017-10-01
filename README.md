@@ -1,3 +1,9 @@
+# TODO :
+Add Prewitt and Kirsch algorithm
+Finish explanations of Canny algorithm
+Put some images of plugins results with various parameters to show their influence 
+Conclusion
+
 # Tiny Image in Javascript (TIJ) project
 
 Each group of three students must choose a subject among this list:
