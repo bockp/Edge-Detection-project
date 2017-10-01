@@ -13,7 +13,7 @@ In our project, we will examine one specific field of image processing, called e
 The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance” [^BOV2009]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
 Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. 
 
-In our project, we shall begin by documenting the 3 main linear edge detection approaches and algorithms, and their implementation in the image processing software ImageJ[^SCH2015]:
+In our project, we will begin by documenting the 3 main linear edge detection approaches and algorithms, and their implementation in the image processing software ImageJ[^SCH2015]:
 - Convolution with edge templates (Prewit, Sobel, Kirsh)[^SOB1968]
 - Zero-crossings of Laplacian of Gaussian convolution [^MAR1980]
 - Zero-crossings of directional derivatives of smoothed images (Canny)[^CAN1986]
@@ -30,7 +30,7 @@ The derivative or the gradient of the grey level intensity can be used to detect
 
 **Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The vertical dotted lines represent the edge locations**[^BOV2009]
 
-Edge detectors based on the derivative are sensitive to noise, which lead to the development of several algorithms. Most of them use a filter to reduce noise before actually detecting edges in the image [^BOV2009].
+Edge detectors based on the derivative are sensitive to noise, which are pixels of aberrent intensity.This lead to the development of several algorithms to find the most relevant edges in an image. Most of them use a filter to reduce noise before actually detecting edges in the image [^BOV2009].
 These algorithms usually have three main steps:
 - smoothing: use of a filter to suppress the noise.
 - differentiation: amplification of the edges in the image
@@ -42,7 +42,7 @@ Errors in edge detection can either be false positives (classification of non ed
 
 The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[^SOB1968], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms out there.
 
-It is based on the 1st derivative, or gradient, of the gray level intensity function [Equation.1]. 
+It is based on the gradient of the gray level intensity function, which is a 2D measure of the 1st derivative[Equation.1]. 
 
 ![Equation.1](images/gradient.jpg)
 
@@ -157,6 +157,12 @@ Several modification where done to the model in order to improve its efficiency,
 Currently, several plugins using this method have been developed for ImageJ : the Edge Detection by Canny-Deriche filtering by Thomas Boudier,  the Edge Detector by Carmelo Pulvirenti, able to use other operators (LoG, DroG) and FeatureJ Edges by Erik Meijering. All of them require from the user a Gaussian kernel value or any other similar parameter which will be involved in the initial treatment step by the Gaussian filter, and will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. 
 *(doit encore potasser code FeatureJ pour tt comprendre ses différences avec autres puisque je trouve pas article spécifique)* *décrire les paramètres demandés et leur utilité*
 
+# Approaches for color images
+
+Unlike greyscale, images encoded in a color space are composed of three channels, which makes the computation trickier. Algorithms for color images usually only take the luminance component into account. This is a cost effective method because according to the color space either the luminance is one of the channels or it can be computed directly, for example with an RGB image. However, all edges are not necessarily best described by the luminance component, which results in a number of false negative edge pixels candidates. Another approach is to construct a cumulative edge map from each component of the image (for example after calculating the sum of the gradient magnitude of the three channels of an RGB image), but the results will be biased depending of the chosen color space. [^BOV2009]
+
+Some algorithms developed for edge detection in color images based on vector approaches are described in papers by Trahanias and Venetsanopoulos [^TRA1993] and Scharcanski and Venetsanopoulos [^SCH1997].
+
 ## Benchmarking process
 
 The performance and the efficiency of each edge detection function can be assessed through several parameters: the execution time necessary for the processing of an input image and the memory load corresponding to this opperation.
@@ -212,25 +218,23 @@ The output of this function is also binary image where the edge pixels are white
 
 **Fig.9: Result of FeatureJ Edges plugin, with smoothing scale=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
 
-*Autre plugin pour Canny ?????*
-
 ## Benchmark results
 
 The results of the benchmark for the execution time [Fig.10 and Fig.12] show that the Find Edges function is the quickest to run on this machine, with a mean of 0.88 ms, followed by Log\_Filter, FeatureJ Laplacian and FeatureJ Edges which do not have a mean execution time superior to 50 ms. However the Canny Edge Detector plugin has an average exectution time of 205.8 ms.
 
 ![Fig.10](images/bench_time.png)
 
-**Fig.10: Result of the benchmark for the execution time of ImageJ edge detection functions**
+**Fig.10: Result of the benchmark for the execution time of ImageJ edge detection functions. Canny Edge Detector adn FeatureJ Edges: Canny, FeatureJ Laplacian and Log Filter: LoG, Find Edges: Sobel**
 
 For the JVM memory load [Fig.11 and Fig.12], we can see that Find Edges uses the least memory, with a mean of 27.4 MegaBytes. Then the three functions Canny Edge Detector, FeatureJ Edges and Log\_Filter have an average of about 50 MB. And finally the most memory expensive function is FeatureJ Laplacian with a mean of 55 MB.
 
 ![Fig.11](images/bench_memory.png)
 
-**Fig.11: Result of the benchmark for the memory load of ImageJ edge detection functions**
+**Fig.11: Result of the benchmark for the memory load of ImageJ edge detection functions. Canny Edge Detector adn FeatureJ Edges: Canny, FeatureJ Laplacian and Log Filter: LoG, Find Edges: Sobel**
 
 ![Fig.12](images/bench.png)
 
-**Fig.12: Average execution time and used memory for ImageJ edge detection functions**
+**Fig.12: Average execution time and used memory for ImageJ edge detection functions. Canny Edge Detector adn FeatureJ Edges: Canny, FeatureJ Laplacian and Log Filter: LoG, Find Edges: Sobel**
 
 Given that the Canny Edge Detector plugin can also be used on RGB images, we also ran a benchmark comparing the execution time and memory load difference for this plugin on RGB and 8-bit images[Fig.15].
 
