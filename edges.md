@@ -66,7 +66,7 @@ The two resulting images are then combined to get an image representing the appr
 
 ![Fig.3](images/BikesgrayFig3.jpg)
 
-**Fig.3: (a)original image,(b) sobel Y-gradient image, (c) sobel X-gradient image, (d)absolute gradient magnitude image**
+**Fig.3: Result of Sobel filtering. a: original image, b: Sobel Y-gradient image, c: Sobel X-gradient image, d: absolute gradient magnitude image**
 
 ## Laplacian based methods:
 
@@ -165,13 +165,15 @@ Some algorithms developed for edge detection in color images based on vector app
 
 ## Benchmarking process
 
+*benchmark definition [^MCN1992] je trouve que des versions payantes de cet article / livre donc euhhh ?* 
+
 The performance and the efficiency of each edge detection function can be assessed through several parameters: the execution time necessary for the processing of an input image and the memory load corresponding to this opperation.
 
-To perform this benchmark[^MCN1992], we implemented a small JavaScript plugin : *benchmark.js*. This script measures, on one hand the time elapsed between the start and the end of a given ImageJ or plugin function, and on the other hand the memory used by ImageJ JVM at the end of this function. Java uses a garbage collector to handle memory allocation so our results have to be treated cautiously,even if we forced the garbage collector to run before the execution of the function. 
+To perform this benchmark, we implemented a small JavaScript plugin : *benchmark.js*. This script measures, on one hand the time elapsed between the start and the end of a given ImageJ or plugin function, and on the other hand the memory used by ImageJ JVM at the end of this function. Java uses a garbage collector to handle memory allocation so our results have to be treated cautiously,even if we forced the garbage collector to run before the execution of the function. The image used for this benchmark is Lena, 8-bit, 256x256 pixels. 
 
-For both measurements we ran the operation 100 times, after a front loading step consisting of running each function five times without recording the results. This was done to avoid outliers in our data, because the first executions of a function are usually slower. The image used for this benchmark is Lena, 8-bit, 256x256 pixels. 
+For both measurements we ran the operation 100 times, after a front loading step consisting of running each function five times without recording the results. This was done to avoid outliers in our data, because the first executions of a function are usually slower because of internal allocations and loading of images in RAM or cache. 
 
-The benchmark was done on Linux, with the version 1.51q of ImageJ, using Java 1.8.0\_112 (64-bits).  *Ajouter la description de la machine utilisée : ref processeur, vitesse, conso, OS, et la charge processeur*
+The benchmark was done using a computer with an Intel core I7 @4.0 Ghz, on Linux Ubuntu 16.04 64 bits with a kernel 4.10. The version of ImageJ is the 1.51q, using Java 1.8.0\_112 (64 bits). We fixed the processor fequency with acpi-cpufreq module to avoid a change of frequency during the benchmark, fixed the choice of processor with the taskset command to avoid a sharing of the processor load, and finally we fixed the ImageJ process with a high priority to avoid preemption.  
 
 
 # Results
