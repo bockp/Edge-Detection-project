@@ -38,9 +38,6 @@ These algorithms usually have three main steps:
 
 Errors in edge detection can either be false positives (classification of non edge pixels as edge pixels) or false negatives (classification of edge pixels as non-edge pixels). There is also a conflict between the correct detection of edges and the precise localization of their position. 
 
-## Prewitt
-
-
 ## Sobel 
 
 The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[^SOB1968], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms out there.
@@ -70,6 +67,15 @@ The two resulting images are then combined to get an image representing the appr
 ![Fig.3](images/BikesgrayFig3.jpg)
 
 **Fig.3: Result of Sobel filtering. a: original image, b: Sobel Y-gradient image, c: Sobel X-gradient image, d: absolute gradient magnitude image**
+
+
+## Prewitt
+ 
+The Prewitt operator, developed by Judith M. S. Prewitt[^PRE1970], is also based on the gradient of the gray level intensity function[Equation.1].
+
+*reading a few papers to complete the description. probably needs image of kernels and explanation of main difference with sobel (doesn't have a smoothing step)*
+*actually, it might be best to reverse the position of the Prewitt and Sobel operators as the Prewitt one is a simpler version of the Sobel one really. first mentioned publication about it seems to be 1970 versus 1968 for sobel, so not sure which came first X/*
+
 
 ## Laplacian based methods:
 
@@ -123,7 +129,7 @@ The Canny approach uses a mathematical representation, through a convolution, in
 
 **Fig.4: Grey-level signal after the cross section of a target picture [^CAN1986]**
 
-The answer signal will be subdivided into two compounds : a noise function and an edge function. So the edge is detected by the convolution of the signal with a specific filter which had to maximize the result to a mathematical equation which is the representation of three parameters of optimization. Unlike the other methods, the aim of this approach is to be able to combine the detection of the edge, its closer localization on the image, and to not duplicate the edges founded (this last point is also called the unambiguity of the signal).
+The answer signal will be subdivided into two compounds : a noise function and an edge function. So the edge is detected by the convolution of the signal with a specific filter which had to maximize the result to a mathematical equation which is the representation of three parameters of optimization. Unlike the other methods, the aim of this approach is to be able to combine the detection of the edge, its closer localizatPrewitt JM. Object enhancement and extraction. Picture processing and Psychopictorics. 1970 Jan 1;10(1):15-9.ion on the image, and to not duplicate the edges founded (this last point is also called the unambiguity of the signal).
 *(pas encore sure de ma transition avec la phrase suivante).* 
 Three mathematical parameters will be thus defined and taken into account to assess the edge function : the signal-to-noise ratio (SNR), the localization and several constraints. The two first ones will be defined as parameters of equal importance which have to be maximized in parallel, and the third as a constraint. The function has to maximize the following equation [Equation.7]
 
@@ -301,6 +307,8 @@ We can't dismiss the Canny EDge Detector implementation entirely, though, as it 
 *parler des nouvelles optimisations pour les images couleur*
 
 # References
+
+[^PRE1970]: Prewitt JM. Object enhancement and extraction. Picture processing and Psychopictorics. 1970 Jan 1;10(1):15-9.
 
 [^ABD2015]: Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
 
