@@ -2,6 +2,8 @@
 * Add Prewitt and Kirsch algorithm
 * Finish explanations of Canny algorithm
 * Put some images of plugins results with various parameters to show their influence 
+* Find info on the complexities of the algorithms if possible
+* Look into "Canny edge detector" code to find out why it is slow on greyscale images but not lower on RGB images
 * Conclusion
 
 # Tiny Image in Javascript (TIJ) project
