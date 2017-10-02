@@ -166,7 +166,7 @@ Several modification where done to the model in order to improve its efficiency,
 Currently, several plugins using this method have been developed for ImageJ : the Edge Detection by Canny-Deriche filtering by Thomas Boudier,  the Edge Detector by Carmelo Pulvirenti, able to use other operators (LoG, DroG) and FeatureJ Edges by Erik Meijering. All of them require from the user a Gaussian kernel value or any other similar parameter which will be involved in the initial treatment step by the Gaussian filter, and will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. 
 *(doit encore potasser code FeatureJ pour tt comprendre ses différences avec autres puisque je trouve pas article spécifique)* *décrire les paramètres demandés et leur utilité*
 
-# Approaches for color images
+## Approaches for color images
 
 Unlike greyscale, images encoded in a color space are composed of three channels, which makes the computation trickier. Algorithms for color images usually only take the luminance component into account. This is a cost effective method because according to the color space either the luminance is one of the channels or it can be computed directly, for example with an RGB image. However, all edges are not necessarily best described by the luminance component, which results in a number of false negative edge pixels candidates. Another approach is to construct a cumulative edge map from each component of the image (for example after calculating the sum of the gradient magnitude of the three channels of an RGB image), but the results will be biased depending of the chosen color space. [^BOV2009]
 
@@ -189,7 +189,7 @@ The benchmark was done using a computer with an Intel core I7 @4.0 Ghz, on Linux
 
 The results obtained with each edge detection function were obtained with the same image : Lena 256x256 pixels. All plugins except Canny Edge Detector can only be used on greyscale images, so we chose to use the 8-bit version of this image. 
 
-## Find Edges function (Sobel algorithm)
+## Implementations of Sobel algorithm
 
 The output of ImageJ Find Edges function is an 8-bit image in wich the contours are in white [Fig.5].
 
@@ -197,101 +197,110 @@ The output of ImageJ Find Edges function is an 8-bit image in wich the contours 
 
 **Fig.5: Result of Find Edges function. 1:Input image, 2:Output image**
 
-## Log\_Filter plugin (LoG algorithm)
+## Implementations of Laplacian of Gaussian algorithm
 
-With this function, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values -1, 0 or 1, the zero-crossings overlaid to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.6]. All the contour lines have a single-pixel width, and due to the DoG filtering they are not closed.
+The FeatureJ Laplacian only provides the display of the output of the LoG and the zero-crossing detector [Fig.6]. The contours are also of single-pixel width and in absence of a thresholding all contours are closed lines.
 
-![Fig.6](images/Log_Filter.jpg)
+![Fig.6](images/Laplace.jpg)
 
-**Fig.6: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1:Input image, 2:LoG output, 3:Absolute value of filtering, 4:Results representing values -1,0 or 1, 5:Zero-crossings overlaid to input image, 6:Zero-crossings **
+**Fig.6: Result of FeatureJ Laplacian plugin, with smoothing scale=3 1:Input image, 2:LoG output, 3:Zero-crossings **
 
-## FeatureJ Laplacian plugin (LoG algorithm)
+Choosing a higher standard deviation for the gaussian filtering reduces the number of false positives but also reduces the precision for true positive edges [Fig.7].
+ 
+![Fig.7](images/Laplace_sigma.jpg)
 
-This function only provides the display of the output of the LoG and the zero-crossing detector [Fig.7]. The contours are also of single-pixel width and in absence of a thresholding all contours are closed lines.
+**Fig.7: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=1, 3:smoothing scale=3, 4:smoothing scale=5 **
 
-![Fig.7](images/Laplace.jpg)
+With the Log\_Filtering plugin, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values -1, 0 or 1, the zero-crossings overlaid to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.8]. All the contour lines have a single-pixel width, and due to the DoG filtering the final output is the edges of the contour zones detected by the LoG.
 
-**Fig.7: Result of FeatureJ Laplacian plugin, with smoothing scale=3 1:Input image, 2:LoG output, 3:Zero-crossings **
+![Fig.8](images/Log_Filter.jpg)
 
-## Canny Edge Detector plugin (Canny algorithm)
+**Fig.8: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1:Input image, 2:LoG output, 3:Absolute value of filtering, 4:Results representing values -1,0 or 1, 5:Zero-crossings overlaid to input image, 6:Zero-crossings **
 
-The output of this function is a binary image where the edge pixels are white [Fig.8].
+While the result is different from the one given by FeatureJ, we can see that the influence of the standard deviation is similar : a higher value for the smoothing step leads to imprecise contours and the loss of the objects’ shapes [Fig.9] . Here the thresholding step prevents us from seeing the impact of the noise removal on the number of false positive edge pixels.
 
-![Fig.8](images/Canny.jpg)
+![Fig.9](images/Log_FilterSigma.jpg)
 
-**Fig.8: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
+**Fig.9: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=3, 3:smoothing scale=5, 4:smoothing scale=9 **
 
-## FeatureJ plugin (Canny algorithm)
+## Implementation of Canny algorithm
 
-The output of this function is also binary image where the edge pixels are white [Fig.9].
+The outputs of Canny Edge Detector and featureJ edges are a binary image where the edge pixels are white [Fig.10].Comparing the outputs of the two Canny implementations when using the same parameters we found that the results are similar.
 
-![Fig.9](images/Edges.jpg)
+![Fig.10](images/Canny2.jpg)
 
-**Fig.9: Result of FeatureJ Edges plugin, with smoothing scale=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output image **
+**Fig.10: Result of Canny algorithm plugins, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output of Canny Edge Detector, 3:Output of FeatureJ Edges **
+
+Knowing this, we decided to test the influence of each parameter only for the Canny Edge Detector plugin, assuming that the results given by FeatureJ Edge would be the same. A variation of the standard deviation of the Gaussian function  [Fig.11] has an influence of the number of pixels classified as edges by the function : with a standard deviation of 1.0 the contours of the eyes, nose, mouth and feathers are well defined, but some contours are created which have no physical sense like the line below the right eye. Raising this value to 2.0 and then 3.0 makes weaker edges disappear from the results, until only the outlines remain.
+
+![Fig.11](images/CannySigma.jpg)
+
+**Fig.11: Result of Canny Edge Detector plugin, with various gaussian kernel radius, low threshold=2.5, high threshold=7.5. 1:input image, 2:radius=1.0, 3:radius=2.0, 4:radius=3.0**
+
+We then changed the value of either the low or the high threshold values [Fig.12]. A reduction of the low threshold does not seem to have an impact on the result, but an augmentation of the high threshold reduces the number of edges detected and creates gaps in continuous edges.
+
+![Fig.12](images/CannyThr.jpg) 
+
+**Fig.12: Result of Canny Edge Detector plugin, with gaussian kernel radius=2.0 and various low and high thresholds. 1:input image, 2:low threshold=2.5 and high threshold=7.5, 3:low threshold=0.1 and high threshold=7.5, 4:low threshold=2.5 and high threshold=10**
 
 ## Benchmark results
 
-The results of the benchmark for the execution time [Fig.10 and Fig.12] show that the Find Edges function is the quickest to run on this machine, with a mean of 0.88 ms, followed by Log\_Filter, FeatureJ Laplacian and FeatureJ Edges which do not have a mean execution time superior to 50 ms. However the Canny Edge Detector plugin has an average exectution time of 205.8 ms.
+The results of the benchmark for the execution time [Fig.13 and Fig.15] show that the Find Edges function is the quickest to run on this machine, with a mean of 0.88 ms, followed by Log\_Filter, FeatureJ Laplacian and FeatureJ Edges which do not have a mean execution time superior to 50 ms. However the Canny Edge Detector plugin has an average exectution time of 205.8 ms.
 
-![Fig.10](images/bench_time.png)
+![Fig.13](images/bench_time.png)
 
-**Fig.10: Result of the benchmark for the execution time of ImageJ edge detection functions. Canny Edge Detector adn FeatureJ Edges: Canny, FeatureJ Laplacian and Log Filter: LoG, Find Edges: Sobel**
+**Fig.13: Result of the benchmark for the execution time of ImageJ edge detection functions. Canny Edge Detector adn FeatureJ Edges: Canny, FeatureJ Laplacian and Log Filter: LoG, Find Edges: Sobel**
 
-For the JVM memory load [Fig.11 and Fig.12], we can see that Find Edges uses the least memory, with a mean of 27.4 MegaBytes. Then the three functions Canny Edge Detector, FeatureJ Edges and Log\_Filter have an average of about 50 MB. And finally the most memory expensive function is FeatureJ Laplacian with a mean of 55 MB.
+For the JVM memory load [Fig.14 and Fig.15], we can see that Find Edges uses the least memory, with a mean of 27.4 MegaBytes. Then the three functions Canny Edge Detector, FeatureJ Edges and Log\_Filter have an average of about 50 MB. And finally the most memory expensive function is FeatureJ Laplacian with a mean of 55 MB.
 
-![Fig.11](images/bench_memory.png)
+![Fig.14](images/bench_memory.png)
 
-**Fig.11: Result of the benchmark for the memory load of ImageJ edge detection functions. Canny Edge Detector adn FeatureJ Edges: Canny, FeatureJ Laplacian and Log Filter: LoG, Find Edges: Sobel**
+**Fig.14: Result of the benchmark for the memory load of ImageJ edge detection functions. Canny Edge Detector adn FeatureJ Edges: Canny, FeatureJ Laplacian and Log Filter: LoG, Find Edges: Sobel**
 
-![Fig.12](images/bench.png)
+![Fig.15](images/bench.png)
 
-**Fig.12: Average execution time and used memory for ImageJ edge detection functions. Canny Edge Detector adn FeatureJ Edges: Canny, FeatureJ Laplacian and Log Filter: LoG, Find Edges: Sobel**
+**Fig.15: Average execution time and used memory for ImageJ edge detection functions. Canny Edge Detector adn FeatureJ Edges: Canny, FeatureJ Laplacian and Log Filter: LoG, Find Edges: Sobel**
 
-Given that the Canny Edge Detector plugin can also be used on RGB images, we also ran a benchmark comparing the execution time and memory load difference for this plugin on RGB and 8-bit images[Fig.15].
+Given that the Canny Edge Detector plugin can also be used on RGB images, we also ran a benchmark comparing the execution time and memory load difference for this plugin on RGB and 8-bit images[Fig.16].
 
-![Fig.13](images/CannyRGBPlot.jpeg)
+![Fig.16](images/CannyRGBPlot.jpeg)
 
-**Fig.13: Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
+**Fig.16: Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
+
 # Discussion
 
 ## Qualitative Comparison
 
-As can be seen in the above examples [Fig.5-9], the quality of the resulting edge detection depends a lot on which algorithm is used, and with what parameters. The outputs of all functions show us that the strong contours, corresponding to the hat,the face and the hair are well identified, while the contours of the details, like the hat's feathers are not detected.
+As can be seen in the above examples [Fig.5-12], the quality of the resulting edge detection depends a lot on which algorithm is used, and with what parameters. The outputs of all functions show us that the strong contours, corresponding to the hat,the face and the hair are well identified, while the contours of the details, like the hat's feathers are not detected.
  
 For the Sobel algorithm, the edges are outlined correctly, though it also outlines noise (shadows, changes in color) as edges.
  
 The Laplacian based algorithms, on the other hand, give an output with a lower amount of misidentified noise if configured properly, although they do not identify all of the edges.
-As can be seen in the difference of output between the Log\_filter plugin [Fig.6 Image 5-6], which detects most edges without noise in the result, but misses out on edges which were blurred in the original image and the FeatureJ implementation [Fig.7 Image 3], that creates an output image that identifies edges everywhere in the image, leading to an output image that is hard to compare with the original image.
-This error on the part of the FeatureJ implementation is most likely due the absence of thresholding, leading to the identification of very small variations in pixel values as indicative of an edge, whereas they are probably due to noise. Indeed, choosing a higher standard deviation for the gaussian filtering reduces the number of false positives but also reduces the precision for true positive edges [Fig.14].
- 
-![Fig.14](images/Laplace_sigma.jpg)
-
-**Fig.14: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=1, 3:smoothing scale=3, 4:smoothing scale=5 **
+As can be seen in the difference of output between the Log\_filter plugin [Fig.8 Image 5-6], which detects most edges without noise in the result, but misses out on edges which were blurred in the original image and the FeatureJ implementation [Fig.6 Image 3], that creates an output image that identifies edges everywhere in the image, leading to an output image that is hard to compare with the original image.
+This error on the part of the FeatureJ implementation is most likely due the absence of thresholding, leading to the identification of very small variations in pixel values as indicative of an edge, whereas they are probably due to noise. 
  
 We must note that comparing these two results is difficult because the parameters provided to the user for the computation are not the same, except for the gaussian standard deviation. The results optimization is also different : while the FeatureJ plugin stops at the detection of the zero-crossings, the Log\_Filter uses an additional DoG filtering as a threshold on the LoG output.
  
-The two Canny implementations [Fig.8-9] give a better result than both the Sobel implementation, because they are less sensible to noise, and the LoG implementation, because they detect the real edges more accurately.
+The two Canny implementations [Fig.10] give a better result than both the Sobel implementation, because they are less sensible to noise, and the LoG implementation, because they detect the real edges more accurately.
 They are not perfect, and miss edges where the pixel values do not vary sharply on each side, and create edges in the presence of differences due to lighting.
 All in all, the 2 Canny implementations give nearly identical results, though the FeatureJ implementation detects more continuous edges than the Canny Edge Detector.
-Canny edge detector is the only plugin working on RGB images, and gives an output similar to the one obtained with the 8-bit image [Fig.15].
+Canny edge detector is the only plugin working on RGB images, and gives an output similar to the one obtained with the 8-bit image [Fig.17].
 
-![Fig.15](images/CannyRGB.jpg)
+![Fig.17](images/CannyRGB.jpg)
 
-**Fig.15: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image **
+**Fig.17: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image **
 
 ## Performance Comparison
 
-As can be seen in our benchmark results[Fig.10-12], the Sobel algorithm is the fastest Edge Detection implementation in ImageJ, followed by the Laplacian implementations and then the FeatureJ Edge implementation of the Canny algorithm.
+As can be seen in our benchmark results[Fig.13-15], the Sobel algorithm is the fastest Edge Detection implementation in ImageJ, followed by the Laplacian implementations and then the FeatureJ Edge implementation of the Canny algorithm.
 The Canny Edge Detector implementation is up to 3 times slower than it's FeatureJ implementation, making it the slowest of all the functions.
 
 As far as memory load goes, most of the algorithms use an average of around 50 MB, with the FeatureJ Laplacian being slightly more voracious (55MB), and the Find Edges (Sobel) algorithm using only 27MB of memory on average.
 Sobel being the simplest algorithm, we expected it would also be the least memory intensive, since it only uses first derivatives to determine edges, while the other alogrithms go as far as second derivatives.
  
- *hard to compare the two laplacians outputs because different optimizations and initial parameters, same parameters for the two canny, also for the two canny FeatureJ version is faster*
- 
 The two Laplacian implementations are difficult to compare, as they do not offer the same customizable parameteres, which might skew the results. The Canny algorithms, though, do offer the same customizable parameters, and can therefore be compared without the danger that a changed parameter is the cause of the differences observed, instead of the implementation itself. 
 
-As far as the enormous difference in speed between the Canny Edge Detector plugin and the FeatureJ Edge implementation goes, if we compare the speed and memory load of running the Canny Edge Detector on an RGB image versus on an 8-bit version of that same image, we see no real difference in speed or memory load[Fig.13].
+As far as the enormous difference in speed between the Canny Edge Detector plugin and the FeatureJ Edge implementation goes, if we compare the speed and memory load of running the Canny Edge Detector on an RGB image versus on an 8-bit version of that same image, we see no real difference in speed or memory load[Fig.16].
 
 An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. However, according to our results[Fig.13], this is not the case for either parameters.
 This could mean that the Canny Edge Detector algorithm uses the same process for the 8-bit images that it uses on the more complex RGB images, which would explain why even on the relatively simple 8-bit format it takes sucha  long time.
