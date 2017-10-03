@@ -136,7 +136,7 @@ In the original work by Canny in 1986 the author define the signal [Fig.1] as a 
 
 After several demonstrations, Canny originally defined the Gaussian operator as the most efficient to maximize this equation [Equation.8], and it has the advantage to be easier to implement for a two dimensional model. 
 
-![Equation.8](images/Gaussian_2.png)
+![Equation.8](images/Gaussian_2.PNG)
 
 **Equation.8: Gaussian filter [^CAN1986]**
 
