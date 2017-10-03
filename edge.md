@@ -76,7 +76,7 @@ The Prewitt operator, developed by Judith M. S. Prewitt[^PRE1970], is also based
 *reading a few papers to complete the description. probably needs image of kernels and explanation of main difference with sobel (doesn't have a smoothing step)*
 *actually, it might be best to reverse the position of the Prewitt and Sobel operators as the Prewitt one is a simpler version of the Sobel one really. first mentioned publication about it seems to be 1970 versus 1968 for sobel, so not sure which came first X/*
 
-
+![Fig.4](images/prewitt.jpg)
 ## Laplacian based methods:
 
 The Laplacian is a 2D isotropic measure of the 2nd spatial derivative [Equation.3]. It is used to detect regions of rapid intensity change in an image :
