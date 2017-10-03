@@ -147,8 +147,7 @@ Several modification where done to the model in order to improve its efficiency,
 
 **Equation.9: Gaussian filter and its first derivate [^DER1987]**
 
-Currently, several plugins using this method have been developed for ImageJ : the Edge Detection by Canny-Deriche filtering by Thomas Boudier,  the Edge Detector by Carmelo Pulvirenti, able to use other operators (LoG, DroG) and FeatureJ Edges by Erik Meijering. All of them require from the user a Gaussian kernel value or any other similar parameter which will be involved in the initial treatment step by the Gaussian filter, and will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. 
-*décrire les paramètres demandés et leur utilité*
+Currently, several plugins using this method have been developed for ImageJ : the Edge Detection by Canny-Deriche filtering by Thomas Boudier,  the Edge Detector by Carmelo Pulvirenti, able to use other operators (LoG, DroG) and FeatureJ Edges by Erik Meijering. All of them require from the user a Gaussian kernel value or any other similar parameter which will be involved in the initial treatment step by the Gaussian filter, and will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. As we haven't managed to make the Carmelo Pulvirenti plugin work, it was not used in this analysis. Also, the latest review on its plugin was in July 2007, whereas it was in April 2015 for the Thomas Boudier plugin and December 2015 for the Erik Meijering plugin according to the github of the plugin. 
 
 ## Approaches for color images
 
