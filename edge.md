@@ -132,7 +132,7 @@ In the original work by Canny in 1986 the author define the signal [Fig.1] as th
 
 ![Equation.7](images/Canny_optimisation.PNG)
 
-**Equation.7: Equation used to define the best function to find edges from a grey-level signal [^CAN1986]**
+**Equation.7: Equation used to define the best function to find edges from a grey-level signal, with f as the function which is used to define edges, and Pi the constrains i modulated by its associated factor µiEquation used to define the best function to find edges from a grey-level signal, with f as the function which is used to define edges, and Pi the constrains i modulated by its associated factor µi [^CAN1986]**
 
 After several demonstrations, Canny originally defined the Gaussian operator as the most efficient to maximize this equation [Equation.8], and it has the advantage to be easier to implement for a two dimensional model. 
 
