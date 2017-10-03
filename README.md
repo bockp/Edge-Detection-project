@@ -2,7 +2,6 @@
 * Add Prewitt and Kirsch algorithm
 * Finish explanations of Canny algorithm
 * Find info on the complexities of the algorithms if possible
-* Look into "Canny edge detector" code to find out why it is slow on greyscale images but not slower on RGB images (I'm on it - Cecilia)
 * Conclusion
 * PROOFREAD 'TILL WE DIE
 
