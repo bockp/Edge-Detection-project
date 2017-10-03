@@ -280,24 +280,18 @@ As can be seen in our benchmark results[Fig.13-15], the Sobel algorithm is the f
 The Canny Edge Detector implementation is up to 3 times slower than it's FeatureJ implementation, making it the slowest of all the functions.
 
 As far as memory load goes, most of the algorithms use an average of around 50 MB, with the FeatureJ Laplacian being slightly more voracious (55MB), and the Find Edges (Sobel) algorithm using only 27MB of memory on average.
-Sobel being the simplest algorithm, we expected it would also be the least memory intensive, since it only uses first derivatives to determine edges, while the other alogrithms go as far as second derivatives.
- 
+Sobel being the simplest algorithm, we expected it would also be the least memory intensive, since it only uses first derivatives to determine edges, while the other alogrithms have to compute second derivatives. 
+
 The two Laplacian implementations are difficult to compare, as they do not offer the same customizable parameteres, which might skew the results. The Canny algorithms, though, do offer the same customizable parameters, and can therefore be compared without the danger that a changed parameter is the cause of the differences observed, instead of the implementation itself. 
 
-As far as the enormous difference in speed between the Canny Edge Detector plugin and the FeatureJ Edge implementation goes, if we compare the speed and memory load of running the Canny Edge Detector on an RGB image versus on an 8-bit version of that same image, we see no real difference in speed or memory load[Fig.16].
-
-An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. However, according to our results[Fig.13], this is not the case for either parameters.
-This could mean that the Canny Edge Detector algorithm uses the same process for the 8-bit images that it uses on the more complex RGB images, which would explain why even on the relatively simple 8-bit format it takes sucha  long time.
-
-*WHY is Canny Edge Detector so slowwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww ???????????? --> aller voir dans l'implémentation*
+The enormous difference in speed between the Canny Edge Detector and the FeatureJ Edges plugin can only be explained by the choices made by their developpers during the implementation for ImageJ, as well as the optimizations they added to the original algorithm. Canny Edge Detector is slower than the other plugin but it is also the only one able to process RGB images. Moreover,if we compare the speed and memory load of running the Canny Edge Detector on an RGB image versus on an 8-bit version of that same image, we see no real difference in speed or memory load[Fig.16]. An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. This can be explained by the fact that one of the first steps of this function is a conversion of the image to an 8-bit format, meaning that all the folowing steps are the same for all types of images.
 
 
 # Conclusion
 
-Of all the functions in ImageJ, the fastest and least memory intensive is the Sobel Find Edges implementation, though the function giving the best results (least amount of false positives and false negatives) is the FeatureJ implementation of the Canny Edge Detection algorithm.
-We can't dismiss the Canny EDge Detector implementation entirely, though, as it is the only one studied capable of processing RGB images.
+*algorithmes developpés il y a 20-30 ans toujours utilisés aujourd'hui, amélioration des techniques de detection de contours au cours du temps (plus de sensibilité et spécificité). Nouveaux algos / nouvelles optimisations développées de nos jours*
 
-*parler des nouvelles optimisations pour les images couleur*
+Of all the functions in ImageJ, the fastest and least memory intensive is the Sobel implementation Find Edges, though the function giving the best results (least amount of false positives and false negatives) is the FeatureJ implementation of the Canny Edge Detection algorithm. We can't dismiss the Canny Edge Detector implementation entirely, though, as it is the only one studied capable of processing RGB images. The study of these five examples of edge detection functions showed that there is not a unique ideal choice of algorithm for edge detection. This choice have to take into account the time and memory limitations of an user, as well as the type of images they are working with. 
 
 # References
 
