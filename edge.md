@@ -52,7 +52,7 @@ After finding all the local extrema of the gradient magnitude, a thresholding is
 
 ![Equation.2](images/gradient_thr.jpg)
 
-**Equation.2: Thresholding of the gradient magnitude, where T is the threshold[^BOV2009] **
+**Equation.2: Thresholding of the gradient magnitude, where T is the threshold[^BOV2009]**
 
 Finally, to obtain edges as zero-width segments, a thinning step is required : if the gradient magnitude is not a local maximum along the gradient direction, the point is suppressed from the edge candidates.
 
