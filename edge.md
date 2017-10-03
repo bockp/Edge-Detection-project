@@ -30,7 +30,7 @@ The derivative or the gradient of the grey level intensity can be used to detect
 
 **Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The vertical dotted lines represent the edge locations**[^BOV2009]
 
-Edge detectors based on the derivative are sensitive to noise, which are pixels of aberrent intensity.This lead to the development of several algorithms to find the most relevant edges in an image. Most of them use a filter to reduce noise before actually detecting edges in the image [^BOV2009].
+Edge detectors based on the derivative are sensitive to noise, which are pixels of aberrent intensity. This lead to the development of several algorithms to find the most relevant edges in an image. Most of them use a filter to reduce noise before actually detecting edges in the image [^BOV2009].
 These algorithms usually have three main steps:
 - smoothing: use of a filter to suppress the noise.
 - differentiation: amplification of the edges in the image
