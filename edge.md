@@ -28,7 +28,7 @@ The derivative or the gradient of the grey level intensity can be used to detect
 
 ![Fig.1](images/derivatives.png)
 
-**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The vertical dotted lines represent the edge locations**[^BOV2009]
+**Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The vertical dotted lines represent the edge locations[^BOV2009]**
 
 Edge detectors based on the derivative are sensitive to noise, which are pixels of aberrent intensity. This lead to the development of several algorithms to find the most relevant edges in an image. Most of them use a filter to reduce noise before actually detecting edges in the image [^BOV2009].
 These algorithms usually have three main steps:
@@ -123,7 +123,7 @@ The second one is the LoG\_Filter plugin, by Lokesh Taxali and Jesse Jin. This p
 
 ## Canny
 
-The Canny operator is often use and known as less sensitive to noise, than Sobel's and Laplace's [^ZHA2012] [^ABD2015], despite its important time consumption calculation [^CHAA2014] and its sensibility to textured regions on image which lead to define false edges and discontinuous edges [^CAN1986]. 
+The Canny operator is often use and known as less sensitive to noise, than Sobel's and Laplace's [^ZHA2012], [^ABD2015], despite its important time consumption calculation [^CHAA2014] and its sensibility to textured regions on image which lead to define false edges and discontinuous edges [^CAN1986]. 
 
 The implementation of the Canny model is relatively simple. First a Gaussian filter is applied to the image, then the gradient magnitude of the signal has to be defined. For this stem, the aim is to discriminate edges defined by local maxima by  comparing its value to its two closer neighbor. This firsts steps lead to a first edge map. A thresholding is then done on the map by defined a low and high threshold value which will define major and minor pixels used for a thresholding final step hysteresis, all the edge containing value above the higher threshold, will be kept on the map, but the pixels of this edge which are under the lower value will be removed. This last point can lead to disrupted edges [^CAN1986], [^DER1987], [^DIN2001], [^BOV2009], [^ABD2015].
 
