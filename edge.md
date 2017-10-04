@@ -6,7 +6,7 @@
 
 # Introduction
 
-Image processing is one of the most important fields in the domain of computer vision [^BOV2009]. Indeed, nearly every branch of science has a subdiscipline dedicated to retrieving information from the world, almost always through the use of recording devices storing that information in the form of discrete images or videos. For a computer to make sense of these images, it needs to be able to interprete them, understand them.
+Image processing is one of the most important fields in the domain of computer vision [^BOV2009]. Most scientific domais use information extracted from images in one way or another. For a computer to make sense of these images, and be able to extract meaningful data from them, it needs to be able to interprete and understand them.
 That is where Image Processing comes in, allowing a computer to process an image and detect its major features, and to perform higher-level vision tasks like face recognition.
 In our project, we will examine one specific field of image processing, called edge detection.
 
@@ -38,7 +38,7 @@ These algorithms usually have three main steps:
 
 Errors in edge detection can either be false positives (classification of non edge pixels as edge pixels) or false negatives (classification of edge pixels as non-edge pixels). There is also a conflict between the correct detection of edges and the precise localization of their position. 
 
-## Robert's Cross
+## Robert's Cross Operator
 
 The Robert's Cross Operator, first described in 1975 by Davis L.S.[^DAV1975], performs a simple, efficient, computationally cheap 2D spatial gradient measurement on an image, which is based on the 2D measure of the 1st derivative[Equation.1]
 
@@ -53,7 +53,7 @@ The operator consists of a pair of 2X2 convolution kernels[Fig.2], designed to r
 
 **Fig.2: Robert's Cross operator's horizontal and vertical convolution masks[^MAI2009]**
 
-## Sobel 
+## Sobel Operator
 
 The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[^SOB1968], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms, it is based on the Robert's Cross operator.
 
@@ -81,7 +81,7 @@ The two resulting images are then combined to get an image representing the appr
 **Fig.3: Result of Sobel filtering. a: original image, b: Sobel Y-gradient image, c: Sobel X-gradient image, d: absolute gradient magnitude image**
 
 
-## Prewitt
+## Prewitt Operator
  
 The Prewitt operator, developed by Judith M. S. Prewitt[^PRE1970], is also based on the gradient of the gray level intensity function[Equation.1], and functions in  a similar way to the Sobel algorithm, though using different convolution masks[Fig.4]
 
@@ -89,6 +89,16 @@ The Prewitt operator, developed by Judith M. S. Prewitt[^PRE1970], is also based
 
 **Fig.4 Prewitt operator's horizontal and vertical convolution masks[^MAI2009]** 
 
+## Kirsch Operator
+
+The Kirsch operator, named after the computer scientist Russell A. Kirsch[^KIR1971], uses the same gray level gradient based approach as the Sobel, Prezitt and Robert's Cross operators, but with a more complex kernel convolution.
+
+The Kirsch Operator possesses a single convolution kernel, but the kernel in question is applied on every part of the image in 8 different configurations (created by turning the default kernel by 45° segments[Fig.5]), and the edge magnitude is calculated as being the maximum magnitude found across the 8 different configurations, while the edge direction is determined by the kernel configuration possessing that maximum gradient value.
+
+
+![Fig.5](images/kirsch.png)
+
+**Fig.5 Kirsch kernel, in the original configuration (left) and configuration 7 (6 45° rotations to the right performed on the original configuration)[^]** 
 
 ## Laplacian based methods:
 
@@ -309,6 +319,8 @@ Of all the functions in ImageJ, the fastest and least memory intensive is the So
 # References
 
 [^DAV1975]: Davis LS. A survey of edge detection techniques. Computer graphics and image processing. 1975 Sep 1;4(3):248-70.
+
+[^KIR1971]: Kirsch RA. Computer determination of the constituent structure of biological images. Computers and biomedical research. 1971 Jun 1;4(3):315-28.
 
 [^PRE1970]: Prewitt JM. Object enhancement and extraction. Picture processing and Psychopictorics. 1970 Jan 1;10(1):15-9.
 
