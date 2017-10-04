@@ -53,8 +53,6 @@ The operator consists of a pair of 2X2 convolution kernels[Fig.2], designed to r
 
 **Fig.2: Robert's Cross operator's horizontal and vertical convolution masks[^MAI2009]**
 
-**
-
 ## Sobel 
 
 The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[^SOB1968], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms, it is based on the Robert's Cross operator.
@@ -88,6 +86,7 @@ The two resulting images are then combined to get an image representing the appr
 The Prewitt operator, developed by Judith M. S. Prewitt[^PRE1970], is also based on the gradient of the gray level intensity function[Equation.1], and functions in  a similar way to the Sobel algorithm, though using different convolution masks[Fig.4]
 
 ![Fig.4](images/prewitt.jpg)
+
 **Fig.4 Prewitt operator's horizontal and vertical convolution masks[^MAI2009]** 
 
 
