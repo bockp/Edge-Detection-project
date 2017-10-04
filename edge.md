@@ -207,19 +207,19 @@ Choosing a higher standard deviation for the gaussian filtering reduces the numb
  
 ![Fig.7](images/Laplace_sigma.jpg)
 
-**Fig.7: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=1, 3:smoothing scale=3, 4:smoothing scale=5 **
+**Fig.7: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=1, 3:smoothing scale=3, 4:smoothing scale=5**
 
 With the Log\_Filtering plugin, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values -1, 0 or 1, the zero-crossings overlaid to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.8]. All the contour lines have a single-pixel width, and due to the DoG filtering the final output is the edges of the contour zones detected by the LoG.
 
 ![Fig.8](images/Log_Filter.jpg)
 
-**Fig.8: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1:Input image, 2:LoG output, 3:Absolute value of filtering, 4:Results representing values -1,0 or 1, 5:Zero-crossings overlaid to input image, 6:Zero-crossings **
+**Fig.8: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1:Input image, 2:LoG output, 3:Absolute value of filtering, 4:Results representing values -1,0 or 1, 5:Zero-crossings overlaid to input image, 6:Zero-crossings**
 
 While the result is different from the one given by FeatureJ, we can see that the influence of the standard deviation is similar : a higher value for the smoothing step leads to imprecise contours and the loss of the objects’ shapes [Fig.9] . Here the thresholding step prevents us from seeing the impact of the noise removal on the number of false positive edge pixels.
 
 ![Fig.9](images/Log_FilterSigma.jpg)
 
-**Fig.9: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=3, 3:smoothing scale=5, 4:smoothing scale=9 **
+**Fig.9: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1:Input image, 2:smoothing scale=3, 3:smoothing scale=5, 4:smoothing scale=9**
 
 ## Implementation of Canny algorithm
 
@@ -227,7 +227,7 @@ The outputs of Canny Edge Detector and featureJ edges are a binary image where t
 
 ![Fig.10](images/Canny2.jpg)
 
-**Fig.10: Result of Canny algorithm plugins, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output of Canny Edge Detector, 3:Output of FeatureJ Edges **
+**Fig.10: Result of Canny algorithm plugins, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:Input image, 2:Output of Canny Edge Detector, 3:Output of FeatureJ Edges**
 
 Knowing this, we decided to test the influence of each parameter only for the Canny Edge Detector plugin, assuming that the results given by FeatureJ Edge would be the same. A variation of the standard deviation of the Gaussian function  [Fig.11] has an influence of the number of pixels classified as edges by the function : with a standard deviation of 1.0 the contours of the eyes, nose, mouth and feathers are well defined, but some contours are created which have no physical sense like the line below the right eye. Raising this value to 2.0 and then 3.0 makes weaker edges disappear from the results, until only the outlines remain.
 
@@ -286,7 +286,7 @@ Canny edge detector is the only plugin working on RGB images, and gives an outpu
 
 ![Fig.17](images/CannyRGB.jpg)
 
-**Fig.17: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image **
+**Fig.17: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image**
 
 ## Performance Comparison
 
