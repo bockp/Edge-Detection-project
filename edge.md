@@ -14,7 +14,7 @@ The physical notion of edge comes from the shape of three dimensional objects or
 Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. 
 
 In our project, we will begin by documenting the 3 main linear edge detection approaches and algorithms, and their implementation in the image processing software ImageJ[^SCH2015]:
-- Convolution with edge templates (Prewit, Sobel, Kirsh)[^SOB1968]
+- Convolution with edge templates (Prewit, Sobel, Kirsh)[^PRE1970],[^SOB1968]
 - Zero-crossings of Laplacian of Gaussian convolution [^MAR1980]
 - Zero-crossings of directional derivatives of smoothed images (Canny)[^CAN1986]
 
@@ -60,7 +60,7 @@ In practice, this algorithm works by using two masks, one horizontal and one ver
 
 ![Fig.2](images/filters.png)
 
-**Fig.2: Sobel horizontal and vertical masks**
+**Fig.2: Sobel horizontal and vertical masks[^VIN2009]**
 
 The two resulting images are then combined to get an image representing the approximate  absolute  gradient  magnitude of the original image [Fig.3].
 
