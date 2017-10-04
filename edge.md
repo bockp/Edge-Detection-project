@@ -98,7 +98,7 @@ The Kirsch Operator possesses a single convolution kernel, but the kernel in que
 
 ![Fig.5](images/kirsch.png)
 
-**Fig.5 Kirsch kernel, in the original configuration (left) and configuration 7 (6 45° rotations to the right performed on the original configuration)[^]** 
+**Fig.5 Kirsch kernel, in the original configuration (left) and configuration 7 (6 45° rotations to the right performed on the original configuration)[^KEK2010]** 
 
 ## Laplacian based methods:
 
@@ -181,7 +181,7 @@ Some algorithms developed for edge detection in color images based on vector app
 
 ## Benchmarking process
 
-*benchmark definition [^MCN1992] je trouve que des versions payantes de cet article / livre donc euhhh ?* 
+*benchmark definition [^MCN1992] je trouve que des versions payantes de cet article/livre donc euhhh?-->Scihub* 
 
 The performance and the efficiency of each edge detection function can be assessed through several parameters: the execution time necessary for the processing of an input image and the memory load corresponding to this opperation.
 
@@ -325,6 +325,8 @@ Of all the functions in ImageJ, the fastest and least memory intensive is the So
 [^PRE1970]: Prewitt JM. Object enhancement and extraction. Picture processing and Psychopictorics. 1970 Jan 1;10(1):15-9.
 
 [^MAI2009]: Maini R, Aggarwal H. Study and comparison of various image edge detection techniques. International journal of image processing (IJIP). 2009 Jan;3(1):1-1.
+
+[^KEK2010]: Kekre HB, Gharge SM. Image segmentation using extended edge operator for mammographic images. International journal on computer science and Engineering. 2010;2(4):1086-91.
 
 [^ABD2015]: Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
 
