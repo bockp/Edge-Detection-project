@@ -49,7 +49,7 @@ The Robert's Cross Operator, first described in 1975 by Davis L.S.[^DAV1975], pe
 
 The operator consists of a pair of 2X2 convolution kernels[Fig.2], designed to respond maximally to edges running at a 45° angle.[^MAI2009]
 
-![Fig.2](images/robertCross.png)
+![Fig.2](images/robertsCross.png)
 
 **Fig.2: Robert's Cross operator's horizontal and vertical convolution masks[^MAI2009]**
 
