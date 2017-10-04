@@ -174,7 +174,7 @@ The results obtained with each edge detection function were obtained with the sa
 
 ## Implementations of Sobel algorithm
 
-The output of ImageJ Find Edges function is an 8-bit image in wich the contours are in white [Fig.5].
+The output of ImageJ Find Edges function is an 8-bit image in which the contours are in white [Fig.5]. Edges are founded but some of them seem to have a width define by several pixels or be made of multiple edges with a one pixel width side by side. It is also difficult to visualy define a precise enclosed contour-like structure.
 
 ![Fig.5](images/Sobel.jpg)
 
