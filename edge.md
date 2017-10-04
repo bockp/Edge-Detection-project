@@ -2,15 +2,15 @@
 
 # Edge detection
 
-# Authors : Cécilia Ostertag, Ophélie Thierry, Peter Bock*
+# Authors : Cécilia Ostertag, Ophélie Thierry, Peter Bock
 
 # Introduction
 
 Image processing is one of the most important fields in the domain of computer vision [^BOV2009]. Most scientific domais use information extracted from images in one way or another. For a computer to make sense of these images, and be able to extract meaningful data from them, it needs to be able to interprete and understand them.
 That is where Image Processing comes in, allowing a computer to process an image and detect its major features, and to perform higher-level vision tasks like face recognition.
-In our project, we will examine one specific field of image processing, called edge detection.
+In our project, we will examine one specific field of image processing called edge detection.
 
-The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance” [^BOV2009]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
+The physical notion of edge comes from the shape of three dimensional objects or by their material properties. Obviously, as the aquisition process transaltes 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition by Bovik (2009) : "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance” [^BOV2009]. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
 Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. 
 
 In our project, we will begin by documenting the 3 main linear edge detection approaches and algorithms, and their implementation in the image processing software ImageJ[^SCH2015]:
@@ -18,13 +18,13 @@ In our project, we will begin by documenting the 3 main linear edge detection ap
 - Zero-crossings of Laplacian of Gaussian convolution [^MAR1980]
 - Zero-crossings of directional derivatives of smoothed images (Canny)[^CAN1986]
 
-We will then perform a benchmark on the ImageJ plugins, in order to compare them by measuring their execution time and the memory load for the JVM.
+We will then perform a benchmark on the ImageJ plugins, in order to compare them by measuring their execution time and the memory load for the Java Virtual Machine (JVM).
 
 # Material & Methods
 
 ## Edge-detection theory
 
-The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach) [Fig.1].
+The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translates to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach) [Fig.1] [^BOV2009] [^CHAA2014] .
 
 ![Fig.1](images/derivatives.png)
 
@@ -179,22 +179,24 @@ Unlike greyscale, images encoded in a color space are composed of three channels
 
 Some algorithms developed for edge detection in color images based on vector approaches are described in papers by Trahanias and Venetsanopoulos [^TRA1993] and Scharcanski and Venetsanopoulos [^SCH1997].
 
+Among all the plugins used here, only those related to the Canny operator are able to take care of the RGB picture. 
+
 ## Benchmarking process
 
 *benchmark definition [^MCN1992] je trouve que des versions payantes de cet article/livre donc euhhh?-->Scihub* 
 
 The performance and the efficiency of each edge detection function can be assessed through several parameters: the execution time necessary for the processing of an input image and the memory load corresponding to this opperation.
 
-To perform this benchmark, we implemented a small JavaScript plugin : *benchmark.js*. This script measures, on one hand the time elapsed between the start and the end of a given ImageJ or plugin function, and on the other hand the memory used by ImageJ JVM at the end of this function. Java uses a garbage collector to handle memory allocation so our results have to be treated cautiously,even if we forced the garbage collector to run before the execution of the function. The image used for this benchmark is Lena, 8-bit, 256x256 pixels. 
+To perform this benchmark, we implemented a small JavaScript plugin : *benchmark.js*. This script measures, on one hand the time elapsed between the start and the end of a given ImageJ or plugin function, and on the other hand the memory used by ImageJ JVM at the end of this function. Java uses a garbage collector to handle memory allocation so our results have to be treated cautiously,even if we forced the garbage collector to run before the execution of the function. The image used for this benchmark is the default picture Lena, 8-bit, 256x256 pixels. 
 
 For both measurements we ran the operation 100 times, after a front loading step consisting of running each function five times without recording the results. This was done to avoid outliers in our data, because the first executions of a function are usually slower because of internal allocations and loading of images in RAM or cache. 
+
+As the Canny plugin is also able to process RGB pictures, a new benchmark is done with the Lena default picture 256x256 pixels in 8 bits and RGB colors.
 
 The benchmark was done using a computer with an Intel core I7 @4.0 Ghz, on Linux Ubuntu 16.04 64 bits with a kernel 4.10. The version of ImageJ is the 1.51q, using Java 1.8.0\_112 (64 bits). We fixed the processor fequency with acpi-cpufreq module to avoid a change of frequency during the benchmark, fixed the choice of processor with the taskset command to avoid a sharing of the processor load, and finally we fixed the ImageJ process with a high priority to avoid preemption.  
 
 
 # Results
-
-The results obtained with each edge detection function were obtained with the same image : Lena 256x256 pixels. All plugins except Canny Edge Detector can only be used on greyscale images, so we chose to use the 8-bit version of this image. 
 
 ## Implementations of Sobel algorithm
 
@@ -210,7 +212,7 @@ The FeatureJ Laplacian only provides the display of the output of the LoG and th
 
 ![Fig.6](images/Laplace.jpg)
 
-**Fig.6: Result of FeatureJ Laplacian plugin, with smoothing scale=3 1:Input image, 2:LoG output, 3:Zero-crossings **
+**Fig.6: Result of FeatureJ Laplacian plugin, with smoothing scale=3 1:Input image, 2:LoG output, 3:Zero-crossings**
 
 Choosing a higher standard deviation for the gaussian filtering reduces the number of false positives but also reduces the precision for true positive edges [Fig.7].
  
@@ -232,7 +234,7 @@ While the result is different from the one given by FeatureJ, we can see that th
 
 ## Implementation of Canny algorithm
 
-The outputs of Canny Edge Detector and featureJ edges are a binary image where the edge pixels are white [Fig.10].Comparing the outputs of the two Canny implementations when using the same parameters we found that the results are similar.
+The outputs of Canny Edge Detector and FeatureJ Edges are a binary image where the edge pixels are white [Fig.10]. A visual comparision of the outputs of the two Canny implementations with the same initial parameters show that the results are similar.
 
 ![Fig.10](images/Canny2.jpg)
 
