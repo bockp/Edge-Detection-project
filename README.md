@@ -1,8 +1,8 @@
 # TODO :
-* Add ~~Prewitt~~ and Kirsch algorithm
-* Finish explanations of Canny algorithm
+* peer-review algorithm descriptions.
+* Finish explanations of Canny algorithm.
 * ~~Find info on the complexities of the algorithms if possible~~ couldn't find concrete information.
-* Conclusion
+* Conclusion.
 * PROOFREAD 'TILL WE DIE
 
 # Tiny Image in Javascript (TIJ) project
