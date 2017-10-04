@@ -38,15 +38,29 @@ These algorithms usually have three main steps:
 
 Errors in edge detection can either be false positives (classification of non edge pixels as edge pixels) or false negatives (classification of edge pixels as non-edge pixels). There is also a conflict between the correct detection of edges and the precise localization of their position. 
 
-## Sobel 
+## Robert's Cross
 
-The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[^SOB1968], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms out there.
-
-It is based on the gradient of the gray level intensity function, which is a 2D measure of the 1st derivative[Equation.1]. 
+The Robert's Cross Operator, first described in 1975 by Davis L.S.[^DAV1975], performs a simple, efficient, computationally cheap 2D spatial gradient measurement on an image, which is based on the 2D measure of the 1st derivative[Equation.1]
 
 ![Equation.1](images/gradient.jpg)
 
 **Equation.1: Gradient of a continuous gray level intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [^BOV2009]**
+
+
+The operator consists of a pair of 2X2 convolution kernels[Fig.2], designed to respond maximally to edges running at a 45° angle.[^MAI2009]
+
+![Fig.2](images/robertCross.png)
+
+**Fig.2: Robert's Cross operator's horizontal and vertical convolution masks[^MAI2009]**
+
+**
+
+## Sobel 
+
+The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[^SOB1968], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms, it is based on the Robert's Cross operator.
+
+It is based on the gradient of the gray level intensity function[Equation.1]. 
+
 
 After finding all the local extrema of the gradient magnitude, a thresholding is applied and the points where the magnitude is superior to a given threshold are classified as candidate edge points [Equation.2].
 
@@ -56,11 +70,11 @@ After finding all the local extrema of the gradient magnitude, a thresholding is
 
 Finally, to obtain edges as zero-width segments, a thinning step is required : if the gradient magnitude is not a local maximum along the gradient direction, the point is suppressed from the edge candidates.
 
-In practice, this algorithm works by using two masks, one horizontal and one vertical[^VIN2009] [Fig.2], these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
+In practice, this algorithm works by using two masks, one horizontal and one vertical[^VIN2009] [Fig.2](this is very similar to the Robert's Cross operator), these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
 
 ![Fig.2](images/filters.png)
 
-**Fig.2: Sobel horizontal and vertical masks[^VIN2009]**
+**Fig.2: Sobel operator's horizontal and vertical convolution masks[^VIN2009]**
 
 The two resulting images are then combined to get an image representing the approximate  absolute  gradient  magnitude of the original image [Fig.3].
 
@@ -71,12 +85,12 @@ The two resulting images are then combined to get an image representing the appr
 
 ## Prewitt
  
-The Prewitt operator, developed by Judith M. S. Prewitt[^PRE1970], is also based on the gradient of the gray level intensity function[Equation.1].
-
-*reading a few papers to complete the description. probably needs image of kernels and explanation of main difference with sobel (doesn't have a smoothing step)*
-*actually, it might be best to reverse the position of the Prewitt and Sobel operators as the Prewitt one is a simpler version of the Sobel one really. first mentioned publication about it seems to be 1970 versus 1968 for sobel, so not sure which came first X/*
+The Prewitt operator, developed by Judith M. S. Prewitt[^PRE1970], is also based on the gradient of the gray level intensity function[Equation.1], and functions in  a similar way to the Sobel algorithm, though using different convolution masks[Fig.4]
 
 ![Fig.4](images/prewitt.jpg)
+**Fig.4 Prewitt operator's horizontal and vertical convolution masks[^MAI2009]** 
+
+
 ## Laplacian based methods:
 
 The Laplacian is a 2D isotropic measure of the 2nd spatial derivative [Equation.3]. It is used to detect regions of rapid intensity change in an image :
@@ -295,7 +309,11 @@ Of all the functions in ImageJ, the fastest and least memory intensive is the So
 
 # References
 
+[^DAV1975]: Davis LS. A survey of edge detection techniques. Computer graphics and image processing. 1975 Sep 1;4(3):248-70.
+
 [^PRE1970]: Prewitt JM. Object enhancement and extraction. Picture processing and Psychopictorics. 1970 Jan 1;10(1):15-9.
+
+[^MAI2009]: Maini R, Aggarwal H. Study and comparison of various image edge detection techniques. International journal of image processing (IJIP). 2009 Jan;3(1):1-1.
 
 [^ABD2015]: Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
 
