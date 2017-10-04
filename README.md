@@ -1,7 +1,7 @@
 # TODO :
-* Add Prewitt and Kirsch algorithm
+* Add ~~Prewitt~~ and Kirsch algorithm
 * Finish explanations of Canny algorithm
-* Find info on the complexities of the algorithms if possible
+* ~~Find info on the complexities of the algorithms if possible~~ couldn't find concrete information.
 * Conclusion
 * PROOFREAD 'TILL WE DIE
 
