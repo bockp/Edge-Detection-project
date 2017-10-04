@@ -47,7 +47,7 @@ The Robert's Cross Operator, first described in 1975 by Davis L.S.[^DAV1975], pe
 **Equation.1: Gradient of a continuous gray level intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [^BOV2009]**
 
 
-The operator consists of a pair of 2X2 convolution kernels[Fig.2], designed to respond maximally to edges running at a 45° angle.[^MAI2009]
+The operator consists of a pair of 2X2 convolution kernels[Fig.2], designed to respond maximally to edges running at a 45° angle[^MAI2009].
 
 ![Fig.2](images/robertsCross.png)
 
