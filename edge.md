@@ -28,7 +28,7 @@ The link to our github repository containing our report in markdown format, the 
 
 The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translate to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative (Laplacian approach) [Fig.1] [^BOV2009] [^CHAA2014] .
 
-![Fig.1](images/derivatives.png)
+![Fig.1](images/derivatives.png){ width=50% height=50%}
 
 **Fig.1: Edge detection in a 1D continuous space : fc(x) is the gray level intensity function, fc'(x) is the 1st derivative, and fc''(x) is the 2nd derivative. The vertical dotted lines represent the edge locations[^BOV2009]**
 
@@ -44,14 +44,14 @@ Errors in edge detection can either be false positives (classification of non-ed
 
 The Robert's Cross Operator, first described in 1975 by Davis L.S.[^DAV1975], performs a simple, efficient, computationally cheap 2D spatial gradient measurement on an image, which is based on the 2D measure of the 1st derivative[Eq.1]
 
-![Eq.1](images/gradient.jpg)
+![Eq.1](images/gradient.jpg){ width=50% height=50%}
 
 **Eq.1: Gradient of a continuous gray level intensity function fc(x,y), where ix and iy are the unit vectors in the x and y directions [^BOV2009]**
 
 
 The operator consists of a pair of 2X2 convolution kernels[Fig.2], designed to respond maximally to edges running at a 45° angle[^MAI2009].
 
-![Fig.2](images/robertsCross.png)
+![Fig.2](images/robertsCross.png){ width=50% height=50%}
 
 **Fig.2: Robert's Cross operator's horizontal and vertical convolution masks[^MAI2009]**
 
@@ -64,7 +64,7 @@ It is based on the gradient of the gray level intensity function[Eq.1].
 
 After finding all the local extrema of the gradient magnitude, a thresholding step is applied and the points where the magnitude is superior to a given threshold are classified as candidate edge points [Eq.2].
 
-![Eq.2](images/gradient_thr.jpg)
+![Eq.2](images/gradient_thr.jpg){ width=50% height=50%}
 
 **Eq.2: Thresholding of the gradient magnitude, where T is the threshold[^BOV2009]**
 
@@ -72,13 +72,13 @@ Finally, to obtain edges as zero-width segments, a thinning step is required : i
 
 In practice, this algorithm works by using two masks, one horizontal and one vertical[^VIN2009] [Fig.3](this is very similar to the Robert's Cross operator), these masks are designed to respond maximally to edges in the horizontal and vertical directions, respectively, and also smoothen out the gaussian noise in advance to reduce the noise sensitivity of the algorithm.
 
-![Fig.3](images/filters.png)
+![Fig.3](images/filters.png){ width=50% height=50%}
 
 **Fig.3: Sobel operator's horizontal and vertical convolution masks[^VIN2009]**
 
 The two resulting images are then combined to get an image representing the approximate  absolute  gradient  magnitude of the original image [Fig.4].
 
-![Fig.4](images/BikesgrayFig3.jpg)
+![Fig.4](images/BikesgrayFig3.jpg){ width=50% height=50%}
 
 **Fig.4: Result of Sobel filtering. a: original image, b: Sobel Y-gradient image, c: Sobel X-gradient image, d: absolute gradient magnitude image**
 
@@ -87,7 +87,7 @@ The two resulting images are then combined to get an image representing the appr
  
 The Prewitt operator, developed by Judith M. S. Prewitt[^PRE1970], is also based on the gradient of the gray level intensity function[Equation.1], and functions in  a similar way to the Sobel algorithm, though using different convolution masks[Fig.5]
 
-![Fig.5](images/prewitt.jpg)
+![Fig.5](images/prewitt.jpg){ width=50% height=50%}
 
 **Fig.5: Prewitt operator's horizontal and vertical convolution masks[^MAI2009]** 
 
@@ -98,7 +98,7 @@ The Kirsch operator, named after the computer scientist Russell A. Kirsch[^KIR19
 The Kirsch Operator possesses a single convolution kernel, but the kernel in question is applied on every part of the image in 8 different configurations (created by turning the default kernel by 45° segments[Fig.6]), and the edge magnitude is calculated as being the maximum magnitude found across the 8 different configurations, while the edge direction is determined by the kernel configuration possessing that maximum gradient value.
 
 
-![Fig.6](images/kirsch.png)
+![Fig.6](images/kirsch.png){ width=50% height=50%}
 
 **Fig.6: Kirsch kernel, in the original configuration (left) and configuration 7 (6 45° rotations to the right performed on the original configuration)[^KEK2010]** 
 
@@ -108,7 +108,7 @@ The Laplacian [^MAR1980] is a 2D isotropic measure of the 2nd spatial derivative
 - In the regions of constant intensity (intensity gradient equal to zero), the Laplacian is equal to zero. 
 - In regions where there is a change in intensity, the Laplacian is positive on the darker side, and negative on the lighter side.
 
-![Eq.3](images/laplacian.jpg)
+![Eq.3](images/laplacian.jpg){ width=50% height=50%}
 
 **Eq.3: Laplacian of a continuous gray level intensity function fc(x,y)[^BOV2009]** 
 
@@ -116,31 +116,31 @@ This has the effect of highlighting the edges in the image, and can be used as a
 
 The Laplacian can be estimated by designing a pair of 1D 2nd derivative filters and combining them into a 2D filter [Eq.4]
 
-![Eq.4](images/discrete_laplacian.jpg)
+![Eq.4](images/discrete_laplacian.jpg){ width=50% height=50%}
 
 **Eq.4: Discrete Laplacian estimate for an image f(n1,n2)[^BOV2009]**
 
 Other 3x3 kernels are :
 
-![Fig.7](images/kernel_laplacian.jpg)
+![Fig.7](images/kernel_laplacian.jpg){ width=50% height=50%}
 
 **Fig.7: Laplacian operator kernels)[^BOV2009]** 
 
 
 The Laplacian opeator is usually used on gray level images, previously smoothed with a Gaussian filter to reduce noise. It is also possible to convolve the Gaussian smoothing filter with the Laplacian filter, before convolving this Laplacian of Gaussian (LoG) [Eq.5] with the image. 
 
-![Eq.5](images/LoG.jpg)
+![Eq.5](images/LoG.jpg){ width=50% height=50%}
 
-**Eq.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function [^BOV2009]**
+**Eq.5: Laplacian of Gaussian function gc(x,y), where sigma is the standard deviation of the Gaussian function[^BOV2009]**
 
 To implement a discrete form, a filter can be constructed by sampling this equation after choosing a value for sigma. The Gaussian and Laplacian kernels are both small so it requires fewer operations than using both filters on the image. Another advantage of the LoG is that it can be calculated in advance as it is independent of the image being processed. It is important to note that the result of these edge detectors is highly influenced by the standard deviation used for the Gaussian filter chosen for the smoothing step. The LoG can also be approximated by the Difference of Gaussian (DoG).
 
 It is not possible to directly extract the edge orientation information from the Laplacian output. To extract the edges, we need to detect the zero-crossings in the output of the Laplacian (or the LoG), i.e. the regions of the image where the Laplacian passes through zero. However this can also happen in regions that are features other than edges in the image and can be the cause of false positives.
 The input of the zero-crossing detector is the LoG filtered image, and the output is a binary image with lines representing the positions of all the zero-crossing points. Each pixel of the image is compared to its eight immediate neighbors, and a pixel is classified as a zero-crossing if its sign is different than the sign of its neighbors. [Eq.6] 
 
-![Eq.6](images/zero_cross.jpg)
+![Eq.6](images/zero_cross.jpg){ width=50% height=50%}
 
-**Eq.6: Zero-crossing classification of a pixel p [^BOV2009]**
+**Eq.6: Zero-crossing classification of a pixel p[^BOV2009]**
 
 All of the contour lines are closed lines because the strength of the edge is not considered, so even gradual intensity transitions result in a zero-crossing. As previously indicated, local minima of the gradient magnitude can cause false edges, that can be eliminated by using a threshold for edge strength, causing breaks in the closed contours.
 
@@ -162,7 +162,7 @@ For this last point, often the signal is not a smooth curve[Fig.1] but a series 
 
 The first step affects the number of false-negatives and the two others the number of false positives[^CAN1986]. Therefore, they defined that the best edge function will be the one to maximize the following equation [Eq.7].
 
-![Eq.7](images/Canny_optimisation.PNG)
+![Eq.7](images/Canny_optimisation.PNG){ width=50% height=50%}
 
 **Eq.7: Equation used to define the best function to find edges from a grey-level signal, with f as the function which is used to define edges, and Pi the constrains i modulated by its associated factor µiEquation used to define the best function to find edges from a grey-level signal, with f as the function which is used to define edges, and Pi the constrains i modulated by its associated factor µi[^CAN1986]**
 
@@ -179,16 +179,16 @@ It will be defined as the first derivative of the SNR function.
 
 After several demonstrations, Canny demonstrated that the Gaussian operator is the most efficient way to maximize this equation [Eq.8], and it has the advantage to be easy to implement for a two dimensional model. 
 
-![Eq.8](images/Gaussian_2.PNG)
+![Eq.8](images/Gaussian_2.PNG){ width=50% height=50%}
 
 **Eq.8: Gaussian filter[^CAN1986]**
 
 Several modifications were made to the model in order to improve its efficiency, such as the Deriche modification, allowing the model to use higher threshold values.
 This lead to a change to the efficiency of the Canny method, according to the values considered after a Fourier transformation, leading to the development of a new fonction with only one constant parameter α[^DER1987] [Eq.9], also called the Ding modification, able to take into account pixels under the low threshold value in order to correct edge disruptions[^DIN2001].
 
-![Eq.9](images/Deriche_equation.png)
+![Eq.9](images/Deriche_equation.png){ width=50% height=50%}
 
-**Eq.9: Gaussian filter [^DER1987]**
+**Eq.9: Gaussian filter[^DER1987]**
 
 Currently, several plugins using this method have been developed for ImageJ: the Edge Detection, using Canny-Deriche filtering, by Thomas Boudier, the Edge Detector by Carmelo Pulvirenti, able to use other operators (LoG, DoG) and FeatureJ Edges by Erik Meijering. 
 
@@ -221,7 +221,7 @@ The benchmark was done using a computer with an Intel core I7 @4.0 Ghz, on Linux
 
 The output of ImageJ Find Edges function is an 8-bit image in which the contours are in white [Fig.8]. Edges are founded but some of them seem to have a width define by several pixels or be made of multiple edges with a one pixel width side by side. It is also difficult to visualy define a precise enclosed contour-like structure.
 
-![Fig.8](images/Sobel.jpg)
+![Fig.8](images/Sobel.jpg){ width=50% height=50%}
 
 **Fig.8: Result of Find Edges function. 1: Input image, 2: Output image**
 
@@ -229,25 +229,25 @@ The output of ImageJ Find Edges function is an 8-bit image in which the contours
 
 The FeatureJ Laplacian only provides the display of the output of the LoG and the zero-crossing detector [Fig.9]. The contours are also of single-pixel width and in absence of a thresholding all contours are closed lines.
 
-![Fig.9](images/Laplace.jpg)
+![Fig.9](images/Laplace.jpg){ width=50% height=50%}
 
 **Fig.9: Result of FeatureJ Laplacian plugin, with smoothing scale=3 1: Input image, 2: LoG output, 3: Zero-crossings**
 
 Choosing a higher standard deviation for the gaussian filtering reduces the number of false positives but also reduces the precision for true positive edges [Fig.10].
  
-![Fig.10](images/Laplace_sigma.jpg)
+![Fig.10](images/Laplace_sigma.jpg){ width=50% height=50%}
 
 **Fig.10: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1: Input image, 2: smoothing scale=1, 3: smoothing scale=3, 4: smoothing scale=5**
 
 With the Log\_Filter plugin, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values -1, 0 or 1, the zero-crossings overlaid to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.11]. All the contour lines have a single-pixel width, and due to the DoG filtering the final output is the edges of the contour zones detected by the LoG.
 
-![Fig.11](images/Log_Filter.jpg)
+![Fig.11](images/Log_Filter.jpg){ width=50% height=50%}
 
 **Fig.11: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1: Input image, 2: LoG output, 3: Absolute value of filtering, 4: Results representing values -1,0 or 1, 5: Zero-crossings overlaid to input image, 6: Zero-crossings**
 
 While the result is different from the one given by FeatureJ, we can see that the influence of the standard deviation is similar : a higher value for the smoothing step leads to imprecise contours and the loss of the objects’ shapes [Fig.12]. Here the thresholding step prevents us from seeing the impact of the noise removal on the number of false positive edge pixels.
 
-![Fig.12](images/Log_FilterSigma.jpg)
+![Fig.12](images/Log_FilterSigma.jpg){ width=50% height=50%}
 
 **Fig.12: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1: Input image, 2: smoothing scale=3, 3: smoothing scale=5, 4: smoothing scale=9**
 
@@ -255,25 +255,25 @@ While the result is different from the one given by FeatureJ, we can see that th
 
 The outputs of Canny Edge Detector and FeatureJ Edges are binary images where the edge pixels are white [Fig.13]. A visual comparision of the outputs of the two Canny implementations with the same initial parameters show that the results are similar.
 
-![Fig.13](images/Canny2.jpg)
+![Fig.13](images/Canny2.jpg){ width=50% height=50%}
 
 **Fig.13: Result of Canny algorithm plugins, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1: Input image, 2: Output of Canny Edge Detector, 3: Output of FeatureJ Edges**
 
 Knowing this, we decided to test the influence of each parameter only for the Canny Edge Detector plugin, assuming that the results given by FeatureJ Edge would be the same. A variation of the standard deviation of the Gaussian function  [Fig.14] has an influence of the number of pixels classified as edges by the function : with a standard deviation of 1.0 the contours of the eyes, nose, mouth and feathers are well defined, but some contours are created which have no physical sense like the line below the right eye. Raising this value to 2.0 and then 3.0 makes weaker edges disappear from the results, until only the outlines remain.
 
-![Fig.14](images/CannySigma.jpg)
+![Fig.14](images/CannySigma.jpg){ width=50% height=50%}
 
 **Fig.14: Result of Canny Edge Detector plugin, with various gaussian kernel radius, low threshold=2.5, high threshold=7.5. 1: Input image, 2: Radius=1.0, 3: Radius=2.0, 4: Radius=3.0**
 
 We then changed the value of either the low or the high threshold values [Fig.12]. A reduction of the low threshold does not seem to have a significant impact on the result, but an augmentation of the high threshold reduces the number of edges detected and creates gaps in continuous edges.
 
-![Fig.15](images/CannyThr.jpg) 
+![Fig.15](images/CannyThr.jpg){ width=50% height=50%}
 
 **Fig.15: Result of Canny Edge Detector plugin, with gaussian kernel radius=2.0 and various low and high thresholds. 1: Input image, 2: Low threshold=2.5 and high threshold=7.5, 3: Low threshold=0.1 and high threshold=7.5, 4: Low threshold=2.5 and high threshold=10**
 
 Canny edge detector is the only plugin working on RGB images, and gives an output similar to the one obtained with the 8-bit image [Fig.16].
 
-![Fig.16](images/CannyRGB.jpg)
+![Fig.16](images/CannyRGB.jpg){ width=50% height=50%}
 
 **Fig.16: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image**
 
@@ -281,7 +281,7 @@ Canny edge detector is the only plugin working on RGB images, and gives an outpu
 
 The results of the benchmark for the execution time [Fig.17 and Fig.19] show that the Find Edges function is the quickest to run on this machine, with a mean of 0.88 ms, followed by Log\_Filter, FeatureJ Laplacian and FeatureJ Edges which do not have a mean execution time superior to 50 ms. However the Canny Edge Detector plugin has an average exectution time of 205.8 ms.
 
-![Fig.17](images/bench_time.png)
+![Fig.17](images/bench_time.png){ width=50% height=50%}
 
 **Fig.17: Result of the benchmark for the execution time of ImageJ edge detection functions. The Canny Edge Detector and FeatureJ Edges plugin use the Canny algorithm, FeatureJ Laplacian and Log Filter use the LoG, and Find Edges the Sobel**
 
@@ -289,7 +289,7 @@ For the JVM memory load [Fig.18 and Fig.19], we can see that Find Edges uses the
 
 The data are not normaly distributed. 
 
-![Fig.18](images/bench_memory.png)
+![Fig.18](images/bench_memory.png){ width=50% height=50%}
 
 **Fig.18: Result of the benchmark for the memory load of ImageJ edge detection functions. The Canny Edge Detector and FeatureJ Edges plugin use the Canny algorithm, FeatureJ Laplacian and Log Filter use the LoG, and Find Edges the Sobel**
 
@@ -299,13 +299,13 @@ For the plugins using a Laplacian approach, FeatureJ Laplacian and Log\_Filter, 
 
 In the same way, graphically, the difference between the results for the two Canny implementations, Canny Edge Detector and FeatureJ Edges, is difficult to assess for the memory consuption. Another Kruskal-Wallis test shows a significant difference between the mean of execution time, with a p-value of 2,2e-16, but not for the memory used, with a p-value of 0,4667. 
 
-![Fig.19](images/bench.png)
+![Fig.19](images/bench.png){ width=50% height=50%}
 
 **Fig.19: Average execution time and used memory for ImageJ edge detection functions. The Canny Edge Detector and FeatureJ Edges plugin use the Canny algorithm, FeatureJ Laplacian and Log Filter use the LoG, and Find Edges the Sobel**
 
 Given that the Canny Edge Detector plugin can also be used on RGB images, we also ran a benchmark comparing the execution time and memory load difference for this plugin on RGB and 8-bit images[Fig.20].
 
-![Fig.20](images/CannyRGBPlot.jpeg)
+![Fig.20](images/CannyRGBPlot.jpeg){ width=50% height=50%}
 
 **Fig.20: Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
 
