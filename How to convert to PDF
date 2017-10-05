@@ -1,6 +1,11 @@
 1. copy edges.md and images folder to a local folder, 
 2. navigate to that folder in a terminal
-3. > pandoc edge.md --latex-engine=xelatex -f markdown-implicit_figures  -o edge.pdf
+3. > pandoc edge.md --latex-engine=xelatex -V margin-left=2.5cm -V margin-right=2.5cm -f markdown-implicit_figures  -o edge.pdf
+
+* The --latex-engine=xelatex option changes the default latex engine to generate the PDF; as the default one can't handle accents.
+* The -V margin options allows us to customize the margins to be 2.5cm wide (the default is closer to 5 or 6 cm).
+* The -f markdown-implicit_figures suppresses the XeLaTeX default behaviour of autoamtically numerating the figures.
+
 
 This can be done on any computer in the CREMI.
 To be used on your own computer, you must first install Pandoc and the XeLaTeX engine.
