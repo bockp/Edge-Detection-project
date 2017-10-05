@@ -123,6 +123,7 @@ The Laplacian can be estimated by designing a pair of 1D 2nd derivative filters 
 Other 3x3 kernels are :
 
 ![Fig.7](images/kernel_laplacian.jpg)
+
 **Fig.7: Laplacian operator kernels)[^BOV2009]** 
 
 
