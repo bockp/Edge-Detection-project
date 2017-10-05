@@ -110,7 +110,7 @@ The Laplacian [^MAR1980] is a 2D isotropic measure of the 2nd spatial derivative
 
 ![Eq.3](images/laplacian.jpg)
 
-**Eq.3: Laplacian of a continuous gray level intensity function fc(x,y) [^BOV2009]** 
+**Eq.3: Laplacian of a continuous gray level intensity function fc(x,y)[^BOV2009]** 
 
 This has the effect of highlighting the edges in the image, and can be used as an enhancement technique, by adding the filtered image to the original image. 
 
@@ -118,7 +118,7 @@ The Laplacian can be estimated by designing a pair of 1D 2nd derivative filters 
 
 ![Eq.4](images/discrete_laplacian.jpg)
 
-**Eq.4: Discrete Laplacian estimate for an image f(n1,n2) [^BOV2009]**
+**Eq.4: Discrete Laplacian estimate for an image f(n1,n2)[^BOV2009]**
 
 Other 3x3 kernels are :
 
@@ -152,7 +152,7 @@ The second one is the Log\_Filter plugin, by Lokesh Taxali and Jesse Jin. This p
 
 The Canny operator is often used and known as less sensitive to noise than Sobel's and Laplace's[^ZHA2012][^ABD2015], despite its time consuming calculations[^CHAA2014] and its sensibility to textured regions on image which lead to define false edges and discontinuous edges[^CAN1986]. 
 
-The implementation of the Canny model is relatively simple. First a Gaussian filter is applied to the image, then the gradient magnitude of the signal has to be defined. For this step, the aim is to discriminate edges defined by local maxima by comparing the value of the local maxima to its two closest neighbors. These firsts steps lead to an initial edge map. A thresholding step is then applied to the map by defining a low and high threshold value which will define major and minor pixels used for a thresholding final step hysteresis. All the edge pixels whose values are above the higher threshold will be kept on the map, but the pixels whose values are under the lower threshold will be removed. This last step, though, can lead to disrupted edges [^CAN1986][^DER1987][^DIN2001][^BOV2009][^ABD2015].
+The implementation of the Canny model is relatively simple. First a Gaussian filter is applied to the image, then the gradient magnitude of the signal has to be defined. For this step, the aim is to discriminate edges defined by local maxima by comparing the value of the local maxima to its two closest neighbors. These firsts steps lead to an initial edge map. A thresholding step is then applied to the map by defining a low and high threshold value which will define major and minor pixels used for a thresholding final step hysteresis. All the edge pixels whose values are above the higher threshold will be kept on the map, but the pixels whose values are under the lower threshold will be removed. This last step, though, can lead to disrupted edges[^CAN1986][^DER1987][^DIN2001][^BOV2009][^ABD2015].
 
 In the original work by Canny in 1986, the author defines the signal[Fig.1] as the combination of a noise function and an edge function. So the edge is detected by the convolution of the signal with a specific filter. The aim of the author was to find a mathematical function which would define edges using three distinct steps.
 
@@ -245,7 +245,7 @@ With the Log\_Filter plugin, we can compute the output of the LoG filtering (in 
 
 **Fig.11: Result of Log\_Filter plugin, with sigma=3, filter width=2, DoG threshold=0 delta=0. 1: Input image, 2: LoG output, 3: Absolute value of filtering, 4: Results representing values -1,0 or 1, 5: Zero-crossings overlaid to input image, 6: Zero-crossings**
 
-While the result is different from the one given by FeatureJ, we can see that the influence of the standard deviation is similar : a higher value for the smoothing step leads to imprecise contours and the loss of the objects’ shapes [Fig.12] . Here the thresholding step prevents us from seeing the impact of the noise removal on the number of false positive edge pixels.
+While the result is different from the one given by FeatureJ, we can see that the influence of the standard deviation is similar : a higher value for the smoothing step leads to imprecise contours and the loss of the objects’ shapes [Fig.12]. Here the thresholding step prevents us from seeing the impact of the noise removal on the number of false positive edge pixels.
 
 ![Fig.12](images/Log_FilterSigma.jpg)
 
