@@ -1,6 +1,6 @@
 1. copy edges.md and images folder to a local folder, 
 2. navigate to that folder in a terminal
-3. > pandoc edges.md --latex-engine=xelatex -o edges.pdf
+3. > pandoc edge.md --latex-engine=xelatex -f markdown-implicit_figures  -o edge.pdf
 
 This can be done on any computer in the CREMI.
 To be used on your own computer, you must first install Pandoc and the XeLaTeX engine.
