@@ -102,7 +102,7 @@ The Kirsch Operator possesses a single convolution kernel, but the kernel in que
 
 ## Laplacian based methods:
 
-The Laplacian is a 2D isotropic measure of the 2nd spatial derivative [Equation.3]. It is used to detect regions of rapid intensity change in an image :
+The Laplacian [^MAR1980] is a 2D isotropic measure of the 2nd spatial derivative [Equation.3]. It is used to detect regions of rapid intensity change in an image :
 - In the regions of constant intensity (intensity gradient equal to zero), the Laplacian is equal to zero. 
 - In regions where there is a change in intensity, the Laplacian is positive on the darker side, and negative on the lighter side.
 
@@ -376,4 +376,4 @@ Of all the functions in ImageJ, the fastest and least memory intensive is the So
 
 [^ZHA2012]: Zhao J, Zheng W, Zhang L, Tian H. Segmentation of ultrasound images of thyroid nodule for assisting fine needle aspiration cytology. Health information science and systems. 2013 Dec 1;1(1):5.
 
-[^ZHU214]: Zhu F, Liu Q, Fu Y, Shen B. Segmentation of Neuronal Structures Using SARSA (lambda)-Based Boundary Amendment with Reinforced Gradient-Descent Curve Shape Fitting. PLoS One, 9(3):1–19, 2014. 
+[^ZHU2014]: Zhu F, Liu Q, Fu Y, Shen B. Segmentation of Neuronal Structures Using SARSA (lambda)-Based Boundary Amendment with Reinforced Gradient-Descent Curve Shape Fitting. PLoS One, 9(3):1–19, 2014. 
