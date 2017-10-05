@@ -246,7 +246,7 @@ Knowing this, we decided to test the influence of each parameter only for the Ca
 
 **Fig.11: Result of Canny Edge Detector plugin, with various gaussian kernel radius, low threshold=2.5, high threshold=7.5. 1: Input image, 2: Radius=1.0, 3: Radius=2.0, 4: Radius=3.0**
 
-We then changed the value of either the low or the high threshold values [Fig.12]. A reduction of the low threshold does not seem to have an impact on the result, but an augmentation of the high threshold reduces the number of edges detected and creates gaps in continuous edges.
+We then changed the value of either the low or the high threshold values [Fig.12]. A reduction of the low threshold does not seem to have a significant impact on the result, but an augmentation of the high threshold reduces the number of edges detected and creates gaps in continuous edges.
 
 ![Fig.12](images/CannyThr.jpg) 
 
@@ -316,9 +316,13 @@ The enormous difference in speed between the Canny Edge Detector and the Feature
 
 # Conclusion
 
+Edge detection stay one of the most important step in the image processing in various domains ([^ZHU2014], [^HAQ2015]). In the biological field, it allow to give a biological meaning to a picture, define structure which will could be analyse thereafter. The two main approach consist to use either the gradient or the derivative of the grey level intensity, and it has lead to the development of three algoritms more than twenty years ago ([^SOB1968], [^PRE1970], [^KIR1971], [^CAN1986]) still reviewed and updated in order to reduce their sensibility to the different noises and keep the specificity of each approch ([^DIN2001], [^TRE2013]). 
+
+Of all the functions in ImageJ, the fastest and least memory intensive is the Sobel implementation Find Edges, though the function giving the best results (least amount of false positives and false negatives) is the FeatureJ implementation of the Canny Edge Detection algorithm. We can't dismiss the Canny Edge Detector implementation entirely, though, as it is the only one studied capable of processing RGB images. The study of these five examples of edge detection functions showed that there is not a unique ideal choice of algorithm for edge detection. Each of them realize a specific approach of the edge detection, offering to the user a customized analysis according to its needs. The Sobel provide a very fast and less time consuption *(not sure of this term, rather light analysis ?)* analysis, the Laplacian approaches allow to always define a closed *(pas sure que ce soit le bon terme)* structure, and the Canny approaches define the most significant edges with a specificity for the Canny Edge Detector able to take care of the RGB pictures. The choice of the algorithm have to take into account the time and memory limitations of the users, as well as the type of images they are working with. 
+
+
 *algorithmes developpés il y a 20-30 ans toujours utilisés aujourd'hui, amélioration des techniques de detection de contours au cours du temps (plus de sensibilité et spécificité). Nouveaux algos / nouvelles optimisations développées de nos jours*
 
-Of all the functions in ImageJ, the fastest and least memory intensive is the Sobel implementation Find Edges, though the function giving the best results (least amount of false positives and false negatives) is the FeatureJ implementation of the Canny Edge Detection algorithm. We can't dismiss the Canny Edge Detector implementation entirely, though, as it is the only one studied capable of processing RGB images. The study of these five examples of edge detection functions showed that there is not a unique ideal choice of algorithm for edge detection. This choice have to take into account the time and memory limitations of an user, as well as the type of images they are working with. 
 
 # References
 
@@ -358,8 +362,13 @@ Of all the functions in ImageJ, the fastest and least memory intensive is the So
 
 [^MCN1992]: McNair CJ, Leibfried KH. Benchmarking: A tool for continuous improvement. John Wiley & sons; 1992.
 
-[^TRA1993]: Trahanias P.E and Venetsanopoulos A.N. Color edge detection using vector order statistics. IEEE
-Trans. Image Process., 2(2):259–264, 1993. 
+[^TRA1993]: Trahanias P.E and Venetsanopoulos A.N. Color edge detection using vector order statistics. IEEE Trans. Image Process., 2(2):259–264, 1993. 
 
-[^SCH1997]:Scharcanski J and Venetsanopoulos A.N. Edge detection of color images using directional
+[^SCH1997]: Scharcanski J and Venetsanopoulos A.N. Edge detection of color images using directional
 operators. IEEE Trans. Circuits Syst. Video Technol., 7(2):397–401, 1997. 
+
+[^ZHU214]: Zhu F, Liu Q, Fu Y, Shen B. Segmentation of Neuronal Structures Using SARSA (lambda)-Based Boundary Amendment with Reinforced Gradient-Descent Curve Shape Fitting. PLoS One, 9(3):1–19, 2014. 
+
+[^TRE2013]: Treloas KK, Simpson MJ, Kabla AJ. Sensitivity of Edge Detection Methods for Quantifying Cell Migration Assays. PLoS One, 8(6):e67389, 2013.
+
+[^HAQ2015]: Haq I, Anwar S, Shah K, Khan MT, Shah SA. Fuzzy Logic Based Edge Detection in Smooth and Noisy Clinical Images. PLoS One. 10(9):e0138712, 2015.
