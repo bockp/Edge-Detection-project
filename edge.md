@@ -145,7 +145,7 @@ In ImageJ, two plugins provide an implementation of the LoG operator.
 The first one is the Laplacian plugin included in the FeatureJ package created by Erik Meijering. This plugin is based on ImageScience, a java library for image processing, which provides tools for computing the LoG of an image and detecting the zero-crossings. The only parameter accessible to the user is the laplacian smoothing scale, meaning the standard deviation used for the Gaussian kernel.
 The second one is the Log\_Filter plugin, by Lokesh Taxali and Jesse Jin. This plugin is composed of a unique class file and provides more parameters to the user : sigma (standard deviation for the Gaussian filter), filter width (size of the LoG kernel), threshold for 1D DoG filtering, and delta (level for adjusting zero-crossings). Unlike the previous plugin, this one involves thresholding of the LoG output with a Difference of Gaussians. Moreover, its use is limited to 8-bit images.
 
-## Canny
+## Canny Operator
 
 The Canny operator is often used and known as less sensitive to noise than Sobel's and Laplace's[^ZHA2012][^ABD2015], despite its time consuming calculations[^CHAA2014] and its sensibility to textured regions on image which lead to define false edges and discontinuous edges[^CAN1986]. 
 
@@ -161,7 +161,7 @@ The first step affects the number of false-negatives and the two others the numb
 
 ![Eq.7](images/Canny_optimisation.PNG)
 
-**Eq.7: Equation used to define the best function to find edges from a grey-level signal, with f as the function which is used to define edges, and Pi the constrains i modulated by its associated factor µiEquation used to define the best function to find edges from a grey-level signal, with f as the function which is used to define edges, and Pi the constrains i modulated by its associated factor µi [^CAN1986]**
+**Eq.7: Equation used to define the best function to find edges from a grey-level signal, with f as the function which is used to define edges, and Pi the constrains i modulated by its associated factor µiEquation used to define the best function to find edges from a grey-level signal, with f as the function which is used to define edges, and Pi the constrains i modulated by its associated factor µi[^CAN1986]**
 
 The SNR is the signal-to-noise ratio, which has to be as high as possible, but wihtout affecting the localization precision. That is why the author uses the product of these two measurements, so as to maximize both. The third part concerns the sum of the additional constraints that the function has to take into account, as the reduction of edges due to local maxima, and will be defined as the sum of the series of penalty functions. 
 For this, they defined an expression representing the distance between adjacent noise peaks in a defined space, using the Rice noise studies on the response of a function to the application of Gaussian noise[^RIC1945]. 
@@ -180,8 +180,7 @@ After several demonstrations, Canny demonstrated that the Gaussian operator is t
 
 **Eq.8: Gaussian filter[^CAN1986]**
 
-
-Several modification where done to the model in order to improve its efficiency, such as the Deriche modification, allowing the model to treat an infinite extend.
+Several modifications were made to the model in order to improve its efficiency, such as the Deriche modification, allowing the model to use higher threshold values.
 This lead to a change to the efficiency of the Canny method, according to the values considered after a Fourier transformation, leading to the development of a new fonction with only one constant parameter α[^DER1987] [Eq.9], also called the Ding modification, able to take into account pixels under the low threshold value in order to correct edge disruptions[^DIN2001].
 
 ![Eq.9](images/Deriche_equation.png)
@@ -189,15 +188,16 @@ This lead to a change to the efficiency of the Canny method, according to the va
 **Eq.9: Gaussian filter [^DER1987]**
 
 Currently, several plugins using this method have been developed for ImageJ: the Edge Detection, using Canny-Deriche filtering, by Thomas Boudier, the Edge Detector by Carmelo Pulvirenti, able to use other operators (LoG, DoG) and FeatureJ Edges by Erik Meijering. 
-All of them require from the user a Gaussian kernel value or another similar parameter, which will be involved in the initial treatment step by the Gaussian filter, and will define the width of the neighborhood in which only a single peak will be identified, and the low and high threshold value. As we haven't managed to make the Carmelo Pulvirenti plugin work, it was not used in this analysis. Also, the latest review on its plugin was in July 2007, whereas it was in April 2015 for the Thomas Boudier plugin and December 2015 for the Erik Meijering plugin according to the github of the plugin. 
+
+All of them require from the user to specify the standard deviaiton for a Gaussian kernel, which will be involved in the initial processing step by the Gaussian filter, and will define the width of the neighborhood in which only a single peak will be identified. The two other parameters are the low and high threshold value for non-maximum suppression. 
+
+As we haven't managed to make Carmelo Pulvirenti's plugin work, it was not used in this analysis. Also, the latest review on this plugin was in July 2007, whereas it was in April 2015 for Thomas Boudier's plugin and December 2015 for the Erik Meijering's plugin according to their github repository. 
 
 ## Approaches for color images
 
-Unlike greyscale, images encoded in a color space are composed of three channels, which makes the computation trickier. Algorithms for color images usually only take the luminance component into account. This is a cost effective method because according to the color space either the luminance is one of the channels or it can be computed directly, for example with an RGB image. However, all edges are not necessarily best described by the luminance component, which results in a number of false negative edge pixels candidates. Another approach is to construct a cumulative edge map from each component of the image (for example after calculating the sum of the gradient magnitude of the three channels of an RGB image), but the results will be biased depending of the chosen color space. [^BOV2009]
+Unlike greyscale, images encoded in a color space are composed of three channels, which makes the computation trickier. Algorithms for color images usually only take the luminance component into account. This is a cost effective method because according to the color space either the luminance is one of the channels or it can be computed directly, for example with an RGB image. However, all edges are not necessarily best described by the luminance component, which results in a number of false negative edge pixels candidates. Another approach is to construct a cumulative edge map from each component of the image (for example after calculating the sum of the gradient magnitude of the three channels of an RGB image), but the results will be biased depending of the chosen color space[^BOV2009].
 
-Some algorithms developed for edge detection in color images based on vector approaches are described in papers by Trahanias and Venetsanopoulos [^TRA1993] and Scharcanski and Venetsanopoulos [^SCH1997].
-
-Among all the plugins used here, only those related to the Canny operator are able to take care of the RGB picture. 
+Some algorithms developed for edge detection in color images, based on vector approaches, are described in papers by Trahanias and Venetsanopoulos[^TRA1993] and Scharcanski and Venetsanopoulos[^SCH1997].
 
 ## Benchmarking process
 
@@ -236,7 +236,7 @@ Choosing a higher standard deviation for the gaussian filtering reduces the numb
 
 **Fig.7: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1: Input image, 2: smoothing scale=1, 3: smoothing scale=3, 4: smoothing scale=5**
 
-With the Log\_Filtering plugin, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values -1, 0 or 1, the zero-crossings overlaid to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.8]. All the contour lines have a single-pixel width, and due to the DoG filtering the final output is the edges of the contour zones detected by the LoG.
+With the Log\_Filter plugin, we can compute the output of the LoG filtering (in a 0 to 255 range), the absolute value of filtering, the results representing the LoG values -1, 0 or 1, the zero-crossings overlaid to the input image,  and finally the output of the zero-crosing detector. The final output is a binary image where the edge pixels are in white [Fig.8]. All the contour lines have a single-pixel width, and due to the DoG filtering the final output is the edges of the contour zones detected by the LoG.
 
 ![Fig.8](images/Log_Filter.jpg)
 
@@ -248,9 +248,9 @@ While the result is different from the one given by FeatureJ, we can see that th
 
 **Fig.9: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1: Input image, 2: smoothing scale=3, 3: smoothing scale=5, 4: smoothing scale=9**
 
-## Implementation of Canny algorithm
+## Implementations of Canny algorithm
 
-The outputs of Canny Edge Detector and FeatureJ Edges are a binary image where the edge pixels are white [Fig.10]. A visual comparision of the outputs of the two Canny implementations with the same initial parameters show that the results are similar.
+The outputs of Canny Edge Detector and FeatureJ Edges are binary images where the edge pixels are white [Fig.10]. A visual comparision of the outputs of the two Canny implementations with the same initial parameters show that the results are similar.
 
 ![Fig.10](images/Canny2.jpg)
 
@@ -304,7 +304,7 @@ Given that the Canny Edge Detector plugin can also be used on RGB images, we als
 
 ## Qualitative Comparison
 
-As can be seen in the above examples [Fig.5-12], the quality of the resulting edge detection depends a lot on which algorithm is used, and with what parameters. The outputs of all functions show us that the strong contours, corresponding to the hat, the face and the hair are well identified, while the contours of the details, like the hat's feathers are not detected.
+As can be seen in the above examples [Fig.5-12], the quality of the edge detection process depends a lot on which algorithm is used, and with what parameters. The outputs of all functions show us that the strong contours, corresponding to the hat, the face and the hair are well identified, while the contours of the details, like the hat's feathers are often not detected.
  
 For the Sobel algorithm, the edges are outlined correctly, though it also outlines noise (shadows, changes in color) as edges.
  
@@ -320,7 +320,7 @@ All in all, the 2 Canny implementations give nearly identical results, though th
 
 ## Performance Comparison
 
-As can be seen in our benchmark results[Fig.14-16], the Sobel algorithm is the fastest Edge Detection implementation in ImageJ, followed by the Laplacian implementations and then the FeatureJ Edge implementation of the Canny algorithm.
+As can be seen in our benchmark results [Fig.14-16], the Sobel algorithm is the fastest Edge Detection implementation in ImageJ, followed by the Laplacian implementations and then the FeatureJ Edge implementation of the Canny algorithm.
 The Canny Edge Detector implementation is up to three times slower than it's FeatureJ implementation, making it the slowest of all the functions.
 
 As far as memory load goes, most of the algorithms use an average of around 50 MB, with the FeatureJ Laplacian being slightly more voracious (55MB), and the Find Edges (Sobel) algorithm using only 27MB of memory on average.
@@ -329,7 +329,6 @@ Sobel being the simplest algorithm, we expected it would also be the least memor
 The two Laplacian implementations are difficult to compare, as they do not offer the same customizable parameteres, which might skew the results. The Canny algorithms, though, do offer the same customizable parameters, and can therefore be compared without the danger that a changed parameter is the cause of the differences observed, instead of the implementation itself. 
 
 The enormous difference in speed between the Canny Edge Detector and the FeatureJ Edges plugin can only be explained by the choices made by their developpers during the implementation for ImageJ, as well as the optimizations they added to the original algorithm. Canny Edge Detector is slower than the other plugin but it is also the only one able to process RGB images. Moreover,if we compare the speed and memory load of running the Canny Edge Detector on an RGB image versus on an 8-bit version of that same image, we see no real difference in speed or memory load[Fig.17]. An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. This can be explained by the fact that one of the first steps of this function is a conversion of the image to an 8-bit format, meaning that all the folowing steps are the same for all types of images.
-
 
 # Conclusion
 
