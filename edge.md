@@ -2,9 +2,9 @@
 
 # Edge detection
 
-# Authors : Peter Bock\*, Cécilia Ostertag, Ophélie Thierry
+Authors : Peter Bock\*, Cécilia Ostertag, Ophélie Thierry
 
-# Introduction
+## Introduction
 
 Image processing is one of the most important fields in the domain of computer vision[^BOV2009]. Most scientific domains use information extracted from images in one way or another. For a computer to make sense of these images, and be able to extract meaningful data from them, it needs to be able to interprete and understand them.
 That is where Image Processing comes in, allowing a computer to process an image and detect its major features, and to perform higher-level vision tasks like face recognition.
@@ -23,9 +23,9 @@ We will then perform a benchmark on the ImageJ plugins, in order to compare them
 
 The link to our github repository containing our report in markdown format, the images, and the code for the benchmark is : https://github.com/bockp/Edge-Detection-project .
 
-# Material & Methods
+## Material & Methods
 
-## Edge-detection theory
+### Edge-detection theory
 
 The derivative or the gradient of the grey level intensity can be used to detect edges, as abrupt intensity changes translate to local extrema in the 1st derivative (Sobel approach), and to a zero-crossing in the 2nd derivative[^BOV2009] [^CHAA2014] [Fig.1] (Laplacian approach).
 
@@ -42,7 +42,7 @@ These algorithms usually have three main steps:
 
 Errors in edge detection can either be false positives (classification of non-edge pixels as edge pixels) or false negatives (classification of edge pixels as non-edge pixels). There is also a conflict between the correct detection of edges and the precise localization of their positions. 
 
-## Robert's Cross Operator
+### Robert's Cross Operator
 
 The Robert's Cross Operator, first described in 1975 by Davis L.S.[^DAV1975], performs a simple, efficient, computationally cheap 2D spatial gradient measurement on an image, which is based on the 2D measure of the 1st derivative[Eq.1]
 
@@ -57,7 +57,7 @@ The operator consists of a pair of 2X2 convolution kernels[Fig.2], designed to r
 
 **Fig.2: Robert's Cross operator's horizontal and vertical convolution masks[^MAI2009]**
 
-## Sobel Operator
+### Sobel Operator
 
 The Sobel Operator, introduced in a presentation at the Standford A.I Project in 1968 by Irwin Sobel[^SOB1968], is the default algorithm implemented in ImageJ for the Find Edges function, and is considered one of the simplest functional Edge Detection algorithms.
 
@@ -85,7 +85,7 @@ The two resulting images are then combined to get an image representing the appr
 **Fig.4: Result of Sobel filtering. a: original image, b: Sobel Y-gradient image, c: Sobel X-gradient image, d: absolute gradient magnitude image**
 
 
-## Prewitt Operator
+### Prewitt Operator
  
 The Prewitt operator, developed by Judith M. S. Prewitt[^PRE1970], is also based on the gradient of the gray level intensity function[Equation.1], and functions in  a similar way to the Sobel algorithm, though using different convolution masks[Fig.5]
 
@@ -93,7 +93,7 @@ The Prewitt operator, developed by Judith M. S. Prewitt[^PRE1970], is also based
 
 **Fig.5: Prewitt operator's horizontal and vertical convolution masks[^MAI2009]** 
 
-## Kirsch Operator
+### Kirsch Operator
 
 The Kirsch operator, named after the computer scientist Russell A. Kirsch[^KIR1971], uses the same gray level gradient based approach as the Sobel, Prezitt and Robert's Cross operators, but with a more complex kernel convolution.
 
@@ -104,7 +104,7 @@ The Kirsch Operator possesses a single convolution kernel, but the kernel in que
 
 **Fig.6: Kirsch kernel, in the original configuration (left) and configuration 7 (6 45° rotations to the right performed on the original configuration)[^KEK2010]** 
 
-## Laplacian based methods:
+### Laplacian based methods:
 
 The Laplacian[^MAR1980] is a 2D isotropic measure of the 2nd spatial derivative[Eq.3]. It is used to detect regions of rapid intensity change in an image :
 - In the regions of constant intensity (intensity gradient equal to zero), the Laplacian is equal to zero. 
@@ -124,7 +124,7 @@ The Laplacian can be estimated by designing a pair of 1D 2nd derivative filters 
 
 Other 3x3 kernels are :
 
-![Fig.7](images/kernel_laplacian.jpg)
+![Fig.7](images/kernel_laplacian.jpg){ width=50% height=50%}
 
 **Fig.7: Laplacian operator kernels)[^BOV2009]** 
 
@@ -150,7 +150,7 @@ In ImageJ, two plugins provide an implementation of the LoG operator.
 The first one is the Laplacian plugin included in the FeatureJ package created by Erik Meijering. This plugin is based on ImageScience, a java library for image processing, which provides tools for computing the LoG of an image and detecting the zero-crossings. The only parameter accessible to the user is the laplacian smoothing scale, meaning the standard deviation used for the Gaussian kernel.
 The second one is the Log\_Filter plugin, by Lokesh Taxali and Jesse Jin. This plugin is composed of a unique class file and provides more parameters to the user : sigma (standard deviation for the Gaussian filter), filter width (size of the LoG kernel), threshold for 1D DoG filtering, and delta (level for adjusting zero-crossings). Unlike the previous plugin, this one involves thresholding of the LoG output with a Difference of Gaussians. Moreover, its use is limited to 8-bit images.
 
-## Canny Operator
+### Canny Operator
 
 The Canny operator is often used and known as less sensitive to noise than Sobel's and Laplace's[^ZHA2012] [^ABD2015], despite its time consuming calculations[^CHAA2014] and its sensibility to textured regions on image which lead to define false edges and discontinuous edges[^CAN1986]. 
 
@@ -198,13 +198,13 @@ All of them require from the user to specify the standard deviaiton for a Gaussi
 
 As we haven't managed to make Carmelo Pulvirenti's plugin work, it was not used in this analysis. Also, the latest review on this plugin was in July 2007, whereas it was in April 2015 for Thomas Boudier's plugin and December 2015 for the Erik Meijering's plugin according to their github repository. 
 
-## Approaches for color images
+### Approaches for color images
 
 Unlike greyscale, images encoded in a color space are composed of three channels, which makes the computation trickier. Algorithms for color images usually only take the luminance component into account. This is a cost effective method because according to the color space either the luminance is one of the channels or it can be computed directly, for example with an RGB image. However, all edges are not necessarily best described by the luminance component, which results in a number of false negative edge pixels candidates. Another approach is to construct a cumulative edge map from each component of the image (for example after calculating the sum of the gradient magnitude of the three channels of an RGB image), but the results will be biased depending of the chosen color space[^BOV2009].
 
 Some algorithms developed for edge detection in color images, based on vector approaches, are described in papers by Trahanias and Venetsanopoulos[^TRA1993] and Scharcanski and Venetsanopoulos[^SCH1997].
 
-## Benchmarking process
+### Benchmarking process
 
 The performance and the efficiency of each edge detection function can be assessed through several parameters: the execution time necessary for the processing of an input image and the memory load corresponding to this opperation.
 
@@ -217,9 +217,9 @@ As the Canny plugin is also able to process RGB pictures, a new benchmark is don
 The benchmark was done using a computer with an Intel core I7 @4.0 Ghz, on Linux Ubuntu 16.04 64 bits with a kernel 4.10. The version of ImageJ is the 1.51q, using Java 1.8.0\_112 (64 bits). We fixed the processor fequency with acpi-cpufreq module to avoid a change of frequency during the benchmark, fixed the choice of processor with the taskset command to avoid a sharing of the processor load, and finally we fixed the ImageJ process with a high priority to avoid preemption.  
 
 
-# Results
+## Results
 
-## Implementations of Sobel algorithm
+### Implementations of Sobel algorithm
 
 The output of ImageJ Find Edges function is an 8-bit image in which the contours are in white[Fig.8]. Edges are founded but some of them seem to have a width define by several pixels or be made of multiple edges with a one pixel width side by side. It is also difficult to visualy define a precise enclosed contour-like structure.
 
@@ -227,7 +227,7 @@ The output of ImageJ Find Edges function is an 8-bit image in which the contours
 
 **Fig.8: Result of Find Edges function. 1: Input image, 2: Output image**
 
-## Implementations of Laplacian of Gaussian algorithm
+### Implementations of Laplacian of Gaussian algorithm
 
 The FeatureJ Laplacian only provides the display of the output of the LoG and the zero-crossing detector [Fig.9]. The contours are also of single-pixel width and in absence of a thresholding all contours are closed lines.
 
@@ -253,7 +253,7 @@ While the result is different from the one given by FeatureJ, we can see that th
 
 **Fig.12: Result of FeatureJ Laplacian plugin, with various smoothing scales. 1: Input image, 2: smoothing scale=3, 3: smoothing scale=5, 4: smoothing scale=9**
 
-## Implementations of Canny algorithm
+### Implementations of Canny algorithm
 
 The outputs of Canny Edge Detector and FeatureJ Edges are binary images where the edge pixels are white[Fig.13]. A visual comparision of the outputs of the two Canny implementations with the same initial parameters show that the results are similar.
 
@@ -279,7 +279,7 @@ Canny edge detector is the only plugin working on RGB images, and gives an outpu
 
 **Fig.16: Result of Canny Edge Detector plugin, with gaussian kernel radius=2, low threshold=2.5, high threshold=7.5. 1:8-bit input image, 2:8-bit output image, 3:RGB input image, 4:RGB output image**
 
-## Benchmark results
+### Benchmark results
 
 The results of the benchmark for the execution time[Fig.17 and Fig.19] show that the Find Edges function is the quickest to run on this machine, with a mean of 0.88 ms, followed by Log\_Filter, FeatureJ Laplacian and FeatureJ Edges which do not have a mean execution time superior to 50 ms. However the Canny Edge Detector plugin has an average exectution time of 205.8 ms.
 
@@ -313,9 +313,9 @@ Given that the Canny Edge Detector plugin can also be used on RGB images, we als
 
 The mean obtained by the benchmark for the JVM memory load and the time consumption are the same for the RGB and the 8-bits picture with respectively 51 MB and 205 ms, but the distribution of the data is not spread in the same way between the two sides of the median for the execution time. The data does not follow the Normal Distribution, and the Kruskal-Wallis test shows a significant difference only for the time consumption, with a p-value of 1e-04 against 0,49. 
 
-# Discussion
+## Discussion
 
-## Qualitative Comparison
+### Qualitative Comparison
 
 As can be seen in the above examples [Fig.8-15], the quality of the edge detection process depends a lot on which algorithm is used, and with what parameters. The outputs of all functions show us that the strong contours, corresponding to the hat, the face and the hair are well identified, while the contours of the details, like the hat's feathers are often not detected (at least not with the range of parameter values used here).
  
@@ -331,7 +331,7 @@ The two Canny implementations[Fig.13] give a better result than both the Sobel i
 They are not perfect, and miss edges where the pixel values do not vary sharply on each side, create edges in the presence of differences due to lighting, and create disrupted edges.
 All in all, the 2 Canny implementations give nearly identical results, though the FeatureJ implementation detects more continuous edges than the Canny Edge Detector. However Canny Edge Detector can process RGB images contrarly to the other plugins. 
 
-## Performance Comparison
+### Performance Comparison
 
 As can be seen in our benchmark results[Fig.17-19], the Sobel algorithm is the fastest Edge Detection implementation in ImageJ, followed by the Laplacian implementations and then the FeatureJ Edge implementation of the Canny algorithm.
 The Canny Edge Detector implementation is up to three times slower than it's FeatureJ implementation, making it the slowest of all the functions.
@@ -345,7 +345,7 @@ The enormous difference in speed between the Canny Edge Detector and the Feature
 
 An RGB image being more complex because of its 3 channels, we would have expected higher processing time and memory load when running Canny Edge Detector plugin on the RGB version of our image. This can be explained by the fact that one of the first steps of this function is a conversion of the image to an 8-bit format, meaning that all the folowing steps are the same for all types of images.
 
-# Conclusion
+## Conclusion
 
 Edge detection stays one of the most important steps in image processing in various domains (use of Canny, LoG and Sobel in electron microscopy images to identify neuron structure[^ZHU2014], use of the Canny algorithm in the identification of weapons on CCTV camera pictures[^GRE2016], use of edge detection method in order to identify organs images[^JAL2017]). In the biological field, it allows to give a biological meaning to a picture, define structures which will be analysed thereafter. The two main approaches consist to use either the gradient or the derivative of the greylevel intensity, and it has lead to the development of several algoritms more than twenty years ago[^SOB1968] [^PRE1970] [^KIR1971] [^CAN1986] still reviewed and updated in order to reduce their sensibility to the different noises and keep the specificity of each approch[^DIN2001] [^TRE2013] [^HAQ2015] [^LUO2017]. Using theses algorithms, several tools adapted for a specific targuet are developed[^CHO2016]. 
 
@@ -353,7 +353,8 @@ Of all the functions in ImageJ, the fastest and least memory intensive is the So
 
 Our conclusion is that the choice of the algorithm have to take into account the time and memory limitations of the users, as well as the type of images they are working with. 
 
-# References
+
+
 
 [^ABD2015]: Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
 
