@@ -1,6 +1,6 @@
 # TODO :
 
-* PROOFREAD : check spelling, captions, correct display of images and text formating, numerotation of figures, references, remove all comments
+* PROOFREAD : check spelling, captions, correct display of images and text formating, numerotation of figures, references : do we keep the reference of the article for the benchmark ?, remove all comments
 * Convert to pdf, check again
 
 # Tiny Image in Javascript (TIJ) project
