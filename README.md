@@ -1,9 +1,7 @@
 # TODO :
-* peer-review algorithm descriptions.
-* Finish explanations of Canny algorithm.
-* ~~Find info on the complexities of the algorithms if possible~~ couldn't find concrete information.
-* Conclusion.
-* PROOFREAD 'TILL WE DIE
+
+* PROOFREAD : check spelling, captions, correct display of images and text formating, numerotation of figures, references, remove all comments
+* Convert to pdf, check again
 
 # Tiny Image in Javascript (TIJ) project
 
