@@ -2,7 +2,7 @@
 
 # Edge detection
 
-# Authors : Cécilia Ostertag, Ophélie Thierry, Peter Bock
+# Authors : Cécilia Ostertag, Ophélie Thierry, Peter Bock*
 
 # Introduction
 
@@ -14,7 +14,7 @@ The physical notion of edge comes from the shape of three dimensional objects or
 Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels. 
 
 In our project, we will begin by documenting the 3 main linear edge detection approaches and algorithms, and their implementation in the image processing software ImageJ[^SCH2015]:
-- Convolution with edge templates (Prewit, Sobel, Kirsh)[^PRE1970],[^SOB1968]
+- Convolution with edge templates (Prewit, Sobel, Kirsh)[^PRE1970],[^SOB1968],[^KIR1971]
 - Zero-crossings of Laplacian of Gaussian convolution [^MAR1980]
 - Zero-crossings of directional derivatives of smoothed images (Canny)[^CAN1986]
 
@@ -316,15 +316,11 @@ The enormous difference in speed between the Canny Edge Detector and the Feature
 
 # Conclusion
 
-Edge detection stay one of the most important step in the image processing in various domains ([^ZHU2014], [^HAQ2015], [^GRE2016], [^JAL2017]). In the biological field, it allow to give a biological meaning to a picture, define structure which will could be analyse thereafter. The two main approach consist to use either the gradient or the derivative of the grey level intensity, and it has lead to the development of three algoritms more than twenty years ago ([^SOB1968], [^PRE1970], [^KIR1971], [^CAN1986]) still reviewed and updated in order to reduce their sensibility to the different noises and keep the specificity of each approch ([^DIN2001], [^TRE2013], [^LUO2017]). Using theses algorithms, several tools adapted for a specific targuet are developed [^CHO2016]. 
+Edge detection stays one of the most important steps in image processing in various domains ([^ZHU2014], [^HAQ2015], [^GRE2016], [^JAL2017]). In the biological field, it allows to give a biological meaning to a picture, define structures which will be analysed thereafter. The two main approaches consist to use either the gradient or the derivative of the greylevel intensity, and it has lead to the development of several algoritms more than twenty years ago ([^SOB1968], [^PRE1970], [^KIR1971], [^CAN1986]) still reviewed and updated in order to reduce their sensibility to the different noises and keep the specificity of each approch ([^DIN2001], [^TRE2013], [^LUO2017]). Using theses algorithms, several tools adapted for a specific targuet are developed [^CHO2016]. 
 *(changer formulation dernière phrase ?)*
 *(au niveau des exemples, préciser quel algo utilisé afin de voir qu'ils le sont tous ?)*
 
-Of all the functions in ImageJ, the fastest and least memory intensive is the Sobel implementation Find Edges, though the function giving the best results (least amount of false positives and false negatives) is the FeatureJ implementation of the Canny Edge Detection algorithm. We can't dismiss the Canny Edge Detector implementation entirely, though, as it is the only one studied capable of processing RGB images. The study of these five examples of edge detection functions showed that there is not a unique ideal choice of algorithm for edge detection. Each of them realize a specific approach of the edge detection, offering to the user a customized analysis according to its needs. The Sobel provide a very fast and less time consuption *(not sure of this term, rather light analysis ?)* analysis, the Laplacian approaches allow to always define a closed *(pas sure que ce soit le bon terme)* structure, and the Canny approaches define the most significant edges with a specificity for the Canny Edge Detector able to take care of the RGB pictures. The choice of the algorithm have to take into account the time and memory limitations of the users, as well as the type of images they are working with. 
-
-
-*algorithmes developpés il y a 20-30 ans toujours utilisés aujourd'hui, amélioration des techniques de detection de contours au cours du temps (plus de sensibilité et spécificité). Nouveaux algos / nouvelles optimisations développées de nos jours*
-
+Of all the functions in ImageJ, the fastest and least memory intensive is the Sobel implementation Find Edges, though the function giving the best results (least amount of false positives and false negatives) is the FeatureJ implementation of the Canny Edge Detection algorithm. We can't dismiss the Canny Edge Detector implementation entirely, though, as it is the only one studied capable of processing RGB images. The study of these five examples of edge detection functions showed that there is not a unique ideal choice of algorithm for edge detection. Each of them implements a specific approach of edge detection, offering to the user a customized analysis according to its needs. The Sobel one provides a very fast and memory effective processing, the Laplacian approach from FeatureJ allows the obtention of closed contours structures, and the Canny approaches define the most significant edges, with a specificity for the Canny Edge Detector function able to process RGB pictures. Our conclusion is that the choice of the algorithm have to take into account the time and memory limitations of the users, as well as the type of images they are working with. 
 
 # References
 
