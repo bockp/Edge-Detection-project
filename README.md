@@ -30,7 +30,7 @@ We will use this benchmarking to study how efficient each algorithm seems at det
 
 ## Development of one or more of the Edge Detectors in JS/ECMA 6 + benchmarking and comparison with previous benchmark.
 
-Second month consists of the development of one or more functions in vanilla Javascript — the latest version will be used, ECMAScript 2015 or ECMAScript 6 — using the *functional programming paradigm*.
+Second month consists of the development of one or more functions in Javascript — the latest version will be used, ECMAScript 2015 or ECMAScript 6 — using the **functional programming paradigm**.
 
 
 Only, Mozilla Firefox and Google Chrome will be used as testing platforms for the JS code.
@@ -39,6 +39,16 @@ node.js will *not* be used in this project because the program architecture is n
 
 
 The JS code must follow — as much as possible — the style guidelines of AirBnB available in [github.io](https://github.com/airbnb/javascript).
+
+Workload distribution:
+
+Cecilia Ostertag : Canny operator
+Ophelie Thierry  : Sobel/Prewitt/Cross operators
+Peter Bock       : LaPlace operators
+
+if time (and motivation) allows:
+
+* Kirsch, 
 
 
 ## Implementation of the *same functions as above* using the *WebGL library* + benchmarking and comparison with previous benchmarks.
