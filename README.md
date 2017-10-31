@@ -1,3 +1,20 @@
+# To do:
+
+[] Write a general Kernel function that takes a mask of size 3X3 and applies it to our 1D array (representing our image), and returns the result.
+
+[] Optimize the kernel with latest advances in how to apply kernels, if any ?
+
+[] Figure out most optimized conv. matrix for each algorithm (AKA., convolution matrix includes not only the mask itself, but also any extras like normalization, etc... that recent articles show makes our results better).
+
+[] LaPlace
+
+[] Sobel, Prewitt, Cross
+
+[] Canny
+
+[] Write report, cite optimized algo articles, why we choose certain and ignored others...
+
+[] anything else ?
 
 # Tiny Image in Javascript (TIJ) project
 
@@ -43,13 +60,15 @@ The JS code must follow — as much as possible — the style guidelines of AirB
 Workload distribution:
 
 Cecilia Ostertag : Canny operator
+
 Ophelie Thierry  : Sobel/Prewitt/Cross operators
+
 Peter Bock       : LaPlace operators
+
 
 if time (and motivation) allows:
 
 * Kirsch, 
-
 
 ## Implementation of the *same functions as above* using the *WebGL library* + benchmarking and comparison with previous benchmarks.
 
