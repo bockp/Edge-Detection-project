@@ -2,7 +2,9 @@
 
 
 //fonciton que j'ai trouvee qui permet de creer un element IMG dans le html et afficher une iamge dedans...
+
 // possiblement peu utile...
+
 function show_image(src, width, height, alt) {
     var img = document.createElement("img");
     img.src = src;
@@ -19,42 +21,48 @@ function show_image(src, width, height, alt) {
 //                 110,
 //                 'Google Logo');
 
-
+// TEST array (since we don't have the code for image loading/transformation yet)
 let beforeArray = [[1,2,3],[1,2,3],[1,2,3],[1,2,3],[1,2,3]];
 
+// -----------------------------------------------------------------------------
+// STEP 1: zero-padding step
 
-// zero-padding step
-// tres moche et horriblement mal organisee, mais je suis un peu fatigue...
-
-
-// fonction ajoutant un zero avant et apres un array donnee
-function padArray(arr,padding) {
-  let paddedArr = arr.slice(0);
-  paddedArr.push(padding);
-  paddedArr.unshift(padding);
-  return paddedArr;
-}
+// I FOUND HOW TO FUNCTIONALIZE IT !!!!
 
 
-// fonction ajoutant un array de 0 avant et apres les autres arrays de l'array 2D, avec la meme longueur.
-//fait aussi le padding des arrays individuelles apres.
-function padImage(arr){
-  let imgArr = arr.slice(0);
-  let padding = new Array(arr[0].length).fill(0);
-  imgArr = padArray(imgArr,padding);
-  imgArr = imgArr.map(subarray => padArray(subarray,0));
-  return imgArr;
-}
-
-// voili voila, padding complete, qu'importe les dimensions de l'image (tant que les subarrays soient de taille identique...).
-let paddedBeforeArray = padImage(beforeArray);
+// FUNCTIONAL: fonction ajoutant un zero avant et apres un array donnee
+let padArray = subarray => [0].concat(subarray).concat(0);
 
 
-let x = paddedBeforeArray.join("\n"); // juste une meilleur affichage.
+// FUNCTIONAL: cree un array de 0 de la longueur de l'array donnee comme entree
+let paddingArray = array => new Array(array.length).fill(0);
+// FUNCTIONAL: pads the 2D array with an 0 array of the same length as it's internal arrays,
+//at both ends of the 2D array.
+// The use of an extra [] around the paddingArray function is because .concat()
+//tries to recursively add each element of an array it is given as individual elemnts.
+// but it doesn't do this recursively, so putting the array to append itself inside
+//an array fixes the unwanted behaviour.
+// FIX: this should probably be fixed in a "proper" way. this is a bit too "hacky" ?!?
 
-//display de la valeur
-let message = "hello";
-alert(x);
+let padArray2DEnds = array2D => [ paddingArray(array2D[0]) ].concat(array2D).concat([ paddingArray(array2D[0]) ]);
 
+// FUNCTIONAL: applies padArray() to every internal array of a 2D array
+let padInternalArrays = array2D => array2D.map(subarray => padArray(subarray));
+
+// FUNCTIONAL: Complete image padding function, padding each internal array AND adding equal-length arrays of 0 to both ends.
+// AKA., This function zero-pads the entire image.
+let padImageArray = array2D => padInternalArrays(padArray2DEnds(array2D));
+
+// APPLICATION:
+let paddedBeforeArray = padImageArray(beforeArray);
+
+let displayArray = paddedBeforeArray.join("\n"); // juste une meilleur affichage.
+
+// Display the padded 2D array
+alert(displayArray);
+
+
+
+// -----------------------------------------------------------------------------
 
 // convolution function
