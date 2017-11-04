@@ -27,7 +27,9 @@ let beforeArray = [[1,2,3],[1,2,3],[1,2,3],[1,2,3],[1,2,3]];
 // -----------------------------------------------------------------------------
 // STEP 1: zero-padding step
 
-// I FOUND HOW TO FUNCTIONALIZE IT !!!!
+// warning -> this only works for 3X3 kernels.
+// I'm having enormous difficulties figuring out how to apply it so that we get the correct number of starting and ending zero arrays, if we specify a specific array size...
+
 
 
 // FUNCTIONAL: fonction ajoutant un zero avant et apres un array donnee
