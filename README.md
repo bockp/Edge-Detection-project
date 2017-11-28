@@ -1,6 +1,5 @@
-# To do:
 
-- [ ] Write a general Kernel function that takes a mask of size 3X3 and applies it to our 1D array (representing our image), and returns the result.
+# To do:
 
 - [ ] Optimize the kernel with latest advances in how to apply kernels, if any ?
 
@@ -8,13 +7,14 @@
 
 - [ ] LaPlace
 
-- [ ] Sobel, Prewitt, Cross
-
-- [ ] Canny
-
 - [ ] Write report, cite optimized algo articles, why we choose certain and ignored others...
 
-- [ ] anything else ?
+- [ ] Functionalize code (not the convolution function, it's not our job)
+
+# Done for uint8 images:
+- [ ] Convolution function (to be replaced by the function implemented by the Filters Group)
+- [ ] Sobel, Prewitt, Cross
+- [ ] Canny (to test with gaussian blur) 
 
 # Tiny Image in Javascript (TIJ) project
 
