@@ -1,9 +1,9 @@
 /**
  * Display uint8 images
  */
-let img0 = new T.Image('uint8',100,100); //360,288;
-//lena1 was blured with gaussian blur sigma=1.0 with imageJ
-img0.setPixels(lena1_px); //boats_pixels
+let img0 = new T.Image('uint8',360,288); //360,288;
+//try with lena1_px 100x100 (blured with gaussian blur sigma=1.0 with imageJ)
+img0.setPixels(boats_pixels); //boats_pixels
 let win0 = new T.Window('Boats');
 let view0 = T.view(img0.getRaster());
 // Create the window content from the view
@@ -23,9 +23,10 @@ win.addView(view);
 // Add the window to the DOM and display it
 win.addToDOM('workspace');
 
-/*
+
 let testSobel = sobel(img0);
 let testPrewitt = prewitt(img0);
+let testRobert= robertscross(img0);
 
 
 let win1 = new T.Window('Boats Sobel');
@@ -40,4 +41,10 @@ let view2 = T.view(testPrewitt.getRaster());
 win2.addView(view2);
 // Add the window to the DOM and display it
 win2.addToDOM('workspace');
-*/
+let win3 = new T.Window("Boats Robert's cross");
+let view3 = T.view(testRobert.getRaster());
+// Create the window content from the view
+win3.addView(view3);
+// Add the window to the DOM and display it
+win3.addToDOM('workspace');
+
