@@ -26,6 +26,8 @@ const SOBEL_H = [-1, 0, 1,-2,0, 2,-1, 0, 1];
 const SOBEL_V = [1, 2, 1,0,0, 0,-1, -2, -1];
 const PREWITT_H = [-1, 0, 1, -1, 0, 1, -1, 0, 1];
 const PREWITT_V = [-1, -1, -1, 0, 0, 0, 1, 1, 1];
+const ROBERT_H = [0, 0, 0, 0, 0, 1, 0, -1, 0];
+const ROBERT_V = [0, 0, 0, 0, 1, 0, 0, 0, -1];
 
 
 const sumOfKernels = function (img, kerH, kerV, copy=true)
@@ -69,7 +71,6 @@ const prewitt = function(img, copy=true)
 	console.log("Prewitt filter");
 	let G = sumOfKernels(img, PREWITT_H, PREWITT_V);
     G = normalizeConvResult(G);
-    console.log(G);
     let output = new T.Image('uint8',img.width,img.height);
 	output.setPixels(G);
     
@@ -82,7 +83,18 @@ const sobel = function(img, copy=true)
 	console.log("Sobel filter");
 	let G = sumOfKernels(img, SOBEL_H, SOBEL_V);
     G = normalizeConvResult(G);
-    console.log(G);
+    let output = new T.Image('uint8',img.width,img.height);
+	output.setPixels(G);
+    
+    return output;
+    
+}
+
+const robertscross = function(img, copy=true)
+{
+	console.log("Robert's cross filter");
+	let G = sumOfKernels(img, ROBERT_H, ROBERT_V);
+    G = normalizeConvResult(G);
     let output = new T.Image('uint8',img.width,img.height);
 	output.setPixels(G);
     
