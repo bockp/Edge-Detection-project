@@ -11,7 +11,7 @@
 
 - [ ] Functionalize code (not the convolution function, it's not our job)
 
-# Done for uint8 images:
+# Done for uint8 and rgba images:
 - [ ] Convolution function (to be replaced by the function implemented by the Filters Group)
 - [ ] Sobel, Prewitt, Cross
 - [ ] Canny (to test with gaussian blur) 
