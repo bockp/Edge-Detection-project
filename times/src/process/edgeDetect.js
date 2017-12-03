@@ -28,7 +28,32 @@ const PREWITT_H = [-1, 0, 1, -1, 0, 1, -1, 0, 1];
 const PREWITT_V = [-1, -1, -1, 0, 0, 0, 1, 1, 1];
 const ROBERT_H = [0, 0, 0, 0, 0, 1, 0, -1, 0];
 const ROBERT_V = [0, 0, 0, 0, 1, 0, 0, 0, -1];
+const LOG_9x9_1_4 = [0,1,1,2,2,2,1,1,0,1,2,4,5,5,5,4,2,1,1,4,5,3,0,3,5,4,1,2,5,3,-12,-24,-12,3,5,2,2,5,0,-24,-40,-24,0,5,2,2,5,3,-12,-24,-12,3,5,2,1,4,5,3,0,3,5,4,1,1,2,4,5,5,5,4,2,1,0,1,1,2,2,2,1,1,0];
+const LOG_5x5 = [0,0,1,0,0,0,1,2,1,0,1,2,-16,2,1,0,1,2,1,0,0,0,1,0,0];
 
+
+const word_to_rgb = function(word)
+{
+	a = (word & 0xFF000000) >> 24;
+	r = (word & 0x000000FF);
+	g = (word & 0x0000FF00) >> 8;
+	b = (word & 0x00FF0000) >> 16;
+	
+	argb = [a,r,g,b];
+	return argb;
+}
+
+const to8bit = function (img, copy=true)
+{
+	console.log("converting RGB picture to 8bit");
+	let data = img.raster.pixelData;
+	let data8bit = data.map((x) => 0.21*word_to_rgb(x)[1]+0.72*word_to_rgb(x)[2]+0.07*word_to_rgb(x)[3]);
+	
+	let output = new T.Image('uint8',img.width,img.height);
+	output.setPixels(data8bit);
+    
+    return output;
+}
 
 const sumOfKernels = function (img, kerH, kerV, copy=true)
 {
@@ -68,6 +93,10 @@ const normalizeConvResult = function(data)
 
 const prewitt = function(img, copy=true)
 {
+	if (img.type === 'rgba')
+	{
+		img = to8bit(img);
+	}
 	console.log("Prewitt filter");
 	let G = sumOfKernels(img, PREWITT_H, PREWITT_V);
     G = normalizeConvResult(G);
@@ -80,6 +109,10 @@ const prewitt = function(img, copy=true)
 
 const sobel = function(img, copy=true)
 {
+	if (img.type === 'rgba')
+	{
+		img = to8bit(img);
+	}
 	console.log("Sobel filter");
 	let G = sumOfKernels(img, SOBEL_H, SOBEL_V);
     G = normalizeConvResult(G);
@@ -92,6 +125,10 @@ const sobel = function(img, copy=true)
 
 const robertscross = function(img, copy=true)
 {
+	if (img.type === 'rgba')
+	{
+		img = to8bit(img);
+	}
 	console.log("Robert's cross filter");
 	let G = sumOfKernels(img, ROBERT_H, ROBERT_V);
     G = normalizeConvResult(G);
@@ -100,6 +137,43 @@ const robertscross = function(img, copy=true)
     
     return output;
     
+}
+
+const LoG = function(img, kernel=LOG_9x9_1_4, copy=true)
+{
+	if (img.type === 'rgba')
+	{
+		img = to8bit(img);
+	}
+	const W = img.width;
+	const H = img.height;
+	let data = img.raster.pixelData;
+	let ker = logKernel(5,1.0);
+	console.log(ker);
+	let log_data = convolve(img, kernel).raster.pixelData;
+	//let zero_cross = log_data.map((x) => (x == 0) ? x=255 : x=0);
+	//threshold LoG output to 0
+	let thr_img = log_data.map((x) => (x >= 0) ? x=255 : x=0);
+	let zero_cross=[];
+	let i;
+	for (i=1; i <= data.length-1; i++)
+	{					
+		if ( (thr_img[i] === 255) && ( (thr_img[i%W-1+W*Math.floor(i/W)-1] === 0) || (thr_img[i%W+W*Math.floor(i/W)-1] === 0) || (thr_img[i%W+1+W*Math.floor(i/W)-1] === 0) || (thr_img[i%W-1+W*Math.floor(i/W)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W)] === 0)  || (thr_img[i%W-1+W*Math.floor(i/W)+1] === 0) || (thr_img[i%W+W*Math.floor(i/W)+1] === 0) || (thr_img[i%W+1+W*Math.floor(i/W)+1] === 0) ) ) //foreground point has at least one background neighbor
+		{
+			zero_cross.push(255);
+		}
+		else
+		{
+			zero_cross.push(0);
+		}	
+	}
+	
+	
+	let output = new T.Image('uint8',img.width,img.height);
+	output.setPixels(zero_cross);
+	console.log(thr_img);
+    
+    return output;
 }
 
 /**
@@ -244,28 +318,6 @@ const unitaryLoG = (x,y,sigma) => Math.exp(( -((x*x) + (y*y))/(2.0*sigma*sigma) 
  * @author peter bock
  */
 const logKernel = (kernelSize,sigma) => normalize(kernelGenerator( kernelSize, sigma, unitaryLoG ));
-
-
-
-
-
-//// MAXIMA SEARCH
-
-/**
- * <Description>
- *
- * @param {type} <name> - <Description>
- * @return {type} - <Description>
- *
- * @author
- */
-
-
-
-
-
-
-
 
 
 /**
@@ -505,7 +557,11 @@ const canny = function(img, low_thr, high_thr, sigma=2.0, copy=true)
 	const W = img.width;
 	const H = img.height;
     let data = img.raster.pixelData;
-	//TODO convert rgb to greyscale
+	//convert rgb to greyscale
+	if (img.type === 'rgba')
+	{
+		img = to8bit(img);
+	}
 	//TODO gaussian filtering (init + convolve)
 	//console.log("gaussian filtering (3x3 kernel)");
 	//const gaussian_ker = gaussianKernel(3,1.0);
