@@ -4,10 +4,10 @@
 <meta charset="utf8">
 <title>Test Rendering</title>
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet"> 
-<link rel="stylesheet" type="text/css" href="../css/times.css">
-<script type="text/javascript" src="../javascripts/TIMES.bundle.js"></script>
-<script type="text/javascript" src="../samples/boats_360x288.js"></script>
-<script type="text/javascript" src="../samples/clown_rgba8888_320x200.js"></script>
+<link rel="stylesheet" type="text/css" href="../times/css/times.css">
+<script type="text/javascript" src="../times/javascripts/TIMES.bundle.js"></script>
+<script type="text/javascript" src="../times/samples/boats_360x288.js"></script>
+<script type="text/javascript" src="../times/samples/clown_rgba8888_320x200.js"></script>
 <script type="text/javascript" src="../samples/Lenna.js"></script>
 <script type="text/javascript" src="../src/process/edgeDetect.js"></script>
 
