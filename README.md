@@ -1,4 +1,15 @@
 
+
+* Pour utiliser le repertoire crazybiocomputing/Times distant dans un git local, faites le clone initiale comme ceci:
+
+ git clone --recursive <project url>
+
+ou faites, dans un git local existant:
+
+git submodule update --init --recursive
+
+Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
+
 # To do:
 
 - [ ] Optimize the kernel with latest advances in how to apply kernels, if any ?
