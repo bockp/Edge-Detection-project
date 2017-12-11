@@ -12,20 +12,19 @@ Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
 
 # To do:
 
-- [ ] Optimize the kernel with latest advances in how to apply kernels, if any ?
-
-- [ ] Figure out most optimized conv. matrix for each algorithm (AKA., convolution matrix includes not only the mask itself, but also any extras like normalization, etc... that recent articles show makes our results better).
-
-- [ ] LaPlace
-
+- [ ] Benchmarks on ImageJ and our functions, it will be complicated to have exactly the same results because of the default LoG and Gaussian kernel sizes
 - [ ] Write report, cite optimized algo articles, why we choose certain and ignored others...
 
-- [ ] Functionalize code (not the convolution function, it's not our job)
+- [ ] FUNCTIONALIZE CODE (not the convolution function, it's not our job)
 
-# Done for uint8 and rgba images:
+- [ ] Comment the functions and add the doc
+
+# Done for uint8, uint16, float32 and rgba images:
 - [ ] Convolution function (to be replaced by the function implemented by the Filters Group)
 - [ ] Sobel, Prewitt, Cross
-- [ ] Canny (to test with gaussian blur) 
+- [ ] Canny 
+- [ ] LoG
+Everything works well, but need to change the values of the parameters for Canny and LoG because it depends of the image and can lead to bad results.
 
 # Tiny Image in Javascript (TIJ) project
 
