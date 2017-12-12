@@ -40,35 +40,35 @@ const ROBERT_V = [0, 0, 0, 0, 0, 1, 0, -1, 0];
 UTILITY FUNCTIONS
 *******************************/
 
-const word_to_rgb = (word) =>
+/**
+ * Computes the gradient magnitude of an image given an horizontal and a vertical kernel.
+ *
+ *
+ * @param {raster} raster - Input raster
+ * @param {array} kerH - Horizontal kernel
+ * @param {array} kerV - Vertical kernel
+ *
+ * @author Ophelie Thierry
+ */
+
+const gradient = (raster, kerH, kerV, copy_mode=true) =>
 {
-	a = (word & 0xFF000000) >> 24;
-	r = (word & 0x000000FF);
-	g = (word & 0x0000FF00) >> 8;
-	b = (word & 0x00FF0000) >> 16;
-
-	return [a,r,g,b];
-}
-
-const to8bit = (img, copy=true) =>
-{
-	let data = img.raster.pixelData;
-	let data8bit = data.map((x) => 0.21*word_to_rgb(x)[1]+0.72*word_to_rgb(x)[2]+0.07*word_to_rgb(x)[3]);
-
-	let output = new T.Image('uint8',img.width,img.height);
-	output.setPixels(data8bit);
-
-    return output;
-}
-
-const gradient = (img, kerH, kerV, copy=true) =>
-{
-    Gx = convolve(img, kerH).raster.pixelData;
-    Gy = convolve(img, kerV).raster.pixelData;
+    Gx = convolve(raster, kerH);
+    Gy = convolve(raster, kerV);
 	return Gx.map((x,i) => Math.sqrt(Math.pow(Gx[i],2.0)+Math.pow(Gy[i],2.0)));
 }
 
-const normalizeConvResult = function(data,type)
+/**
+ * Normalize the result of a convolution, by setting values inferior to the minimal value to be equal to the minimal value, and values superior to the maximal value to be equal to the maximal value (min and max values depend on the type of the image)
+ *
+ *
+ * @param {array} data - Image pixels values
+ * @param {string} type - Image type
+ *
+ * @author Cecilia Ostertag
+ */
+
+const normalizeConvResult = (data,type) =>
 {
     let i;
     for (i=0; i<data.length; i++)
@@ -97,8 +97,18 @@ const normalizeConvResult = function(data,type)
     return data;
 }
 
+/**
+ * Rounds the gradient orientation (theta) values into four directions : 0, 45, 90, and 135 degrees
+ *
+ *
+ * @param {array} theta - Image gradient orientation values
+ *
+ * @author Cecilia Ostertag
+ */
+
 const theta4directions = (theta) =>
 {
+	// TODO functionalize
 	let i;
     for (i=0; i<theta.length; i++)
     {
@@ -181,7 +191,7 @@ const kernelGenerator = (kernelSize,sigma,kernelFunction) =>
 
 
 /**
- * normalizes a given array
+ * Normalizes a given array
  *
  * @param {array} kernel - the array to normalize
  * @return {array} - normalized array.
@@ -190,7 +200,7 @@ const kernelGenerator = (kernelSize,sigma,kernelFunction) =>
  */
 const normalize = (array) => 
 {
-
+	//TODO functionalize
     let sum = array.reduce((sum,x) => sum+x ,0);
     let z = 1.0 / sum;
     let normalizedArray = [];
@@ -202,8 +212,6 @@ const normalize = (array) =>
 
     return normalizedArray;
 };
-
-
 
 
 /**
@@ -234,48 +242,53 @@ const logKernel = (kernelSize,sigma) => normalize(kernelGenerator( kernelSize, s
 
 
 /**
- * <Description>
+ * Returns a padded version of an image, to be used for a convolution with a given kernel
  *
- * @param {type} <name> - <Description>
- * @return {type} - <Description>
  *
- * @author
+ * @param {array} data - Image pixels values
+ * @param {number} W - Image width
+ * @param {number} H - Image height
+ * @param {number} pad - Padding size (depends on kernel dimension)
+ *
+ * @author Cecilia Ostertag
  */
-const padding = function (data, W, H, dim, pad, copy=true) {
-
+const padding = (data, W, H, pad, copy_mode=true) =>
+{
+	//TODO functionalize
 	let pad_img = Array((W+(pad*2))*(H+(pad*2))).fill(0);
 	for (let i=0; i<W*H; i++)
 	{
 		pad_img[(Math.floor(i/W)+1)*(W+(pad*2))+((i%W)+1)]=data[Math.floor(i/W)*W+(i%W)]
-	} //TODO try with reduce
+	} 
 
 	return pad_img;
 }
 
 
 /**
- * <Description>
+ * Convolves an image with a given kernel
  *
- * @param {type} <name> - <Description>
- * @return {type} - <Description>
  *
- * @author
+ * @param {raster} raster - Input raster
+ * @param {array} kernel - Kernel
+ *
+ * @author Cecilia Ostertag
  */
-const convolve = function (img, kernel, copy=true) {
+const convolve = (raster, kernel, copy_mode=true) => 
+{
 	const dim = Math.sqrt(kernel.length); //kernel dimension
 	const pad = Math.floor(dim/2); //padding
 
-	//FT
-	console.log("Kernel length " + kernel.length+" Dim "+dim+" Pad "+pad+" ");
+	//console.log("Kernel length " + kernel.length+" Dim "+dim+" Pad "+pad+" ");
 	if (dim % 2 !== 1)
 	{
         console.log("error in kernel dimensions");
     }
-    const W=img.width;
-    const H=img.height;
-    const data=img.raster.pixelData;
+    const W=raster.width;
+    const H=raster.height;
+    const data=raster.pixelData;
 
-	let pad_img = padding(data, img.width, img.height, Math.sqrt(kernel.length), Math.floor(dim/2), copy=true);
+	let pad_img = padding(data, raster.width, raster.height, pad, copy_mode=true);
 
 	let conv_img = Array(W*H).fill(0);
 
@@ -304,63 +317,83 @@ const convolve = function (img, kernel, copy=true) {
 
 	}
 
-	let output = new T.Image(img.type,img.width,img.height);
-	output.setPixels(conv_img);
-
-    return output;
+    return conv_img;
 }
 
 /******************************
 PREWITT, SOBEL, ROBERT'S CROSS
 *******************************/
 
-const prewitt = (img, copy=true) =>
+/**
+ * Find the edges in an image using Prewitt operator
+ *
+ *
+ * @author Ophelie Thierry
+ */
+
+const prewitt = () => (raster, copy_mode=true) =>
 {
-	(img.type === 'rgba') ?	img = to8bit(img) : img=img;
-	console.log("Prewitt filter");
-	let G = normalizeConvResult(gradient(img, PREWITT_H, PREWITT_V),img.type);
-    let output = new T.Image(img.type,img.width,img.height);
-	output.setPixels(G);
+	let output = T.Raster.from(raster,copy_mode);
+	output.type = raster.type;
+	output.pixelData = normalizeConvResult(gradient(raster, PREWITT_H, PREWITT_V), raster.type);
 
     return output;
-
 }
 
-const sobel = (img, copy=true) =>
+/**
+ * Find the edges in an image using Sobel operator
+ *
+ *
+ * @author Ophelie Thierry
+ */
+
+const sobel = () => (raster, copy_mode=true) =>
 {
-	(img.type === 'rgba') ?	img = to8bit(img) : img=img;
-	console.log("Sobel filter");
-	let G = normalizeConvResult(gradient(img, SOBEL_H, SOBEL_V),img.type);
-    let output = new T.Image(img.type,img.width,img.height);
-	output.setPixels(G);
+	let output = T.Raster.from(raster,copy_mode);
+	output.type = raster.type;
+	output.pixelData = normalizeConvResult(gradient(raster, SOBEL_H, SOBEL_V), raster.type);
 
     return output;
-
 }
 
-const robertscross = (img, copy=true) =>
+/**
+ * Find the edges in an image using Robert's cross operator
+ *
+ *
+ * @author Ophelie Thierry
+ */
+
+const robertscross = () => (raster, copy_mode=true) =>
 {
-	(img.type === 'rgba') ?	img = to8bit(img) : img=img;
-	console.log("Robert's cross filter");
-	let G = normalizeConvResult(gradient(img, ROBERT_H, ROBERT_V),img.type);
-    let output = new T.Image(img.type,img.width,img.height);
-	output.setPixels(G);
+	let output = T.Raster.from(raster,copy_mode);
+	output.type = raster.type;
+	output.pixelData = normalizeConvResult(gradient(raster, ROBERT_H, ROBERT_V), raster.type);
 
     return output;
-
 }
 
 /******************************
 LAPLACIAN OF GAUSSIAN
 *******************************/
 
-const LoG = (img, sigma=2.0, copy=true) =>
+/**
+ * Find the edges in an image using the Laplacian of Gaussian (Marr-Hildreth) operator
+ *
+ *
+ * @param {number} kerSize - LoG kernel size
+ * @param {number} sigma - Gaussian standard deviation
+ *
+ * @author Peter Bock
+ */
+
+const LoG = (kerSize=9,sigma=2.0) => (raster, copy_mode=true) =>
 {
-	(img.type === 'rgba') ?	img = to8bit(img) : img=img;
-	
-	const W = img.width;
-	let ker = logKernel(9,sigma);
-	let log_data = convolve(img, ker).raster.pixelData;
+	let output = T.Raster.from(raster, copy_mode);
+	output.type='uint8';
+	output.pixelData = new Uint8ClampedArray(raster.length);	
+	const W = raster.width;
+	let ker = logKernel(kerSize,sigma);
+	let log_data = convolve(raster, ker);
 	//threshold LoG output to 0
 	let thr_img = log_data.map((x) => (x >= 0) ? x=0 : x=255); //set foreground and background according to the sign of the LoG
 	let zero_cross=[];
@@ -368,16 +401,29 @@ const LoG = (img, sigma=2.0, copy=true) =>
 	{
 		( (thr_img[i] === 255) && ( (thr_img[i%W-1+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W-1+W*Math.floor(i/W)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W)] === 0)  || (thr_img[i%W-1+W*Math.floor(i/W +1)] === 0) || (thr_img[i%W+W*Math.floor(i/W +1)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W +1)] === 0) ) )  ? zero_cross.push(255) : zero_cross.push(0); ;//foreground point has at least one background neighbor so it is a zero-crossing
 	});
-
-	let output = new T.Image('uint8',img.width,img.height);
-	output.setPixels(zero_cross);
+	
+	output.pixelData = zero_cross;
 
     return output;
 }
 
 /******************************
-LAPLACIAN OF GAUSSIAN
+CANNY ALGORITHM 
 *******************************/
+
+/**
+ * Performs non maximum suppression in 8-connectivity : pixels that are not the maximum value in their gradient direction are replaced by the lowest pixel value according to the image type
+ *
+ *
+ * @param {array} data - Image pixels values
+ * @param {number} W - Image width
+ * @param {number} H - Image height
+ * @param {array} grad - Gradient magnitude values of each pixel
+ * @param {array} theta - Gradient orientation values of each pixel
+ * @param {string} type - Image type
+ *
+ * @author Cecilia Ostertag
+ */
 
 const nonmax = (data, W, H, grad, theta, type) =>
 {
@@ -403,6 +449,19 @@ const nonmax = (data, W, H, grad, theta, type) =>
 
 }
 
+/**
+ * Performs hysteresis in 8-connectivity : first weak edge pixels next to strong edge pixels are kept, and then select non selected weak edge pixels  next to a strong edge pixel in several passes
+ *
+ *
+ * @param {array} data - Image pixels values
+ * @param {number} W - Image width
+ * @param {number} H - Image height
+ * @param {array} strong_edges - Array in wich strong edges are represented by the number 2, and the others are represented by the number 0 
+ * @param {array} thresholded_edges - Array in wich strong edges are represented by the number 2, weak edges are represented by the number 1, and the others are represented by the number 0 
+ *
+ * @author Cecilia Ostertag
+ */
+
 const hysteresis = (data, W, H, strong_edges, thresholded_edges) =>
 {
 
@@ -423,7 +482,7 @@ const hysteresis = (data, W, H, strong_edges, thresholded_edges) =>
 	while (pixels.length > 0)
 	{
 		let new_pixels=[];
-		//select weak edges  next to a non selected weak edge (8 connectivity)
+		//select non selected weak edge pixels  next to a strong edge pixel (8 connectivity)
 		pixels.forEach((px,i) =>
 		{
 			if ( (thresholded_edges[i%W-1+W*Math.floor(i/W -1)] === 1) && (edges[i%W-1+W*Math.floor(i/W - 1)] === 0) )
@@ -473,28 +532,41 @@ const hysteresis = (data, W, H, strong_edges, thresholded_edges) =>
     return edges;
 }
 
-const canny = (img, low_thr, high_thr, sigma=2.0, copy=true) =>
+/**
+ * Find edges in an image using Canny Algorithm
+ *
+ *
+ * @param {number} low_thr - Low threshold for hysteresis
+ * @param {number} high_thr - High threshold for hysteresis
+ * @param {number} sigma - Standard deviation for the Gaussian blur
+ *
+ * @author Cecilia Ostertag
+ */
+
+const canny = (low_thr, high_thr, sigma=2.0) => (raster,copy_mode=true) =>
 {
-	(img.type === 'rgba') ? img = to8bit(img) : img=img;
-	if (img.type === 'uint16')
+	let output = T.Raster.from(raster, copy_mode);
+	output.type='uint8';
+	output.pixelData = new Uint8ClampedArray(raster.length);
+	if (raster.type === 'uint16')
 	{
 		low_thr*=256;
 		high_thr*=256;
 	}
-	if (img.type === 'float32')
+	if (raster.type === 'float32')
 	{
 		low_thr=low_thr/128-1.0;
 		high_thr=high_thr/128-1.0;
 	}
-	console.log("gaussian filtering (9x9 kernel)");
-	img = convolve(img, gaussianKernel(9,sigma));
-	let data = img.raster.pixelData;
+	//console.log("gaussian filtering (9x9 kernel)");
+	let data = convolve(raster, gaussianKernel(9,sigma));
+	raster.pixelData = data;
 
-	console.log("compute gradient magnitude and orientation");
-    Gx = convolve(img, SOBEL_H).raster.pixelData;
-    Gy = convolve(img, SOBEL_V).raster.pixelData;
+	//console.log("compute gradient magnitude and orientation");
+    Gx = convolve(raster, SOBEL_H);
+    Gy = convolve(raster, SOBEL_V);
     let G = Gx.map((x,i) => Math.sqrt(Math.pow(Gx[i],2.0)+Math.pow(Gy[i],2.0)));
-    G = normalizeConvResult(G,img.type);
+    G = normalizeConvResult(G,raster.type);
     let theta = Gx.map((x,i) => Math.atan2(Gy[i],Gx[i])*(180/Math.PI)); //get angle in rad and convert to degrees
 
 	//TODO make theta4directions work with map, still doesn't work :(
@@ -502,11 +574,11 @@ const canny = (img, low_thr, high_thr, sigma=2.0, copy=true) =>
     theta = theta4directions(theta);
     
     //non-maximum suppression
-    console.log("non-maximum suppression");
-    let newGrad = nonmax(data, img.width, img.height, G, theta, img.type);
+    //console.log("non-maximum suppression");
+    let newGrad = nonmax(data, raster.width, raster.height, G, theta, raster.type);
     
     //double threshold (we stop working on the gradient and start creating the binary edge
-    console.log("double threshold");
+    //console.log("double threshold");
     const strong_edges = newGrad.map(x => x>high_thr ? x=255 : x=0);
     const thresholded_edges = newGrad.map((x) =>
     {
@@ -526,11 +598,10 @@ const canny = (img, low_thr, high_thr, sigma=2.0, copy=true) =>
     });
 
     //edge tracing with hysteresis : weak pixels near strong pixels
-    console.log("hysteresis");
-    let edges = hysteresis(data, img.width, img.height, strong_edges, thresholded_edges);
+    //console.log("hysteresis");
+    let edges = hysteresis(data, raster.width, raster.height, strong_edges, thresholded_edges);
 
-    let output = new T.Image('uint8',img.width,img.height);
-	output.setPixels(edges);
+	output.pixelData = edges;
 
     return output;
 }
