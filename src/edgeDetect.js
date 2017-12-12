@@ -24,6 +24,10 @@
  * Cecilia Ostertag
  * Ophelie Thierry
  */
+ 
+/******************************
+KERNELS
+*******************************/
 
 const SOBEL_H = [1, 0, -1,2,0, -2,1, 0, -1]; 
 const SOBEL_V = [1, 2, 1,0,0, 0,-1, -2, -1];
@@ -32,21 +36,22 @@ const PREWITT_V = [-1, -1, -1, 0, 0, 0, 1, 1, 1];
 const ROBERT_H = [0, 0, 0, 0, 1, 0, 0, 0, -1];
 const ROBERT_V = [0, 0, 0, 0, 0, 1, 0, -1, 0];
 
+/******************************
+UTILITY FUNCTIONS
+*******************************/
 
-const word_to_rgb = function(word)
+const word_to_rgb = (word) =>
 {
 	a = (word & 0xFF000000) >> 24;
 	r = (word & 0x000000FF);
 	g = (word & 0x0000FF00) >> 8;
 	b = (word & 0x00FF0000) >> 16;
 
-	argb = [a,r,g,b];
-	return argb;
+	return [a,r,g,b];
 }
 
-const to8bit = function (img, copy=true)
+const to8bit = (img, copy=true) =>
 {
-	console.log("converting RGB picture to 8bit");
 	let data = img.raster.pixelData;
 	let data8bit = data.map((x) => 0.21*word_to_rgb(x)[1]+0.72*word_to_rgb(x)[2]+0.07*word_to_rgb(x)[3]);
 
@@ -56,136 +61,53 @@ const to8bit = function (img, copy=true)
     return output;
 }
 
-const sumOfKernels = function (img, kerH, kerV, copy=true)
+const gradient = (img, kerH, kerV, copy=true) =>
 {
-	const W = img.width;
-	const H = img.height;
-    let data = img.raster.pixelData;
-	console.log("horizontal conv");
     Gx = convolve(img, kerH).raster.pixelData;
-	console.log("vertical conv");
     Gy = convolve(img, kerV).raster.pixelData;
-	console.log("gadient magnitude");
-    let G = Gx.map((x,i) => Math.sqrt(Math.pow(Gx[i],2.0)+Math.pow(Gy[i],2.0)));
-    console.log(G);
-	return G;
+	return Gx.map((x,i) => Math.sqrt(Math.pow(Gx[i],2.0)+Math.pow(Gy[i],2.0)));
 }
 
 const normalizeConvResult = function(data,type)
 {
-	console.log("normalization");
     let i;
     for (i=0; i<data.length; i++)
+    /* TODO THIS IS NOT WORKING T________________T
+    let newdata = [];
+    data.forEach((px) =>
     {
-    	if ((data[i] < 0) && (type != "float32"))
-		{
-			data[i]=0;
-
-		}
-		else if ((data[i] < -1) && (type === "float32"))
-		{
-			data[i]=-1;
-
-		}
-		else if ((data[i] > 255) && (type === "uint8"))
-		{
-			data[i]=255;
-		}
-		else if ((data[i] > 65535) && (type === "uint16"))
-		{
-			data[i]=65535;
-		}
-		else if ((data[i] > 1) && (type === "float32"))
-		{
-			data[i]=1;
-		}
+    	let out;
+		((px < 0) && (type != "float32")) ? out=0 : out=px ;
+		((px < -1) && (type === "float32")) ? out=-1 : out=px ;
+		((px > 255) && (type === "uint8")) ? out=255 : out=px ;
+		((px > 65535) && (type === "uint16")) ? out=65535 : out=px ;
+		((px > 1) && (type === "float32")) ? out=1 : out=px ;
+		newdata.push(out);
+    });
+    */
+    
+    {
+		((data[i] < 0) && (type != "float32")) ? data[i]=0 : data[i]=data[i] ;
+		((data[i] < -1) && (type === "float32")) ? data[i]=-1 : data[i]=data[i] ;
+		((data[i] > 255) && (type === "uint8")) ? data[i]=255 : data[i]=data[i] ;
+		((data[i] > 65535) && (type === "uint16")) ? data[i]=65535 : data[i]=data[i] ;
+		((data[i] > 1) && (type === "float32")) ? data[i]=1 : data[i]=data[i] ;
     }
-    console.log(data);
+    
     return data;
 }
 
-
-const prewitt = function(img, copy=true)
+const theta4directions = (theta) =>
 {
-	if (img.type === 'rgba')
-	{
-		img = to8bit(img);
-	}
-	console.log("Prewitt filter");
-	let G = sumOfKernels(img, PREWITT_H, PREWITT_V);
-    G = normalizeConvResult(G,img.type);
-    let output = new T.Image(img.type,img.width,img.height);
-	output.setPixels(G);
-
-    return output;
-
-}
-
-const sobel = function(img, copy=true)
-{
-	if (img.type === 'rgba')
-	{
-		img = to8bit(img);
-	}
-	console.log("Sobel filter");
-	let G = sumOfKernels(img, SOBEL_H, SOBEL_V);
-    G = normalizeConvResult(G,img.type);
-    let output = new T.Image(img.type,img.width,img.height);
-	output.setPixels(G);
-
-    return output;
-
-}
-
-const robertscross = function(img, copy=true)
-{
-	if (img.type === 'rgba')
-	{
-		img = to8bit(img);
-	}
-	console.log("Robert's cross filter");
-	let G = sumOfKernels(img, ROBERT_H, ROBERT_V);
-    G = normalizeConvResult(G,img.type);
-    let output = new T.Image(img.type,img.width,img.height);
-	output.setPixels(G);
-
-    return output;
-
-}
-
-const LoG = function(img, sigma=2.0, copy=true)
-{
-	if (img.type === 'rgba')
-	{
-		img = to8bit(img);
-	}
-	const W = img.width;
-	const H = img.height;
-	let data = img.raster.pixelData;
-	let ker = logKernel(9,sigma);
-	let log_data = convolve(img, ker).raster.pixelData;
-	//let zero_cross = log_data.map((x) => (x == 0) ? x=255 : x=0);
-	//threshold LoG output to 0
-	let thr_img = log_data.map((x) => (x >= 0) ? x=0 : x=255);
-	let zero_cross=[];
 	let i;
-	for (i=1; i <= data.length-1; i++)
-	{
-		if ( (thr_img[i] === 255) && ( (thr_img[i%W-1+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W-1+W*Math.floor(i/W)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W)] === 0)  || (thr_img[i%W-1+W*Math.floor(i/W +1)] === 0) || (thr_img[i%W+W*Math.floor(i/W +1)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W +1)] === 0) ) ) //foreground point has at least one background neighbor
-		{
-			zero_cross.push(255);
-		}
-		else
-		{
-			zero_cross.push(0);
-		}
-	}
-
-
-	let output = new T.Image('uint8',img.width,img.height);
-	output.setPixels(zero_cross);
-
-    return output;
+    for (i=0; i<theta.length; i++)
+    {
+    	( (Math.round(Math.abs(theta[i])) < 45/2) || (Math.round(Math.abs(theta[i])) > (135 + 45/2)) ) ? theta[i]=0 : theta[i]=theta[i];
+    	((Math.round(Math.abs(theta[i])) >= 45/2) && (Math.round(Math.abs(theta[i])) < (90 - 45/2) )) ? theta[i]=45 : theta[i]=theta[i];
+    	((Math.round(Math.abs(theta[i])) >= (90 -45/2) ) && (Math.round(Math.abs(theta[i])) < (135 - 45/2) )) ? theta[i]=90 : theta[i]=theta[i];
+		((Math.round(Math.abs(theta[i])) >= (135 -45/2) ) && (Math.round(Math.abs(theta[i])) < (135 + 45/2) )) ? theta[i]=135 : theta[i]=theta[i];
+    }
+    return theta;
 }
 
 /**
@@ -200,7 +122,22 @@ const LoG = function(img, sigma=2.0, copy=true)
  *
  * @author Peter Bock
  */
-const unitaryGaussian = (x,y,sigma) => Math.exp(( -((x*x) + (y*y))/(2.0*sigma*sigma) ) ) * (1/(2.0*(sigma*sigma)*Math.PI));
+const unitaryGaussian = (x,y,sigma) => Math.exp(( -(Math.pow(x,2) + Math.pow(y,2))/(2.0*Math.pow(sigma,2)) ) ) * (1/(2.0*Math.pow(sigma,2)*Math.PI));
+
+/**
+ * This function calculates the value of the Laplacian of Gaussian at a specific point in a matrix.
+ * given the squaring of both x and y, the values of the Laplacian of Gaussian distribution
+ * for (1,-1), (-1,1), (1,1) and (-1,-1) are the same, which gives the symmetrical aspect.
+ *
+ *
+ * @param {integer} x - x value for which we want to calculate the Laplacian of Gaussian Function's output.
+ * @param {integer} y - y value for which we want to calculate the Laplacian of Gaussian Function's output.
+ * @param {double} sigma - Threshold chosen by user (affects the blurring impact of the gaussian kernel).
+ * @return {double} - Laplacian of Gaussian Distribution value for given (x,y) pair and threshold value.
+ *
+ * @author peter bock
+ */
+const unitaryLoG = (x,y,sigma) => Math.exp(( -((x*x) + (y*y))/(2.0*sigma*sigma) ) ) * (-1/(Math.pow(sigma,4)*Math.PI)) * (1 - ((Math.pow(x,2) + Math.pow(y,2)) / (2*Math.pow(sigma,2))));
 
 
 /**
@@ -218,22 +155,25 @@ const unitaryGaussian = (x,y,sigma) => Math.exp(( -((x*x) + (y*y))/(2.0*sigma*si
  */
 
 
-const kernelGenerator = (kernelSize,sigma,kernelFunction) => {
 
+const kernelGenerator = (kernelSize,sigma,kernelFunction) => 
+{
 
     let kernel = [];
     let kernelRadius = Math.floor(kernelSize/2);
     let val = 0;
     let counter = 0;
 
-    for (let y = -kernelRadius; y <= kernelRadius; y++){
+    for (let y = -kernelRadius; y <= kernelRadius; y++)
+    {
 
-	for(let x = -kernelRadius; x <= kernelRadius; x++){
-	    val = kernelFunction(x,y,sigma);
-	    kernel[counter] = val;
+		for(let x = -kernelRadius; x <= kernelRadius; x++)
+		{
+	    	val = kernelFunction(x,y,sigma);
+	    	kernel[counter] = val;
 
-	    counter += 1;
-	}
+	    	counter += 1;
+		}
     }
 
     return kernel;
@@ -248,27 +188,17 @@ const kernelGenerator = (kernelSize,sigma,kernelFunction) => {
  *
  * @author Peter Bock
  */
-const normalize = (array) => {
+const normalize = (array) => 
+{
 
     let sum = array.reduce((sum,x) => sum+x ,0);
     let z = 1.0 / sum;
     let normalizedArray = [];
-    //let display = "";
 
-    for (let i = 0; i < array.length; i++){
-
-
-
+    for (let i = 0; i < array.length; i++)
+    {
         normalizedArray[i] = array[i] * z;
-
-	//display += parseFloat(gaussian2D[i]);
-
-	//((i+1)%3===0) ? display += "\n" : display += "\t";
-
     }
-
-
-    //console.log(display);
 
     return normalizedArray;
 };
@@ -287,33 +217,6 @@ const normalize = (array) => {
  */
 const gaussianKernel = (kernelSize,sigma) => normalize(kernelGenerator( kernelSize, sigma, unitaryGaussian ));
 
-
-
-
-
-
-// LAPLACIAN OF GAUSSIAN algorithm.
-
-// laplacian of gaussian LoG first convolves the Gaussian and Laplacian filters together, then does a local maxima search.
-
-
-
-
-
-/**
- * This function calculates the value of the Laplacian of Gaussian at a specific point in a matrix.
- * given the squaring of both x and y, the values of the Laplacian of Gaussian distribution
- * for (1,-1), (-1,1), (1,1) and (-1,-1) are the same, which gives the symmetrical aspect.
- *
- *
- * @param {integer} x - x value for which we want to calculate the Laplacian of Gaussian Function's output.
- * @param {integer} y - y value for which we want to calculate the Laplacian of Gaussian Function's output.
- * @param {double} sigma - Threshold chosen by user (affects the blurring impact of the gaussian kernel).
- * @return {double} - Laplacian of Gaussian Distribution value for given (x,y) pair and threshold value.
- *
- * @author peter bock
- */
-const unitaryLoG = (x,y,sigma) => Math.exp(( -((x*x) + (y*y))/(2.0*sigma*sigma) ) ) * (-1/(Math.pow(sigma,4)*Math.PI)) * (1 - ((Math.pow(x,2) + Math.pow(y,2)) / (2*Math.pow(sigma,2))));
 
 
 
@@ -340,15 +243,11 @@ const logKernel = (kernelSize,sigma) => normalize(kernelGenerator( kernelSize, s
  */
 const padding = function (data, W, H, dim, pad, copy=true) {
 
-	//const pW=W+(pad*2);
 	let pad_img = Array((W+(pad*2))*(H+(pad*2))).fill(0);
 	for (let i=0; i<W*H; i++)
 	{
 		pad_img[(Math.floor(i/W)+1)*(W+(pad*2))+((i%W)+1)]=data[Math.floor(i/W)*W+(i%W)]
-	} //try with reduce
-	console.log((W+(pad*2))*(H+(pad*2)));
-	console.log(data);
-	console.log(pad_img);
+	} //TODO try with reduce
 
 	return pad_img;
 }
@@ -376,144 +275,156 @@ const convolve = function (img, kernel, copy=true) {
     const H=img.height;
     const data=img.raster.pixelData;
 
-	//FT
-	//console.log("W " + img.width+" H "+img.height);
-	for(idx = 0; idx < 12; idx++){
-		//console.log(kernel[idx]);
-	}
-
-	console.log("padding");
 	let pad_img = padding(data, img.width, img.height, Math.sqrt(kernel.length), Math.floor(dim/2), copy=true);
 
-	console.log("convolving");
 	let conv_img = Array(W*H).fill(0);
 
 	let row_idx, col_idx, ker_i, img_i, ker_row_idx, ker_col_idx;
 	for (row_idx = pad; row_idx <= H; row_idx++)
 	{
-		//console.log(col_idx); OK
 		for (col_idx = pad; col_idx <= W; col_idx++)
 		{
-			//console.log(row_idx); OK
 			let val=0;
 			for (ker_row_idx= -pad; ker_row_idx <= pad; ker_row_idx ++)
 			{
 				for (ker_col_idx = -pad; ker_col_idx <= pad; ker_col_idx++)
 				{
 					ker_i = (ker_col_idx+pad) + (ker_row_idx+pad)*dim; //kernel index to iterate through kernel line by line
-					//console.log("K " + ker_i); //OK
 					img_i = (col_idx+ker_col_idx) + (row_idx + ker_row_idx)*(W+pad*2); // image index to iterate through portion of image (with pading) under kernel line by line , only get index of R value each time
-					//console.log("I "+ img_i); //OK
-					//console.log(pad_img[img_i]*kernel[ker_i]); //OK
 					val += pad_img[img_i]*kernel[ker_i];
 
 				}
 			}
-			//console.log("V " + val);
 
 		    let i = (col_idx - pad) + (row_idx - pad)*W; // pixel index in the output image (no padding)
 
 		conv_img[i]=val;
 
-
 		}
 
 	}
 
-	console.log(conv_img);
 	let output = new T.Image(img.type,img.width,img.height);
 	output.setPixels(conv_img);
 
     return output;
 }
 
+/******************************
+PREWITT, SOBEL, ROBERT'S CROSS
+*******************************/
 
+const prewitt = (img, copy=true) =>
+{
+	(img.type === 'rgba') ?	img = to8bit(img) : img=img;
+	console.log("Prewitt filter");
+	let G = normalizeConvResult(gradient(img, PREWITT_H, PREWITT_V),img.type);
+    let output = new T.Image(img.type,img.width,img.height);
+	output.setPixels(G);
 
+    return output;
 
+}
 
+const sobel = (img, copy=true) =>
+{
+	(img.type === 'rgba') ?	img = to8bit(img) : img=img;
+	console.log("Sobel filter");
+	let G = normalizeConvResult(gradient(img, SOBEL_H, SOBEL_V),img.type);
+    let output = new T.Image(img.type,img.width,img.height);
+	output.setPixels(G);
 
+    return output;
 
+}
 
+const robertscross = (img, copy=true) =>
+{
+	(img.type === 'rgba') ?	img = to8bit(img) : img=img;
+	console.log("Robert's cross filter");
+	let G = normalizeConvResult(gradient(img, ROBERT_H, ROBERT_V),img.type);
+    let output = new T.Image(img.type,img.width,img.height);
+	output.setPixels(G);
 
+    return output;
 
+}
 
+/******************************
+LAPLACIAN OF GAUSSIAN
+*******************************/
 
+const LoG = (img, sigma=2.0, copy=true) =>
+{
+	(img.type === 'rgba') ?	img = to8bit(img) : img=img;
+	
+	const W = img.width;
+	let ker = logKernel(9,sigma);
+	let log_data = convolve(img, ker).raster.pixelData;
+	//threshold LoG output to 0
+	let thr_img = log_data.map((x) => (x >= 0) ? x=0 : x=255); //set foreground and background according to the sign of the LoG
+	let zero_cross=[];
+	thr_img.forEach((px,i) =>
+	{
+		( (thr_img[i] === 255) && ( (thr_img[i%W-1+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W-1+W*Math.floor(i/W)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W)] === 0)  || (thr_img[i%W-1+W*Math.floor(i/W +1)] === 0) || (thr_img[i%W+W*Math.floor(i/W +1)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W +1)] === 0) ) )  ? zero_cross.push(255) : zero_cross.push(0); ;//foreground point has at least one background neighbor so it is a zero-crossing
+	});
 
+	let output = new T.Image('uint8',img.width,img.height);
+	output.setPixels(zero_cross);
 
+    return output;
+}
 
+/******************************
+LAPLACIAN OF GAUSSIAN
+*******************************/
 
-
-
-
-
-
-
-
-
-
-//next functions are for Canny algorithm, please de not modify
-
-const nonmax = function(data, W, H, grad, theta, type)
+const nonmax = (data, W, H, grad, theta, type) =>
 {
 
-	let newGrad=grad.slice(); //new grad values
 	let valnull;
 	(type === 'float32') ? valnull=-1 : valnull=0; //lowest value according to image type
-	let i;
-	for (i=0; i <= data.length; i++)
+	let newGrad=[]; //new grad values
+	grad.forEach((val,i) =>
 	{
-			if ( (i%W == (0 || W-1)) || (Math.floor(i/W) == (0 || H-1)) )
-			{
-				newGrad[i]=valnull; //suppress pixels at the edge of the input image
-			}
+			( ( (i%W == (0 || W-1)) || (Math.floor(i/W) == (0 || H-1)) ) ||
 
-			if ( (theta[i] == 0) && ( (grad[i] <= grad[i-1]) || (grad[i] <= grad[i+1]) ) ) //horizontal direction : compare with previous and next pixel
-			{
-				newGrad[i]=valnull;
-			}
+			( (theta[i] == 0) && ( (grad[i] <= grad[i-1]) || (grad[i] <= grad[i+1]) ) ) || //horizontal direction : compare with previous and next pixel
 
-			if ( (theta[i] == 45) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W + 1)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W - 1)]) ) ) //NE-SO direction : compare with previous and next pixel
-			{
-				newGrad[i]=valnull;
-			}
+			( (theta[i] == 45) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W + 1)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W - 1)]) ) ) || //NE-SO direction : compare with previous and next pixel
 
-			if ( (theta[i] == 90) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W)]) ) ) //vertical direction : compare with previous and next pixel
-			{
-				newGrad[i]=valnull;
-			}
+			( (theta[i] == 90) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W)]) ) ) || //vertical direction : compare with previous and next pixel
 
-			if ( (theta[i] == 135) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W - 1)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W + 1)]) ) ) //NW-SE direction : compare with previous and next pixel
-			{
-				newGrad[i]=valnull;
-			}
-
-	}
+			( (theta[i] == 135) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W - 1)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W + 1)]) ) )  ) //NW-SE direction : compare with previous and next pixel
+			 
+			? newGrad.push(valnull) : newGrad.push(grad[i]) ; 
+	});
     return newGrad;
 
 }
 
-const hysteresis = function(data, W, H, strong_edges, thresholded_edges)
+const hysteresis = (data, W, H, strong_edges, thresholded_edges) =>
 {
 
 	let edges=strong_edges.slice(); //final edge pixels
 	let pixels=[];
 
-	let i;
-	for (i=1; i <= data.length-1; i++)
+	edges.forEach((val,i) =>
 	{
 		if ( (thresholded_edges[i] === 1) && ( (thresholded_edges[i%W-1+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W-1+W*Math.floor(i/W)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W)] === 2)  || (thresholded_edges[i%W-1+W*Math.floor(i/W+1)] === 2) || (thresholded_edges[i%W+W*Math.floor(i/W +1)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W +1)] === 2) ) ) //weak edge is next to a strong edge (8-connectivity)
 		{
 			pixels.push(i); //we keep the pixel
 			edges[i]=255;
 		}
-	}
+	});
 
 
 	//Extend strong edges based on current pixels, in several passes
 	while (pixels.length > 0)
 	{
 		let new_pixels=[];
-		for (i=1; i < pixels.length; i++)  //selected weak edges  next to a non selected weak edge (8 connectivity)
+		//select weak edges  next to a non selected weak edge (8 connectivity)
+		pixels.forEach((px,i) =>
 		{
 			if ( (thresholded_edges[i%W-1+W*Math.floor(i/W -1)] === 1) && (edges[i%W-1+W*Math.floor(i/W - 1)] === 0) )
 			{
@@ -556,23 +467,15 @@ const hysteresis = function(data, W, H, strong_edges, thresholded_edges)
 				edges[i%W+1+W*Math.floor(i/W + 1)]=255;
 			}
 		pixels=new_pixels;
-		}
+		});
 	}
-
 
     return edges;
-
 }
 
-const canny = function(img, low_thr, high_thr, sigma=2.0, copy=true)
+const canny = (img, low_thr, high_thr, sigma=2.0, copy=true) =>
 {
-	const W = img.width;
-	const H = img.height;
-	//convert rgb to greyscale
-	if (img.type === 'rgba')
-	{
-		img = to8bit(img);
-	}
+	(img.type === 'rgba') ? img = to8bit(img) : img=img;
 	if (img.type === 'uint16')
 	{
 		low_thr*=256;
@@ -584,89 +487,28 @@ const canny = function(img, low_thr, high_thr, sigma=2.0, copy=true)
 		high_thr=high_thr/128-1.0;
 	}
 	console.log("gaussian filtering (9x9 kernel)");
-	const gaussian_ker = gaussianKernel(9,sigma);
-	img = convolve(img, gaussian_ker);
+	img = convolve(img, gaussianKernel(9,sigma));
 	let data = img.raster.pixelData;
 
-	console.log("horizontal sobel");
+	console.log("compute gradient magnitude and orientation");
     Gx = convolve(img, SOBEL_H).raster.pixelData;
-	console.log("vertical sobel");
     Gy = convolve(img, SOBEL_V).raster.pixelData;
-	console.log("gadient magnitude");
     let G = Gx.map((x,i) => Math.sqrt(Math.pow(Gx[i],2.0)+Math.pow(Gy[i],2.0)));
     G = normalizeConvResult(G,img.type);
-    console.log("intensity gradient orientation");
-    const theta = Gx.map((x,i) => Math.atan2(Gy[i],Gx[i])*(180/Math.PI)); //get angle in rad and convert to degrees
-    console.log(theta);
-    let i;
-    for (i=0; i<theta.length; i++)
-    /*
-    {
-    	if (Math.round(Math.abs(theta[i])) < 45) 
-    	{
-    		theta[i]=0;
-    	}
-    	else if ((Math.round(Math.abs(theta[i])) >= 45) && (Math.round(Math.abs(theta[i])) < 90 ))
-    	{
-    		theta[i]=45;
-    	}
-    	else if ((Math.round(Math.abs(theta[i])) >= 90 ) && (Math.round(Math.abs(theta[i])) < 135 ))
-    	{
-    		theta[i]=90;
-    	}
-    	else
-    	{
-    		theta[i]=135;
-    	}
-    }
-    */
+    let theta = Gx.map((x,i) => Math.atan2(Gy[i],Gx[i])*(180/Math.PI)); //get angle in rad and convert to degrees
+
+	//TODO make theta4directions work with map, still doesn't work :(
+	// we need to have 4 values for theta : 0, 45, 90, 135
+    theta = theta4directions(theta);
     
-    {
-    	if ( (Math.round(Math.abs(theta[i])) < 45/2) || (Math.round(Math.abs(theta[i])) > (135 + 45/2)) )
-    	{
-    		theta[i]=0;
-    	}
-    	else if ((Math.round(Math.abs(theta[i])) >= 45/2) && (Math.round(Math.abs(theta[i])) < (90 - 45/2) ))
-    	{
-    		theta[i]=45;
-    	}
-    	else if ((Math.round(Math.abs(theta[i])) >= (90 -45/2) ) && (Math.round(Math.abs(theta[i])) < (135 - 45/2) ))
-    	{
-    		theta[i]=90;
-    	}
-    	else
-    	{
-    		theta[i]=135;
-    	}
-    }
-    
-    /*if ( ((Math.round(theta[i]) >= 45/2) && (Math.round(theta[i]) < (45 + 45/2) )) || ((Math.round(theta[i]) >= (-135 - 45/2)) && (Math.round(theta[i]) < (-135 + 45/2) )) )  
-    	{
-    		theta[i]=45;
-    	}
-    	else if ( ((Math.round(theta[i]) >= (90 + 45/2)) && (Math.round(theta[i]) < (135 + 45/2) )) || ((Math.round(theta[i]) >= (-45 - 45/2)) && (Math.round(theta[i]) < (-45/2) )) )  
-    	{
-    		theta[i]=135;
-    	}
-    	else if ((Math.round(Math.abs(theta[i])) >= (45 + 45/2)) && (Math.round(Math.abs(theta[i])) < (90 + 45/2) ))  
-    	{
-    		theta[i]=90;
-    	}
-    	else
-    	{
-    		theta[i]=0;
-    	}
-    	*/
-    console.log(theta);
     //non-maximum suppression
     console.log("non-maximum suppression");
-    let newGrad = nonmax(data, W, H, G, theta, img.type);
-    console.log(newGrad);
+    let newGrad = nonmax(data, img.width, img.height, G, theta, img.type);
+    
     //double threshold (we stop working on the gradient and start creating the binary edge
     console.log("double threshold");
     const strong_edges = newGrad.map(x => x>high_thr ? x=255 : x=0);
-    console.log(strong_edges); //ok
-    const thresholded_edges = newGrad.map(function (x)
+    const thresholded_edges = newGrad.map((x) =>
     {
     	if (x > high_thr)
     	{
@@ -682,12 +524,10 @@ const canny = function(img, low_thr, high_thr, sigma=2.0, copy=true)
     	}
     	return x;
     });
-    console.log(thresholded_edges);
 
     //edge tracing with hysteresis : weak pixels near strong pixels
     console.log("hysteresis");
-    let edges = hysteresis(data, W, H, strong_edges, thresholded_edges);
-    console.log(edges);
+    let edges = hysteresis(data, img.width, img.height, strong_edges, thresholded_edges);
 
     let output = new T.Image('uint8',img.width,img.height);
 	output.setPixels(edges);
