@@ -27,7 +27,9 @@ Additonally, we shall follow the AirBnB Javascript Programming Style guidelines*
 
 
 **Our report ( written using the markdown format), and associated files, is stored in a repository on github:**
-[https://github.com/bockp/Edge-Detection-project](Edge Detect Project).
+https://github.com/bockp/Edge-Detection-project
+
+
 
 ## Material & Methods
 
