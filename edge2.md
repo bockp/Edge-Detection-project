@@ -33,7 +33,7 @@ https://github.com/bockp/Edge-Detection-project
 
 ## Material & Methods
 
-
+*Describe in detail for each function the algorithm used in the implementation. Add a diagram or pseudo-code if necessary. This section is very important because it must help the reading of the source code.*
 
 ### Benchmarking process
 
@@ -42,6 +42,8 @@ The benchmark was done using a computer with an Intel core I7 @4.0 Ghz, on Linux
 
 
 ## Results
+
+*Present one example of your function(s). Then, calculate benchmarks with the same image at different size. Recalculate the benchmarks for 8-bit, 16-bit, and float32 images. Display them as diagram. Don't forget to describe them in your text, add a legend.*
 
 ### Implementation of the Sobel Operator
 
@@ -94,6 +96,8 @@ The mean obtained by the benchmark for the JVM memory load and the time consumpt
 
 ## Discussion
 
+*Comparison of your implementation with those of ImageJ. Is it faster, better, less memory consuming, ...?*
+
 ### Qualitative Comparison
 
 
@@ -102,8 +106,14 @@ The mean obtained by the benchmark for the JVM memory load and the time consumpt
 
 ## Conclusion
 
+*Conclusion and possible improvements,...*
 
-*faudra voir quels citations sont utilisée, ou si le systeme s'en fout que certains sont pas utilisée et quon peut les laisser sans problemes... même si alors on commencerait a avoir des soucis pour naviguer la aprtie citation XS*
+
+
+
+
+
+*TOUS les citations doivent etre utilise*
 
 
 [^ECMA2011]: ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
