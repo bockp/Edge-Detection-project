@@ -55,6 +55,7 @@ Those kernels are defined as global variables in the beginning of our script. Ro
 
 The three functions *sobel()*, *prewitt()* and *robertscross()* use the utility functions *convolve()*, *gradient()*, and *normalizeConvResult()* described previously.  To display the image, the lowest and highest values are capped to those allowed by the type of the original image. The following pseudo-code sums up our implementation :
 
+```
 Gx = convolve (raster, horizontal kernel)
 Gy = convolve (raster, vertical kernel)
 gradient = sqrt(Gx²+Gy²)
@@ -68,6 +69,7 @@ FOR pixel value IN gradient :
 	END IF
 END FOR
 RETURN gradient
+```
 
 ### Implementation of the Laplacian of Gaussian Operator :
 
@@ -116,6 +118,7 @@ Canny’s algorithm uses the following steps:
 
 The *canny()* function takes as parameter the raster containing the pixels of the image, the low and high threshold for the hysteresis (in the range 0 to 255), and the standard deviation value for the Gaussian filter. The output is a uint8 binary image in which the edge pixels have the highest pixel value (white) and the other have the lowest value (black). This function uses the utility functions *convolve()*, *gaussianKernel()*, *normalizeConvResult()*, *theta4directions()*, *nonmax()*, and *hysteresis()*. The following pseudo-code sums-up our implementation :
 
+```
 IF image type = uint16
 	multiply low and high threshold by 256
 ELSE IF image type = float32
@@ -175,6 +178,7 @@ WHILE length(chosen_pixels) > 0
 	chosen_pixels = new_pixels
 END WHILE
 RETURN edges
+```
 
 ### Benchmarking process
 
