@@ -58,7 +58,7 @@ The three functions *sobel()*, *prewitt()* and *robertscross()* use the utility 
 Gx = convolve (raster, horizontal kernel)
 Gy = convolve (raster, vertical kernel)
 gradient = sqrt(Gx²+Gy²)
-FOR pixel value IN gradient :
+```FOR pixel value IN gradient :
 	IF pixel value < lowest value allowed by image type
 		pixel value = lowest value
 	ELSE IF pixel value > highest value allowed by image type
@@ -67,7 +67,7 @@ FOR pixel value IN gradient :
 		do nothing
 	END IF
 END FOR
-RETURN gradient
+RETURN gradient```
 
 ### Implementation of the Laplacian of Gaussian Operator :
 
