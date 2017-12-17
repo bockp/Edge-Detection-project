@@ -49,18 +49,12 @@ All of our principal functions take as first parameter the raster containing the
 
 The three following algorithm work following the same two steps :
 - Convolving the image with the horizontal and vertical kernels to approximate respectively the horizontal (Gx) and vertical (Gy) derivative of the image
-- Computing the gradient magnitude using Gx and Gy 
-The result is an image in which the edges have high pixel values compared to the rest of the image.  The only difference is the kernels used by each algorithm [Fig.?]
-
-![Fig.?](images/kernels.jpg)
-
-**Fig.?: Horizontal and vertical kernels 2D kernels : 1:Sobel operator, 2:Prewitt operator, 3:Robert's cross operator**
-
+- Computing the gradient magnitude using Gx and Gy with the following formula : FORMULA
+The result is an image in which the edges have high pixel values compared to the rest of the image.  The only difference is the kernels used by each algorithm : KERNELS
 Those kernels are defined as global variables in the beginning of our script. Robert’s cross kernels are 2x2 so they have to be padded with zeros to be used in our *convolve()* function.
 
 The three functions *sobel()*, *prewitt()* and *robertscross()* use the utility functions *convolve()*, *gradient()*, and *normalizeConvResult()* described previously.  To display the image, the lowest and highest values are capped to those allowed by the type of the original image. The following pseudo-code sums up our implementation :
 
-```
 Gx = convolve (raster, horizontal kernel)
 Gy = convolve (raster, vertical kernel)
 gradient = sqrt(Gx²+Gy²)
@@ -74,7 +68,6 @@ FOR pixel value IN gradient :
 	END IF
 END FOR
 RETURN gradient
-```
 
 ### Implementation of the Laplacian of Gaussian Operator :
 
@@ -106,7 +99,6 @@ This function uses the utility functions *convolve()*, *logKernel()*.
 
 The following pseudo-code sums-up our implementation :
 
-```
 Output = copy image pixel values from image raster
 Set output type to uint8
 Initialize output.pixelData as a Uint8ClampedArray of the same length as the raster, to store result of the function in
@@ -138,7 +130,7 @@ Set output.pixelData to contain Zero_cross
 
 
 RETURN output
-```
+
 
 
 
@@ -148,13 +140,12 @@ Canny’s algorithm uses the following steps:
 - Noise reduction by convolving the image with a Gaussian filter of a given standard deviation
 - Computation of the intensity gradient magnitude and orientation using the following formulas : FORMULAS
 - Dividing orientation values (theta) into 4 directions : horizontal (0°), north-east /south-west(45°), vertical (90°), and north-west/south-east direction (135°)
-- Non-maximum suppression by only keeping pixels which value is the maximum compared to the values of the two surrounding pixels according to the gradient orientation (see [Fig.?] in Annex)
+- Non-maximum suppression by only keeping pixels which value is the maximum compared to the values of the two surrounding pixels according to the gradient orientation (SCHEMA)
 - Finding strong edge pixels and weak edge pixels using a low and a high threshold values
-- Tracing edges with hysteresis, by keeping weak edge pixels next to strong edge pixels and then extending the edges in several passes (see [Fig.?] in Annex)
+- Tracing edges with hysteresis, by keeping weak edge pixels next to strong edge pixels and then extending the edges in several passes (see figure ??? in Annex)
 
 The *canny()* function takes as parameter the raster containing the pixels of the image, the low and high threshold for the hysteresis (in the range 0 to 255), and the standard deviation value for the Gaussian filter. The output is a uint8 binary image in which the edge pixels have the highest pixel value (white) and the other have the lowest value (black). This function uses the utility functions *convolve()*, *gaussianKernel()*, *normalizeConvResult()*, *theta4directions()*, *nonmax()*, and *hysteresis()*. The following pseudo-code sums-up our implementation :
 
-```
 IF image type = uint16
 	multiply low and high threshold by 256
 ELSE IF image type = float32
@@ -167,7 +158,7 @@ put data in raster
 Gx = convolve(raster, horizontal Sobel kernel)
 Gy = convolve(raster, vertical Sobel kernel)
 gradient = sqrt(Gx²+Gy²)
-theta = atan2(Gy,Gx)
+theta = atan2(Gx,Gy)*(180/pi)
 theta = theta4directions(theta)
 newGradient = []
 FOR pixel value in gradient
@@ -214,7 +205,6 @@ WHILE length(chosen_pixels) > 0
 	chosen_pixels = new_pixels
 END WHILE
 RETURN edges
-```
 
 ### Benchmarking process
 
@@ -242,6 +232,18 @@ The two following pictures show the result of edge detection using our *prewitt(
 **Fig.?: Result of Prewitt and Robert’s cross filtering. 1:original image, 2:output of our prewitt() function, 3:output of our robertscross() functions**
 
 ### Edge detection using the Laplacian of Gaussian algorithm:
+
+The 4 pictures below show the results of applying the FeatureJ Laplacian to the Lena 8bit image, and compares it to an application of our own implementation.
+
+![Fig.?](images/Lena-featureJ3-5-us2.jpg)
+
+**Fig.?: Rs**
+
+
+![Fig.?](images/Lena-mexican5-us2.jpg)
+
+**Fig.?: Rs**
+
 
 
 ### Edge detection using Canny’s algorithm :
@@ -304,15 +306,7 @@ The mean obtained by the benchmark for the JVM memory load and the time consumpt
 
 *Conclusion and possible improvements,...*
 
-## Annex
 
-![Fig.?](images/nonmax.png)
-
-**Fig.?: Principle of the non-maximum suppression step**
-
-![Fig.?](images/schema_hysteresis.png)
-
-**Fig.?: Principle of the edge tracing step using hysteresis**
 
 
 
