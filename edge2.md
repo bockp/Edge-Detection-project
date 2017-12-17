@@ -55,7 +55,6 @@ Those kernels are defined as global variables in the beginning of our script. Ro
 
 The three functions *sobel()*, *prewitt()* and *robertscross()* use the utility functions *convolve()*, *gradient()*, and *normalizeConvResult()* described previously.  To display the image, the lowest and highest values are capped to those allowed by the type of the original image. The following pseudo-code sums up our implementation :
 
-```
 Gx = convolve (raster, horizontal kernel)
 Gy = convolve (raster, vertical kernel)
 gradient = sqrt(Gx²+Gy²)
@@ -69,7 +68,6 @@ FOR pixel value IN gradient :
 	END IF
 END FOR
 RETURN gradient
-```
 
 ### Implementation of the Laplacian of Gaussian Operator :
 
@@ -101,8 +99,38 @@ This function uses the utility functions *convolve()*, *logKernel()*.
 
 The following pseudo-code sums-up our implementation :
 
-data = convolve(raster, Gaussian Kernel of size 9 and standard deviation sigma)
-put data in raster
+Output = copy image pixel values from image raster
+Set output type to uint8
+Initialize output.pixelData as a Uint8ClampedArray of the same length as the raster, to store result of the function in
+W = raster's width
+
+ker = create a LoG kernel using logLernel(wanted kernel size, standard deviation/sigma value for Gaussian)
+log_data = convolve raster using the generated Ker kernel
+
+Threshold the image
+
+FOR pixel_value IN log_data:
+	IF pixel_value >= 0:
+		pixel_value = 0
+	ELSE:
+		pixel_value = 255
+END FOR
+Store result in thr_img
+
+zero_cross = []
+
+FOREACH pixel_value and integer_counter IN thr_img:
+  	IF thr_img[integer_counter] is foreground (255) 	 AND has at least one Background (0) neighbour:
+			 Add a 255 to Zero_cross, as this is a zero-crossing.
+		ELSE:
+			 Add a 0 to Zero_cross.
+END FOREACH
+
+Set output.pixelData to contain Zero_cross
+
+
+RETURN output
+
 
 
 
@@ -118,7 +146,6 @@ Canny’s algorithm uses the following steps:
 
 The *canny()* function takes as parameter the raster containing the pixels of the image, the low and high threshold for the hysteresis (in the range 0 to 255), and the standard deviation value for the Gaussian filter. The output is a uint8 binary image in which the edge pixels have the highest pixel value (white) and the other have the lowest value (black). This function uses the utility functions *convolve()*, *gaussianKernel()*, *normalizeConvResult()*, *theta4directions()*, *nonmax()*, and *hysteresis()*. The following pseudo-code sums-up our implementation :
 
-```
 IF image type = uint16
 	multiply low and high threshold by 256
 ELSE IF image type = float32
@@ -178,7 +205,6 @@ WHILE length(chosen_pixels) > 0
 	chosen_pixels = new_pixels
 END WHILE
 RETURN edges
-```
 
 ### Benchmarking process
 
