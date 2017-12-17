@@ -167,7 +167,7 @@ put data in raster
 Gx = convolve(raster, horizontal Sobel kernel)
 Gy = convolve(raster, vertical Sobel kernel)
 gradient = sqrt(Gx²+Gy²)
-theta = atan2(Gx,Gy)*(180/pi)
+theta = atan2(Gy,Gx)
 theta = theta4directions(theta)
 newGradient = []
 FOR pixel value in gradient
