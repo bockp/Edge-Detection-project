@@ -35,6 +35,112 @@ https://github.com/bockp/Edge-Detection-project
 
 *Describe in detail for each function the algorithm used in the implementation. Add a diagram or pseudo-code if necessary. This section is very important because it must help the reading of the source code.*
 
+### Utility functions :
+
+BLABLABLABLABLA
+
+Two of these functions, *gaussianKernel()* and *convolve()* were coded by us because we needed them for the edge detection functions, but should be replaced by the functions coded by the “Filters” group, so they were not optimized here.
+
+### Principal functions
+
+All of our principal functions take as first parameter the raster containing the pixels values of an image, and output a modified raster. They all work with uint8, uint16, and float32 images. To avoid using FOR loops as much as possible they were replaced by the use of ecmascript *map* and *forEach* functions. Also to avoid accumulating IF… ELSE conditional statements, they were replaced when possible  the use of the ternary operator and compacted with the use of OR and AND logical operators.
+
+### Edge detection using Sobel, Prewitt, and Robert’s cross operators :
+
+The three following algorithm work following the same two steps :
+- Convolving the image with the horizontal and vertical kernels to approximate respectively the horizontal (Gx) and vertical (Gy) derivative of the image
+- Computing the gradient magnitude using Gx and Gy with the following formula : FORMULA
+The result is an image in which the edges have high pixel values compared to the rest of the image.  The only difference is the kernels used by each algorithm : KERNELS
+Those kernels are defined as global variables in the beginning of our script. Robert’s cross kernels are 2x2 so they have to be padded with zeros to be used in our *convolve()* function.
+
+The three functions *sobel()*, *prewitt()* and *robertscross()* use the utility functions *convolve()*, *gradient()*, and *normalizeConvResult()* described previously.  To display the image, the lowest and highest values are capped to those allowed by the type of the original image. The following pseudo-code sums up our implementation :
+
+Gx = convolve (raster, horizontal kernel)
+Gy = convolve (raster, vertical kernel)
+gradient = sqrt(Gx²+Gy²)
+FOR pixel value IN gradient :
+	IF pixel value < lowest value allowed by image type
+		pixel value = lowest value
+	ELSE IF pixel value > highest value allowed by image type
+		pixel value = highest value
+	ELSE
+		do nothing
+	END IF
+END FOR
+RETURN gradient
+
+### Edge detection using Canny’s algorithm :
+
+Canny’s algorithm uses the following steps:
+- Noise reduction by convolving the image with a Gaussian filter of a given standard deviation 
+- Computation of the intensity gradient magnitude and orientation using the following formulas : FORMULAS
+- Dividing orientation values (theta) into 4 directions : horizontal (0°), north-east /south-west(45°), vertical (90°), and north-west/south-east direction (135°)
+- Non-maximum suppression by only keeping pixels which value is the maximum compared to the values of the two surrounding pixels according to the gradient orientation (SCHEMA)
+- Finding strong edge pixels and weak edge pixels using a low and a high threshold values
+- Tracing edges with hysteresis, by keeping weak edge pixels next to strong edge pixels and then extending the edges in several passes (see figure ??? in Annex)
+
+The *canny()* function takes as parameter the raster containing the pixels of the image, the low and high threshold for the hysteresis (in the range 0 to 255), and the standard deviation value for the Gaussian filter. The output is a uint8 binary image in which the edge pixels have the highest pixel value (white) and the other have the lowest value (black). This function uses the utility functions *convolve()*, *gaussianKernel()*, *normalizeConvResult()*, *theta4directions()*, *nonmax()*, and *hysteresis()*. The following pseudo-code sums-up our implementation :
+
+IF image type = uint16
+	multiply low and high threshold by 256
+ELSE IF image type = float32
+	divide low and high threshold by 128 and substract 1
+ELSE IF image type = uint8
+	do nothing
+END IF
+data = convolve(raster, Gaussian Kernel of size 9 and standard deviation sigma)
+put data in raster
+Gx = convolve(raster, horizontal Sobel kernel)
+Gy = convolve(raster, vertical Sobel kernel)
+gradient = sqrt(Gx²+Gy²)
+theta = atan2(Gx,Gy)*(180/pi)
+theta = theta4directions(theta)
+newGradient = []
+FOR pixel value in gradient
+	IF pixel is at the border of the pixel OR  pixel value <= surrounding pixels values in gradient direction 
+		push lowest pixel value to newGradient
+	ELSE
+		push current gradient value to newGradient
+	END IF
+END FOR
+strong_edges = []
+FOR value in newGradient
+	IF value > high threshold
+		add 255 to strong_edges
+	ELSE
+		add 0 to strong_edges
+	END IF
+END FOR
+thresholded_edges = []
+FOR value in newGradient
+	IF value > high thresholded
+		push 2 to thresholded_edges
+	ELSE IF value > low_threshold
+		push 1 to thresholded_edges
+	ELSE
+		push 0 to thresholded_edges
+	END IF
+END FOR
+edges = strong_edges
+chosen_pixels = []
+FOR i IN range(length(edges))
+	IF thresholded_edges[i] = 1 AND thresholded_edges[any surrounding pixel in 8-connectivity] = 2
+		push i to chosen_pixels
+		edges[i]=255
+	END IF
+END FOR
+WHILE length(chosen_pixels) > 0
+	new_pixels = []
+	FOR i IN chosen_pixels
+		IF thresholded_edges[any pixel surrounding ith pixel in 8-connectivity] = 1 AND edges[corresponding pixel] = 0
+			push corresponding pixel index to new_pixels
+			edges[corresponding pixel]=255
+		END IF
+	END FOR
+	chosen_pixels = new_pixels
+END WHILE
+RETURN edges
+
 ### Benchmarking process
 
 
@@ -45,16 +151,31 @@ The benchmark was done using a computer with an Intel core I7 @4.0 Ghz, on Linux
 
 *Present one example of your function(s). Then, calculate benchmarks with the same image at different size. Recalculate the benchmarks for 8-bit, 16-bit, and float32 images. Display them as diagram. Don't forget to describe them in your text, add a legend.*
 
-### Implementation of the Sobel Operator
+### Edge detection using Sobel, Prewitt, and Robert’s cross operators
+
+The two pictures below show the result given by ImageJ’s function FindEdges which uses Sobel operator, and our *sobel()* function. We can see that we obtain quite similar results [Fig.?]
+
+![Fig.?](images/sobel_comparison.jpg)
+
+**Fig.?: Result of Sobel filtering. 1:original image, 2:output of our function, 3:output of ImageJ Find Edges**
 
 
+The two following pictures show the result of edge detection using our *prewitt()* and *robertscross()* function [Fig.?]. A COMMENTER
+
+![Fig.?](images/prewitt_robert.jpg)
+
+**Fig.?: Result of Prewitt and Robert’s cross filtering. 1:original image, 2:output of our prewitt() function, 3:output of our robertscross() functions**
 
 ### Implementation of the Laplacian of Gaussian Operator
 
 
+### Edge detection using Canny’s algorithm :
 
+The following figure represents the result of the *canny()* function with parameters low threshold = 15.0, high threshold = 30.0, and sigma = 2.0. (REF) , compared with the result given by the plugin Canny Edge Detector with parameters low threshold = 2.5, high threshold = 5.0, and sigma = 2.0 [Fig.?]. The results are similar but the threshold values do not have the same effect for the detection of edges. Nonetheless, we can see that the edges of the face, hat and shoulder are well detected, as well as some details on the hat feathers. There are false edges at the bottom and right side of the picture, due to the Gaussian filtering step. Onces this function is replaced by the one coded by the “Filters” group it should give the expected result.  
 
-### Implementation of the Canny Operator
+![Fig.?](images/canny_comparison.jpg)
+
+**Fig.?: Result of Canny filtering. 1:original image, 2:output of our function, 3:output of ImageJ Canny Edge Detector plugin**
 
 
 
