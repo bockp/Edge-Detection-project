@@ -30,11 +30,11 @@ KERNELS
 *******************************/
 
 const SOBEL_H = [1, 0, -1,2,0, -2,1, 0, -1]; 
-const SOBEL_V = [1, 2, 1,0,0, 0,-1, -2, -1];
-const PREWITT_H = [-1, 0, 1, -1, 0, 1, -1, 0, 1];
+const SOBEL_V = [-1, -2, -1,0,0, 0,1, 2, 1];
+const PREWITT_H = [1, 0, -1, 1, 0, -1, 1, 0, -1];
 const PREWITT_V = [-1, -1, -1, 0, 0, 0, 1, 1, 1];
-const ROBERT_H = [0, 0, 0, 0, 1, 0, 0, 0, -1];
-const ROBERT_V = [0, 0, 0, 0, 0, 1, 0, -1, 0];
+const ROBERT_H = [0, -1, 0, 1, 0, 0, 0, 0, 0];
+const ROBERT_V = [-1, 0, 0, 0, 1, 0, 0, 0, 0];
 
 /******************************
 UTILITY FUNCTIONS
@@ -71,21 +71,7 @@ const gradient = (raster, kerH, kerV, copy_mode=true) =>
 const normalizeConvResult = (data,type) =>
 {
     let i;
-    for (i=0; i<data.length; i++)
-    /* TODO THIS IS NOT WORKING T________________T
-    let newdata = [];
-    data.forEach((px) =>
-    {
-    	let out;
-		((px < 0) && (type != "float32")) ? out=0 : out=px ;
-		((px < -1) && (type === "float32")) ? out=-1 : out=px ;
-		((px > 255) && (type === "uint8")) ? out=255 : out=px ;
-		((px > 65535) && (type === "uint16")) ? out=65535 : out=px ;
-		((px > 1) && (type === "float32")) ? out=1 : out=px ;
-		newdata.push(out);
-    });
-    */
-    
+    for (i=0; i<data.length; i++)    
     {
 		((data[i] < 0) && (type != "float32")) ? data[i]=0 : data[i]=data[i] ;
 		((data[i] < -1) && (type === "float32")) ? data[i]=-1 : data[i]=data[i] ;
@@ -98,7 +84,7 @@ const normalizeConvResult = (data,type) =>
 }
 
 /**
- * Rounds the gradient orientation (theta) values into four directions : 0, 45, 90, and 135 degrees
+ * Rounds the gradient orientation (theta) values into four directions : 0, 45, 90, and 135 degrees represented by the numbers 0, 1, 2, and 3
  *
  *
  * @param {array} theta - Image gradient orientation values
@@ -109,14 +95,11 @@ const normalizeConvResult = (data,type) =>
 const theta4directions = (theta) =>
 {
 	// TODO functionalize
-	let i;
+    let i;
     for (i=0; i<theta.length; i++)
     {
-    	( (Math.round(Math.abs(theta[i])) < 45/2) || (Math.round(Math.abs(theta[i])) > (135 + 45/2)) ) ? theta[i]=0 : theta[i]=theta[i];
-    	((Math.round(Math.abs(theta[i])) >= 45/2) && (Math.round(Math.abs(theta[i])) < (90 - 45/2) )) ? theta[i]=45 : theta[i]=theta[i];
-    	((Math.round(Math.abs(theta[i])) >= (90 -45/2) ) && (Math.round(Math.abs(theta[i])) < (135 - 45/2) )) ? theta[i]=90 : theta[i]=theta[i];
-		((Math.round(Math.abs(theta[i])) >= (135 -45/2) ) && (Math.round(Math.abs(theta[i])) < (135 + 45/2) )) ? theta[i]=135 : theta[i]=theta[i];
-    }
+    	theta[i] = ((Math.round(theta[i] * (5.0 / Math.PI)) + 5) % 5) %4;
+    	}
     return theta;
 }
 
@@ -254,11 +237,10 @@ const logKernel = (kernelSize,sigma) => normalize(kernelGenerator( kernelSize, s
  */
 const padding = (data, W, H, pad, copy_mode=true) =>
 {
-	//TODO functionalize
 	let pad_img = Array((W+(pad*2))*(H+(pad*2))).fill(0);
-	for (let i=0; i<W*H; i++)
+	for (let i=0; i<data.length; i++)
 	{
-		pad_img[(Math.floor(i/W)+1)*(W+(pad*2))+((i%W)+1)]=data[Math.floor(i/W)*W+(i%W)]
+		pad_img[(Math.floor(i/W+1))*(W+(pad*2))+((i%W)+1)]=data[Math.floor(i/W)*W+(i%W)]
 	} 
 
 	return pad_img;
@@ -368,7 +350,6 @@ const robertscross = () => (raster, copy_mode=true) =>
 	let output = T.Raster.from(raster,copy_mode);
 	output.type = raster.type;
 	output.pixelData = normalizeConvResult(gradient(raster, ROBERT_H, ROBERT_V), raster.type);
-
     return output;
 }
 
@@ -415,7 +396,6 @@ CANNY ALGORITHM
  * Performs non maximum suppression in 8-connectivity : pixels that are not the maximum value in their gradient direction are replaced by the lowest pixel value according to the image type
  *
  *
- * @param {array} data - Image pixels values
  * @param {number} W - Image width
  * @param {number} H - Image height
  * @param {array} grad - Gradient magnitude values of each pixel
@@ -425,23 +405,22 @@ CANNY ALGORITHM
  * @author Cecilia Ostertag
  */
 
-const nonmax = (data, W, H, grad, theta, type) =>
+const nonmax = (W, H, grad, theta, type) =>
 {
-
 	let valnull;
 	(type === 'float32') ? valnull=-1 : valnull=0; //lowest value according to image type
 	let newGrad=[]; //new grad values
 	grad.forEach((val,i) =>
 	{
-			( ( (i%W == (0 || W-1)) || (Math.floor(i/W) == (0 || H-1)) ) ||
+			( ( (( i%W === 0) || (i%W === H-1) )  || ( (Math.floor(i/W) === 0) || (Math.floor(i/W) === H-1) ) ) ||
 
-			( (theta[i] == 0) && ( (grad[i] <= grad[i-1]) || (grad[i] <= grad[i+1]) ) ) || //horizontal direction : compare with previous and next pixel
+			( (theta[i] === 0) && ( (grad[i] <= grad[i-1]) || (grad[i] <= grad[i+1]) ) ) || //horizontal direction : compare with previous and next pixel
 
-			( (theta[i] == 45) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W + 1)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W - 1)]) ) ) || //NE-SO direction : compare with previous and next pixel
+			( (theta[i] === 1) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W + 1)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W - 1)]) ) ) || //NE-SO direction : compare with previous and next pixel
 
-			( (theta[i] == 90) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W)]) ) ) || //vertical direction : compare with previous and next pixel
+			( (theta[i] === 2) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W)]) ) ) || //vertical direction : compare with previous and next pixel
 
-			( (theta[i] == 135) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W - 1)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W + 1)]) ) )  ) //NW-SE direction : compare with previous and next pixel
+			( (theta[i] === 3) && ( (grad[i] <= grad[i%W-1+W*Math.floor(i/W - 1)]) || (grad[i] <= grad[i%W+1+W*Math.floor(i/W + 1)]) ) )  ) //NW-SE direction : compare with previous and next pixel
 			 
 			? newGrad.push(valnull) : newGrad.push(grad[i]) ; 
 	});
@@ -453,37 +432,37 @@ const nonmax = (data, W, H, grad, theta, type) =>
  * Performs hysteresis in 8-connectivity : first weak edge pixels next to strong edge pixels are kept, and then select non selected weak edge pixels  next to a strong edge pixel in several passes
  *
  *
- * @param {array} data - Image pixels values
  * @param {number} W - Image width
- * @param {number} H - Image height
  * @param {array} strong_edges - Array in wich strong edges are represented by the number 2, and the others are represented by the number 0 
  * @param {array} thresholded_edges - Array in wich strong edges are represented by the number 2, weak edges are represented by the number 1, and the others are represented by the number 0 
  *
  * @author Cecilia Ostertag
  */
 
-const hysteresis = (data, W, H, strong_edges, thresholded_edges) =>
+const hysteresis = (W, strong_edges, thresholded_edges) =>
 {
 
 	let edges=strong_edges.slice(); //final edge pixels
-	let pixels=[];
-
+	let chosen_pixels=[];
 	edges.forEach((val,i) =>
 	{
+	
 		if ( (thresholded_edges[i] === 1) && ( (thresholded_edges[i%W-1+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W-1+W*Math.floor(i/W)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W)] === 2)  || (thresholded_edges[i%W-1+W*Math.floor(i/W+1)] === 2) || (thresholded_edges[i%W+W*Math.floor(i/W +1)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W +1)] === 2) ) ) //weak edge is next to a strong edge (8-connectivity)
 		{
-			pixels.push(i); //we keep the pixel
+			chosen_pixels.push(i); //we keep the pixel
 			edges[i]=255;
 		}
+		
 	});
 
-
+	let i=0;
 	//Extend strong edges based on current pixels, in several passes
-	while (pixels.length > 0)
+	while (chosen_pixels.length > 0)
 	{
+		i++;
 		let new_pixels=[];
 		//select non selected weak edge pixels  next to a strong edge pixel (8 connectivity)
-		pixels.forEach((px,i) =>
+		chosen_pixels.forEach((i) =>
 		{
 			if ( (thresholded_edges[i%W-1+W*Math.floor(i/W -1)] === 1) && (edges[i%W-1+W*Math.floor(i/W - 1)] === 0) )
 			{
@@ -525,8 +504,8 @@ const hysteresis = (data, W, H, strong_edges, thresholded_edges) =>
 				new_pixels.push(i%W+1+W*Math.floor(i/W + 1)); //we keep the pixel
 				edges[i%W+1+W*Math.floor(i/W + 1)]=255;
 			}
-		pixels=new_pixels;
 		});
+		chosen_pixels=new_pixels;
 	}
 
     return edges;
@@ -566,19 +545,16 @@ const canny = (low_thr, high_thr, sigma=2.0) => (raster,copy_mode=true) =>
     Gx = convolve(raster, SOBEL_H);
     Gy = convolve(raster, SOBEL_V);
     let G = Gx.map((x,i) => Math.sqrt(Math.pow(Gx[i],2.0)+Math.pow(Gy[i],2.0)));
-    G = normalizeConvResult(G,raster.type);
-    let theta = Gx.map((x,i) => Math.atan2(Gy[i],Gx[i])*(180/Math.PI)); //get angle in rad and convert to degrees
+    let theta = Gx.map((x,i) => Math.atan2(Gy[i],Gx[i])); //get angle in rad and convert to degrees
 
-	//TODO make theta4directions work with map, still doesn't work :(
-	// we need to have 4 values for theta : 0, 45, 90, 135
+	// we need to have 4 directions for theta : 0, 45, 90, 135
     theta = theta4directions(theta);
+
     
     //non-maximum suppression
-    //console.log("non-maximum suppression");
-    let newGrad = nonmax(data, raster.width, raster.height, G, theta, raster.type);
+    let newGrad = nonmax(raster.width, raster.height, G, theta, raster.type);
     
     //double threshold (we stop working on the gradient and start creating the binary edge
-    //console.log("double threshold");
     const strong_edges = newGrad.map(x => x>high_thr ? x=255 : x=0);
     const thresholded_edges = newGrad.map((x) =>
     {
@@ -596,10 +572,10 @@ const canny = (low_thr, high_thr, sigma=2.0) => (raster,copy_mode=true) =>
     	}
     	return x;
     });
-
+    
     //edge tracing with hysteresis : weak pixels near strong pixels
-    //console.log("hysteresis");
-    let edges = hysteresis(data, raster.width, raster.height, strong_edges, thresholded_edges);
+    let edges = hysteresis(raster.width, strong_edges, thresholded_edges);
+
 
 	output.pixelData = edges;
 
