@@ -87,8 +87,20 @@ The Laplacian of Gaussian (LoG) algorithm we've chosen to implement is composed 
 
 - Thresholding of the output by 0 to get a binary image.
 
-- Zero-crossing detection to improve the performance of the
+- Zero-crossing detection to improve the edge detection.
 
+including optimization to detect as zero-crossing only the foreground pixels with at least one background pixel neighbour.
+
+The Laplacian of Gaussian takes as arguments the raster containing the image pixels, the LoG kernel size and the standard deviation (sigma) value for the LoG kernel generation.
+
+The output is a uint8 binary image in which the edge pixels have the highest pixel value (white) and the other have the lowest value (black).
+
+This function uses the utility functions *convolve()*, *logKernel()*.
+
+The following pseudo-code sums-up our implementation :
+
+data = convolve(raster, Gaussian Kernel of size 9 and standard deviation sigma)
+put data in raster
 
 
 
