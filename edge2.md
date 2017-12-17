@@ -43,7 +43,7 @@ Two of these functions, *gaussianKernel()* and *convolve()* were coded by us bec
 
 ### Principal functions
 
-All of our principal functions take as first parameter the raster containing the pixels values of an image, and output a modified raster. They all work with uint8, uint16, and float32 images. To avoid using FOR loops as much as possible they were replaced by the use of ecmascript *map* and *forEach* functions. Also to avoid accumulating IF… ELSE conditional statements, they were replaced when possible  the use of the ternary operator and compacted with the use of OR and AND logical operators.
+All of our principal functions take as first parameter the raster containing the pixels values of an image, and output a modified raster. They all work with uint8, uint16, and float32 images. To avoid using FOR loops as much as possible they were replaced by the use of Ecmascript *map* and *forEach* functions. Also to avoid accumulating IF… ELSE conditional statements, they were replaced when possible  the use of the ternary operator and compacted with the use of OR and AND logical operators.
 
 ### Edge detection using Sobel, Prewitt, and Robert’s cross operators :
 
@@ -69,10 +69,33 @@ FOR pixel value IN gradient :
 END FOR
 RETURN gradient
 
+### Implementation of the Laplacian of Gaussian Operator :
+
+The Laplacian of Gaussian (LoG) algorithm we've chosen to implement is composed of these general steps:
+
+- Generation of a LoG kernel of size 9 using the following formula:
+
+![Fig.?](images/LoG_formula.gif)
+
+**Fig.?: Mathematical formula of the LoG kernel, created by combining the Laplacian kernel formula with the Gaussian kernel formula.**
+
+![Fig.?](images/LoG_9Ker.gif)
+
+**Fig.?: Discrete representation of the 9X9 LoG kernel.**
+
+- Convolution of the image with the given LoG kernel.
+
+- Thresholding of the output by 0 to get a binary image.
+
+- Zero-crossing detection to improve the performance of the
+
+
+
+
 ### Edge detection using Canny’s algorithm :
 
 Canny’s algorithm uses the following steps:
-- Noise reduction by convolving the image with a Gaussian filter of a given standard deviation 
+- Noise reduction by convolving the image with a Gaussian filter of a given standard deviation
 - Computation of the intensity gradient magnitude and orientation using the following formulas : FORMULAS
 - Dividing orientation values (theta) into 4 directions : horizontal (0°), north-east /south-west(45°), vertical (90°), and north-west/south-east direction (135°)
 - Non-maximum suppression by only keeping pixels which value is the maximum compared to the values of the two surrounding pixels according to the gradient orientation (SCHEMA)
@@ -97,7 +120,7 @@ theta = atan2(Gx,Gy)*(180/pi)
 theta = theta4directions(theta)
 newGradient = []
 FOR pixel value in gradient
-	IF pixel is at the border of the pixel OR  pixel value <= surrounding pixels values in gradient direction 
+	IF pixel is at the border of the pixel OR  pixel value <= surrounding pixels values in gradient direction
 		push lowest pixel value to newGradient
 	ELSE
 		push current gradient value to newGradient
@@ -166,7 +189,7 @@ The two following pictures show the result of edge detection using our *prewitt(
 
 **Fig.?: Result of Prewitt and Robert’s cross filtering. 1:original image, 2:output of our prewitt() function, 3:output of our robertscross() functions**
 
-### Implementation of the Laplacian of Gaussian Operator
+### Edge detection using the Laplacian of Gaussian algorithm:
 
 
 ### Edge detection using Canny’s algorithm :
