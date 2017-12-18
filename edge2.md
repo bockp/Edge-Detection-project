@@ -233,18 +233,24 @@ The two following pictures show the result of edge detection using our *prewitt(
 
 ### Edge detection using the Laplacian of Gaussian algorithm:
 
-The 4 pictures below show the results of applying the FeatureJ Laplacian to the Lena 8bit image, and compares it to an application of our own implementation.
+The 4 pictures below show the results of applying the FeatureJ Laplacian to the Lena 8bit image, and compares it to the results obtained using our own implementation.
 
 ![Fig.?](images/Lena-featureJ3-5-us2.jpg)
 
-**Fig.?: Rs**
+**Fig.?: (1) original Lena 8bit image, (2) FeatureJ simple LaPlacian using Smoothing = 3, (3) FeatureJ simple LaPlacian using Smoothing = 5, (4) TIJ LoG with sigma = 2**
+
+As can be seen, LoG, the combination of the Laplacian kernel with the Gaussian, leads to much better results than a simple LaPlacian kernel, as used by FeatureJ.
+
+The 3 images below compare the ImageJ plugin Mexican Hat, which uses a LoG algorithm with a circular kernel whose radius can be defined, to our own TIJ Ecmascript implementation:
 
 
 ![Fig.?](images/Lena-mexican5-us2.jpg)
 
-**Fig.?: Rs**
+**Fig.?: (1) Lena 8bit image, (2) Mexican Hat/LoG filter with radius = 5, (3) TIJ LoG filter with Sigma = 2**
 
+As can be seen, A Mexican Hat filter with radius 5 gives a similar result to our TIJ implementation with a sigma of 2, but we cannot truly compare the two, given one uses a circular kernel, and the other a rectangular one.
 
+Taking that into account, we can at least see that the results are comparable in quality.
 
 ### Edge detection using Canny’s algorithm :
 
