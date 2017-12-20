@@ -15,7 +15,7 @@ function benchmark(img, functionNameString, parameters, timeList, memoryList)
 	memoryList.push(memory/1048576);//convert bytes to MB
 }
 
-function runBenchmark(img, functionNameString, parameters)
+function runBenchmark(imp, functionNameString, parameters)
 {
 	IJ.log("Front loading...\n");
 	//------------------------------------FRONT-LOADING------------------------------
@@ -26,7 +26,6 @@ function runBenchmark(img, functionNameString, parameters)
 
 		impDupl = imp.duplicate();
 		benchmark(impDupl,functionNameString,parameters,timeList, memoryList);
-		IJ.run("Close All Windows", ""); //close all image windows
 
 		if(i==0)
 		{
@@ -34,22 +33,22 @@ function runBenchmark(img, functionNameString, parameters)
 			IJ.log("time: "+timeList[i]);
 			IJ.log("memory: "+memoryList[i]);
 		}
-	
+		
 	}
-
+	//IJ.run("Close All Windows", ""); //close all image windows
 	//------------------------------------BENCHMARKING------------------------------
 
 	IJ.log("Benchmarking the function "+functionNameString+"\n");
 
 		timeList = []; 
 		memoryLsit = [];
-		var loops = 100;
+		var loops = 20;
 		for(var j = 0; j < loops; j++){
 			impDupl = imp.duplicate();
 			benchmark(impDupl,functionNameString,parameters,timeList, memoryList);
-			IJ.run("Close All Windows", "");
+			
 		}
-
+		IJ.run("Close All Windows", "");
 	IJ.log("End of benchmark\n");
 	for(var i=0;i<timeList.length;i++)
 		{
@@ -60,21 +59,25 @@ function runBenchmark(img, functionNameString, parameters)
 
 // Main program
 
-imp = IJ.openImage("http://wsr.imagej.net/images/lena-std.tif"); // opens Lena sample image, on which we run the benchmark 
-// same image for every benchmark.
-IJ.run(imp, "8-bit", ""); //convert image to 8-bit greyscale
-IJ.run(imp, "Size...", "width=256 height=256 constrain average interpolation=Bilinear"); //resize image
+imgList=["/home/lyria/Edge-Detection-project/samples/Lenna_128.jpg","/home/lyria/Edge-Detection-project/samples/Lenna_256.jpg","/home/lyria/Edge-Detection-project/samples/Lenna_512.jpg","/home/lyria/Edge-Detection-project/samples/Lenna_1024.jpg","/home/lyria/Edge-Detection-project/samples/Lenna_2048.jpg"];
+
+for (var j=0; j<imgList.length;j++)
+{
+
 
 functionNames = ["Find Edges","Log Filter","FeatureJ Laplacian","Canny Edge Detector","FeatureJ Edges"];
-parametersList = ["","sigma=3 filterwidth=2 threshold=0 delta=0 mode=4","compute smoothing=3.0 detect","gaussian=2 low=2.5 high=7.5","compute smoothing=2.0 suppress lower=2.5 higher=7.5"];
+parametersList = ["","sigma=1.4 filterwidth=9 threshold=0 delta=0 mode=4","compute smoothing=1.4 detect","gaussian=2 low=2.5 high=5.0","compute smoothing=2.0 suppress lower=2.5 higher=5.0"];
 
 
 for (var i=0;i<functionNames.length;i++)
 {
+	imp = IJ.openImage(imgList[j]); 
+	imp.show();
 	functionNameString = functionNames[i];
 	parameters = parametersList[i];
 	runBenchmark(imp, functionNameString, parameters);
 	IJ.freeMemory(); 
+}
 }
 
 
