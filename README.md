@@ -12,19 +12,13 @@ Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
 
 # To do:
 
-- [ ] Benchmarks on ImageJ and our functions, it will be complicated to have exactly the same results because of the default LoG and Gaussian kernel sizes
-- [ ] Write report, cite optimized algo articles, why we choose certain and ignored others...
-
-- [ ] FUNCTIONALIZE CODE (not the convolution function, it's not our job)
-
-- [ ] Comment the functions and add the doc
-
-# Done for uint8, uint16, float32 and rgba images:
-- [ ] Convolution function (to be replaced by the function implemented by the Filters Group)
-- [ ] Sobel, Prewitt, Cross
-- [ ] Canny 
-- [ ] LoG
-Everything works well, but need to change the values of the parameters for Canny and LoG because it depends of the image and can lead to bad results.
+- [] describe the parameters of each functions for the benchmark (in the materials and methods part, look at the benchmark.js and benchmarkForTiji.js for the values of the parameters, values chosen because they give similar visual results)
+- [] benchmark for uint16 and float32 images for our functions - I'm on it (Cecilia)
+- [] add name of the authors of the imageJ plugins (see previous report)
+- [] describe briefly the utility functions (basically what is written in the documentation of each function)
+- [] add ref for Robert's cross in the introduction (at the same lace as sobel prewitt and kirch)
+- [] add the whatever to set up properly the size of the images for the convertion to pdf
+- [] check that all the code is still working well !!
 
 # Tiny Image in Javascript (TIJ) project
 
