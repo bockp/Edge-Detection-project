@@ -22,8 +22,6 @@ We then performed a benchmark on the ImageJ plugins, in order to compare their e
 
 For this second part of our project, we have chosen to make our own implementations of the Sobel, Canny and Laplacian of Gaussian Operators using ECMAscript6[^ECMA2011].
 
-Additonally, we shall follow the AirBnB Javascript Programming Style guidelines*[^?]* to keep our image analysis programs uniform and understandable.
-
 
 
 **Our report ( written using the markdown format), and associated files, is stored in a repository on github:**
@@ -158,7 +156,7 @@ put data in raster
 Gx = convolve(raster, horizontal Sobel kernel)
 Gy = convolve(raster, vertical Sobel kernel)
 gradient = sqrt(Gx²+Gy²)
-theta = atan2(Gx,Gy)*(180/pi)
+theta = atan2(Gx,Gy)
 theta = theta4directions(theta)
 newGradient = []
 FOR pixel value in gradient
@@ -208,13 +206,13 @@ RETURN edges
 
 ### Benchmarking process
 
+The benchmark was done using a computer with an Intel core I7 @4.0 Ghz, on Linux Ubuntu 16.04 64 bits with a kernel 4.10. The version of ImageJ is the 1.51q, using Java 1.8.0\_112 (64 bits). We fixed the choice of processor with the taskset command to avoid a sharing of the processor load, and finally we fixed the ImageJ process with a high priority to avoid preemption.
 
-The benchmark was done using a computer with an Intel core I7 @4.0 Ghz, on Linux Ubuntu 16.04 64 bits with a kernel 4.10. The version of ImageJ is the 1.51q, using Java 1.8.0\_112 (64 bits). We fixed the processor fequency with acpi-cpufreq module to avoid a change of frequency during the benchmark, fixed the choice of processor with the taskset command to avoid a sharing of the processor load, and finally we fixed the ImageJ process with a high priority to avoid preemption.
-
+For this benchmark, we used the same picture (Lena, 8bit), in five different sizes : 128x128 px, 256x256 px, 512x512 px, 1024x1024 px, and 2048x2048 px, to show how the performance of our functions vary when increasing the complexity of the input image. We performed this benchmark on our functions as well as the functions available in ImageJ described in the previous report. For the implementation of the benchmarks see the files *benchmark.js* for the ImageJ functions, and *benchmarkForTiji.js* for our functions, in our GitHub repository. 
 
 ## Results
 
-*Present one example of your function(s). Then, calculate benchmarks with the same image at different size. Recalculate the benchmarks for 8-bit, 16-bit, and float32 images. Display them as diagram. Don't forget to describe them in your text, add a legend.*
+*TODO benchmark for uint16 and float32 on our functions*
 
 ### Edge detection using Sobel, Prewitt, and Robert’s cross operators
 
@@ -225,7 +223,7 @@ The two pictures below show the result given by ImageJ’s function FindEdges wh
 **Fig.?: Result of Sobel filtering. 1:original image, 2:output of our function, 3:output of ImageJ Find Edges**
 
 
-The two following pictures show the result of edge detection using our *prewitt()* and *robertscross()* function [Fig.?]. A COMMENTER
+The two following pictures show the result of edge detection using our *prewitt()* and *robertscross()* function [Fig.?]. 
 
 ![Fig.?](images/prewitt_robert.jpg)
 
@@ -264,39 +262,28 @@ The following figure represents the result of the *canny()* function with parame
 
 ### Benchmark results
 
-*On laisse les resultats du dernier rapport, pour pouvoir comparer, ou on fait reference au dernier rapport en mettant les graphs seulement? si oui faudra enlever ce qui est dessous ici*
+The result of our benchmark for all of our functions ([Fig.?]) show us the result that we expected : the *sobel()*, *prewitt()* and *robertscross()* functions are the fastest and have an almost identical execution time, then the *LoG()* , and finally the *canny()* function. All the functions take more execution time as the image gets bigger. We can also see that the differences between these three groups are widening as we increase the size of the input image : the results are similar for sizes of 128x128, 256x256 and 512x512 pixels, but for pictures of size 1024x1024 and 2048x2048 the LoG implementation takes twice the time of Sobel, Prewitt and Robert’s cross, and the Canny implementation takes three times the execution time. This result was expected for Canny because its  algorithm works in several passes contrarily to the others.
 
-The results of the benchmark for the execution time[Fig.17 and Fig.19] show that the Find Edges function is the quickest to run on this machine, with a mean of 0.88 ms, followed by Log\_Filter, FeatureJ Laplacian and FeatureJ Edges which do not have a mean execution time superior to 50 ms. However the Canny Edge Detector plugin has an average exectution time of 205.8 ms.
+![Fig.?](images/all_graph.jpeg)
 
-![Fig.17](images/bench_time.png)
+**Fig.?: Execution time of all of our functions with five increasing image sizes**
 
-**Fig.17: Result of the benchmark for the execution time of ImageJ edge detection functions. The Canny Edge Detector and FeatureJ Edges plugin use the Canny algorithm, FeatureJ Laplacian and Log Filter use the LoG, and Find Edges the Sobel**
+We then compared each of our functions with the existing corresponding functions in ImageJ. First, for the Sobel operator we compared our function with the ImageJ function FindEdges ([Fig.?]). We can see that ImageJ’s function hasan execution time almost constant for all image sizes. With a picture of 2048x2048 pixels, the execution time of our function is more than ten times higher than the Find Edges function. This is due to the fact that the complexity of our function is *n²* because of the convolution step, while ImageJ’s function uses an optimized version of the convolution.
 
-For the JVM memory load [Fig.18 and Fig.19], we can see that Find Edges uses the least memory, with a mean of 27.4 MegaBytes. Then the three functions Canny Edge Detector, FeatureJ Edges and Log\_Filter have an average of about 50 MB. And finally the most memory expensive function is FeatureJ Laplacian with a mean of 55 MB.
+![Fig.?](images/sobel_graph.jpeg)
 
-The data are not normaly distributed.
+**Fig.?: Execution time of all of our *sobel()* function and ImageJ FindEdges function, with five increasing image sizes**
 
-![Fig.18](images/bench_memory.png)
+For the LoG operator, we compared our function with the plugins Log_Filter by ??? and FeatureJ Laplace by ??? ([Fig.?]). Here we can see that our function outperforms FeatureJ’s for sizes up to 512x512 pixels, but is two times slower for 1024x1024 px images, and three times slower for 2048x2048 px images.
 
-**Fig.18: Result of the benchmark for the memory load of ImageJ edge detection functions. The Canny Edge Detector and FeatureJ Edges plugin use the Canny algorithm, FeatureJ Laplacian and Log Filter use the LoG, and Find Edges the Sobel**
+![Fig.?](images/LoG_graph.jpeg)
 
-The data is not normaly distributed. Visually, the Find Edges algorithm have different results from the others for the time and the memory consuption. A Kruskal-Wallis test between its result and the results of the other algorithms shows a significant difference for both factors with the p-values associated being of less than 2e-06 and 2e-16 for respectively the memory and time consumption.
+**Fig.?: Execution time of all of our *LoG()* function and ImageJ Log_Filter and FeatureJ Laplace plugins, with five increasing image sizes**
 
-For the plugins using a Laplacian approach, FeatureJ Laplacian and Log\_Filter, the means obtained for the time and the memory consumption are close to each other. A Kruskal-Wallis test between them shows that they are significantly different for the time consuption, with a p-value of 7.385e-12 but not for the memory load, which generate a p-value of 0,2282.
+Finally, for Canny algorithm, we compared our function with the plugins Canny Edge Detector by ??? and FeatureJ Edges by ??? ([Fig.?]). Our function outperforms the Canny Edge Detector function, which we showed in our previous report was unexpectedly time consuming.  For sizes up to 512x512 px, our function has a lower execution time than FeatureJ’s, for 1024x1024 px images, it takes twice the time, and is more than three times slower for 2048x2048 px images.
+![Fig.?](images/canny_graph.jpeg)
 
-In the same way, graphically, the difference between the results for the two Canny implementations, Canny Edge Detector and FeatureJ Edges, is difficult to assess for the memory consuption. Another Kruskal-Wallis test shows a significant difference between the mean of execution time, with a p-value of 2,2e-16, but not for the memory used, with a p-value of 0,4667.
-
-![Fig.19](images/bench.png)
-
-**Fig.19: Average execution time and used memory for ImageJ edge detection functions. The Canny Edge Detector and FeatureJ Edges plugin use the Canny algorithm, FeatureJ Laplacian and Log Filter use the LoG, and Find Edges the Sobel**
-
-Given that the Canny Edge Detector plugin can also be used on RGB images, we also ran a benchmark comparing the execution time and memory load difference for this plugin on RGB and 8-bit images[Fig.20].
-
-![Fig.20](images/CannyRGBPlot.jpeg)
-
-**Fig.20: Result of the benchmark of Canny Edge Detector plugin on 8-bit and RGB images, for both execution time and memory load**
-
-The mean obtained by the benchmark for the JVM memory load and the time consumption are the same for the RGB and the 8-bits picture with respectively 51 MB and 205 ms, but the distribution of the data is not spread in the same way between the two sides of the median for the execution time. The data does not follow the Normal Distribution, and the Kruskal-Wallis test shows a significant difference only for the time consumption, with a p-value of 1e-04 against 0,49.
+**Fig.?: Execution time of all of our *canny()* function and ImageJCanny Edge Detector and FeatureJ Edges plugins, with five increasing image sizes**
 
 ## Discussion
 
@@ -304,20 +291,26 @@ The mean obtained by the benchmark for the JVM memory load and the time consumpt
 
 ### Qualitative Comparison
 
+same results for sobel, we cannot compare for prewitt and roberts, for LoG the implemenation is different(thresholding) so not the same visual results but edges are well identifies as well as details, for canny the thresholds give different results when used on our function and on imageJ, but we can have similar results although the contours are more erratic than those given by ImageJ's functions
 
 ### Performance Comparison
 
+our functions can handle the processing of pictures up to 2048x2048 px, maybe higher, they can use uint8, uint16 and float32 images
+
+our functions are slow but it was expected, the time ups when the size is incresed (expected also), this is due to the convolutions, and for canny algorithm to the fact that several passes are necessay to elongate (is this a word ??) the edges 
 
 ## Conclusion
 
-*Conclusion and possible improvements,...*
+Using JavaScript, we implemented the most used edge detection algorithm for images, that can be executed on any web navigator. These functions give results similar to those obtained with the use of ImageJ. However it was expected that our functions would be outperformed by ImageJ’s and plugins, because they are coded in Java which is a more powerful language than JavaScript. 
+
+To achieve better performance, we will use the WebGL JavaScript API to use the GPU instead of the CPU and have faster execution times thanks to its parallel architecture.
 
 
 
 
 
 
-*TOUS les citations doivent etre utilise*
+*TOUTES les citations doivent etre utilise*
 
 
 [^ECMA2011]: ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
