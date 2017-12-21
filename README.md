@@ -12,11 +12,9 @@ Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
 
 # To do:
 
-- [ ] describe the parameters of each functions for the benchmark (in the materials and methods part, look at the benchmark.js and benchmarkForTiji.js for the values of the parameters, values chosen because they give similar visual results)
 - [ ] write properly the discussion, I have written basically what we need to say but we need to write it better
 - [ ] add name of the authors of the imageJ plugins (see previous report)
 - [ ] describe briefly the utility functions (basically what is written in the documentation of each function)
-- [x] add ref for Robert's cross in the introduction (at the same lace as sobel prewitt and kirch)
 - [ ] add the whatever to set up properly the size of the images for the convertion to pdf
 - [ ] check that all the code is still working well !!
 - [ ] Check no comments remain in edge2.md
@@ -24,6 +22,12 @@ Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
 - [ ] send report to Taveau if everything is in order.
 
 - [ ] Joke: send report to Taveau for Christmas (Yes, I know you read the githubs from time to time, sir ;) )
+
+# Edge detection functions:
+
+All of our functions are in src/process/edgeDetect.js .
+
+To test our results, you can use the file examples/testEdges.js, using a 256x256 uint8 version of Lena as input for our five functions : *sobel()*, *prewitt()*, *robertscross()*, *LoG()*, and *canny()*.
 
 # Tiny Image in Javascript (TIJ) project
 
@@ -72,12 +76,7 @@ Cecilia Ostertag : Canny operator
 
 Ophelie Thierry  : Sobel/Prewitt/Cross operators
 
-Peter Bock       : LaPlace operators
-
-
-if time (and motivation) allows:
-
-* Kirsch, 
+Peter Bock       : Laplacian of Gaussian operator
 
 ## Implementation of the *same functions as above* using the *WebGL library* + benchmarking and comparison with previous benchmarks.
 
