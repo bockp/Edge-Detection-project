@@ -41,7 +41,9 @@ https://github.com/bockp/Edge-Detection-project
 
 This function computes gradient magnitude of an image (using the pixel values stored in it's __raster__).
 
-It does so by convolving the image separately with the horizontal (__kerH__) and vertical kernels ( __kerV__), using the *convolve()* function, then combines the results using euclidean distance averaging. [^Ref for wwhy euclidean distance can be used this way?]
+It does so by convolving the image separately with the horizontal (__kerH__) and vertical kernels ( __kerV__), using the *convolve()* function, then combines the results using euclidean distance averaging. 
+
+[^Ref for wwhy euclidean distance can be used this way?]
 
 
 #### *normalizeConvResult(data,type)*
@@ -50,7 +52,6 @@ This function normalizes the result of a convolution (convolved image data in __
 
 by setting values inferior to the minimal value to be equal to the minimal value, and values superior to the maximal value to be equal to the maximal value (min and max values depend on the __type__ of the image).
 
-#### *logKernel()*
 
 #### *unitaryLoG(x,y,sigma)*
 
@@ -58,14 +59,26 @@ This function calculates the value of the Laplacian of Gaussian at a specific po
 Given the squaring of both __x__ and __y__, the values of the Laplacian of Gaussian distribution for (1,-1), (-1,1), (1,1) and (-1,-1) are the same, which gives the symmetrical aspect often seen in square Gaussian kernels.
 
 
-#### *gaussianKernel()*
+#### *logKernel()*
+
 
 #### *unitaryGaussian(x,y,sigma)*
 
 This function calculates the value of the Gaussian at a specific point in a matrix, using the formula for generating a Normal distribution in 2D, using __x__, __y__ and __sigma__ representing the standard deviation[^OST2017].
 Given the squaring of both __x__ and __y__, the values of the Gaussian distribution for (1,-1), (-1,1), (1,1) and (-1,-1) are the same, which gives the symmetrical aspect often seen in square Gaussian kernels.
 
-#### *()*
+
+#### *gaussianKernel()*
+
+
+#### *kernelGenerator(kernelSize, sigma, kernelFunction)*
+
+This function generates an kernel of size __kernelSize__ (which must be an unpair number), using the __kernelFunction__ given with __sigma__ as one of the arguments.
+
+The __kernelFunction__'s accepted are *unitaryLoG()* or *unitaryGaussian()*
+
+It does this by determining a kernel radius (size/2) and using the __kernelFunction__ to calculate the correct valyue for every X and Y position in the wanted kernel, centered at the middle around the coordinates (0,0).
+
 
 
 

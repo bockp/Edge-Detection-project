@@ -196,6 +196,9 @@ const kernelGenerator = (kernelSize,sigma,kernelFunction) =>
  *
  * @author Peter Bock
  */
+
+/* non-functional version.
+
 const normalize = (array) =>
 {
 	//TODO functionalize
@@ -207,6 +210,16 @@ const normalize = (array) =>
     {
         normalizedArray[i] = array[i] * z;
     }
+
+    return normalizedArray;
+};
+
+*/
+const normalize = (array) =>
+{
+	//TODO functionalize
+    let z = 1.0 /array.reduce((sum,x) => sum+x ,0);
+    let normalizedArray = array.map(x => x * z);
 
     return normalizedArray;
 };
