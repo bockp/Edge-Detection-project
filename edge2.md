@@ -52,14 +52,18 @@ by setting values inferior to the minimal value to be equal to the minimal value
 
 #### *logKernel()*
 
-#### *unitaryLoG()*
+#### *unitaryLoG(x,y,sigma)*
+
+This function calculates the value of the Laplacian of Gaussian at a specific point in a matrix, using the combined formulas for calculating the Laplacian fo Gaussian distribution in 2D, using __x__, __y__, and __sigma__ representing the standard deviation[^OST2017].
+Given the squaring of both __x__ and __y__, the values of the Laplacian of Gaussian distribution for (1,-1), (-1,1), (1,1) and (-1,-1) are the same, which gives the symmetrical aspect often seen in square Gaussian kernels.
+
 
 #### *gaussianKernel()*
 
 #### *unitaryGaussian(x,y,sigma)*
 
-This function calculates the value of the Gaussian at a specific point in a matrix, using the formula for generating a Normal distribution in 2D, using __x__, __y__ and __sigma__ [^OST2017].
-Given the squaring of both __x__ and __y__, the values of the Gaussian distribution for (1,-1), (-1,1), (1,1) and (-1,-1) are the same, which gives the symmetrical aspect.
+This function calculates the value of the Gaussian at a specific point in a matrix, using the formula for generating a Normal distribution in 2D, using __x__, __y__ and __sigma__ representing the standard deviation[^OST2017].
+Given the squaring of both __x__ and __y__, the values of the Gaussian distribution for (1,-1), (-1,1), (1,1) and (-1,-1) are the same, which gives the symmetrical aspect often seen in square Gaussian kernels.
 
 #### *()*
 
