@@ -12,13 +12,11 @@ Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
 
 # To do:
 
-- [ ] write properly the discussion, I have written basically what we need to say but we need to write it better
-- [ ] add name of the authors of the imageJ plugins (see previous report)
+- [ ] describe briefly the utility functions (basically what is written in the documentation of each function)
 - [ ] add the whatever to set up properly the size of the images for the convertion to pdf
 - [ ] check that all the code is still working well !!
 - [ ] Check no comments remain in edge2.md
 - [ ] check the PDF is properly generated with pandoc
-
 - [ ] send report to Taveau if everything is in order.
 
 - [ ] Joke: send report to Taveau for Christmas (Yes, I know you read the githubs from time to time, sir ;) )
