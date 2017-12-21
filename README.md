@@ -4,7 +4,7 @@ To use, clone first crazybiocomputing/times repository on your computer, then in
 
 All of our functions are in src/process/edgeDetect.js .
 
-To test our results, you can use the file examples/testEdges.js, using a 256x256 uint8 version of Lena as input for our five functions : *sobel()*, *prewitt()*, *robertscross()*, *LoG()*, and *canny()*.
+To test our results, you can use the file examples/testEdge.js, using a 256x256 uint8 version of Lena as input for our five functions : *sobel()*, *prewitt()*, *robertscross()*, *LoG()*, and *canny()*.
 
 # Tiny Image in Javascript (TIJ) project
 
