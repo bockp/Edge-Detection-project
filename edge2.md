@@ -35,21 +35,21 @@ https://github.com/bockp/Edge-Detection-project
 
 ### Utility functions :
 
-# convolve
+#### *convolve()*
 
-# gradient
+#### *gradient()*
 
-# normalizeConvResult
+#### *normalizeConvResult()*
 
-# logKernel
+#### *logKernel()*
 
-#  gaussianKernel()
+#### *gaussianKernel()*
 
-# *theta4directions()*, 
+#### *theta4directions()*
 
-# *nonmax()*
+#### *nonmax()*
 
-#*hysteresis()*
+#### *hysteresis()*
 
 
 
