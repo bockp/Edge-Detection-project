@@ -35,9 +35,25 @@ https://github.com/bockp/Edge-Detection-project
 
 ### Utility functions :
 
-BLABLABLABLABLA
+# convolve
 
-Two of these functions, *gaussianKernel()* and *convolve()* were coded by us because we needed them for the edge detection functions, but should be replaced by the functions coded by the “Filters” group, so they were not optimized here.
+# gradient
+
+# normalizeConvResult
+
+# logKernel
+
+#  gaussianKernel()
+
+# *theta4directions()*, 
+
+# *nonmax()*
+
+#*hysteresis()*
+
+
+
+Two of these functions, *gaussianKernel()* and *convolve()* were coded by us because we needed them for the edge detection functions, but should be replaced by the functions coded by the “Filters” group in the final TIJ application, so they were not optimized here.
 
 ### Principal functions
 
@@ -95,7 +111,7 @@ The Laplacian of Gaussian takes as arguments the raster containing the image pix
 
 The output is a uint8 binary image in which the edge pixels have the highest pixel value (white) and the other have the lowest value (black).
 
-This function uses the utility functions *convolve()*, *logKernel()*.
+This function uses the utility functions *convolve()* and *logKernel()*.
 
 The following pseudo-code sums-up our implementation :
 ```
