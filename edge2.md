@@ -83,6 +83,7 @@ It does this by determining a kernel radius (size/2) and using the __kernelFunct
 
 
 
+
 #### *theta4directions(theta)*
 
 Rounds the gradient orientation (__theta__, representing the image gradient orientation values) values into four directions : 0, 45, 90, and 135 degrees represented by the numbers 0, 1, 2, and 3.
