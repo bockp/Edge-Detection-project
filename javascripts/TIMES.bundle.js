@@ -1,1 +1,1 @@
-./../times/javascripts/TIMES.bundle.js
+../../times/javascripts/TIMES.bundle.js
