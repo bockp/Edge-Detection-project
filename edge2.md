@@ -176,7 +176,7 @@ The Laplacian of Gaussian (LoG) algorithm we've chosen to implement is composed 
 
 - Generation of a LoG kernel of size 9 using the following formula:
 
-![Fig.2](images/LoG_formula.gif)
+![Fig.2](images/LoG_formula.jpg)
 
 **Fig.2: Mathematical formula of the LoG kernel, created by combining the Laplacian kernel formula with the Gaussian kernel formula.**
 
