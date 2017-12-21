@@ -1,20 +1,18 @@
 
 
-* Pour utiliser le repertoire crazybiocomputing/Times distant dans un git local, faites le clone initiale comme ceci:
+* To use crazybiocomputing/Times distant in a local git repository, do the initial clone like this:
 
  git clone --recursive <project url>
 
-ou faites, dans un git local existant:
+or in an existing local repository:
 
 git submodule update --init --recursive
 
-Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
+Else the crazybiocomputing/times submodules will be empty in your computer.
 
 # To do:
 
-- [ ] describe briefly the utility functions (basically what is written in the documentation of each function)
 - [ ] add the whatever to set up properly the size of the images for the convertion to pdf
-- [ ] check that all the code is still working well !!
 - [ ] Check no comments remain in edge2.md
 - [ ] check the PDF is properly generated with pandoc
 - [ ] send report to Taveau if everything is in order.
