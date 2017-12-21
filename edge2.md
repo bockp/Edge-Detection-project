@@ -37,6 +37,8 @@ https://github.com/bockp/Edge-Detection-project
 
 #### *convolve()*
 
+
+
 #### *gradient(raster, herH, kerV, copy_mode=true)*
 
 This function computes gradient magnitude of an image (using the pixel values stored in it's __raster__).
@@ -59,16 +61,12 @@ This function calculates the value of the Laplacian of Gaussian at a specific po
 Given the squaring of both __x__ and __y__, the values of the Laplacian of Gaussian distribution for (1,-1), (-1,1), (1,1) and (-1,-1) are the same, which gives the symmetrical aspect often seen in square Gaussian kernels.
 
 
-#### *logKernel()*
-
 
 #### *unitaryGaussian(x,y,sigma)*
 
 This function calculates the value of the Gaussian at a specific point in a matrix, using the formula for generating a Normal distribution in 2D, using __x__, __y__ and __sigma__ representing the standard deviation[^OST2017].
 Given the squaring of both __x__ and __y__, the values of the Gaussian distribution for (1,-1), (-1,1), (1,1) and (-1,-1) are the same, which gives the symmetrical aspect often seen in square Gaussian kernels.
 
-
-#### *gaussianKernel()*
 
 
 #### *kernelGenerator(kernelSize, sigma, kernelFunction)*
@@ -81,12 +79,27 @@ It does this by determining a kernel radius (size/2) and using the __kernelFunct
 
 
 
+#### *gaussianKernel(kernelSize,sigma)*
+
+Uses the *kernelGenerator()* and *normalize()* functions to create a normalized Gaussian kernel, using *unitaryGaussian* as the __kernelFunction__ argument to *kernelGenerator()*.
+
+
+
+#### *logKernel(kernelSize,sigma)*
+
+Uses the *kernelGenerator()* and *normalize()* functions to create a normalized Laplacian of Gaussian kernel, using *unitaryLoG* as the __kernelFunction__ argument to *kernelGenerator()*.
 
 
 
 #### *theta4directions(theta)*
 
 Rounds the gradient orientation (__theta__, representing the image gradient orientation values) values into four directions : 0, 45, 90, and 135 degrees represented by the numbers 0, 1, 2, and 3.
+
+#### padding(data,W,H,pad,copy_mode=true)
+
+Returns a padded version of an image (whose pixel values are in the __data__ array), so it can be entirely convolved by a kernel whose radius is equivalent to __pad__.
+
+The __W__ and __H__ arguments represent the image's height and width, respectively.
 
 
 
@@ -97,6 +110,8 @@ Rounds the gradient orientation (__theta__, representing the image gradient orie
 
 
 Two of these functions, *gaussianKernel()* and *convolve()* were coded by us because we needed them for the edge detection functions, but should be replaced by the functions coded by the “Filters” group in the final TIJ application, so they were not optimized here.
+
+While describing which utility functions are used by our different edge detection Operators, we will cite only the one's used directly by the Operator, leaving the other utility functions used by the cited utility functions out.
 
 ### Principal functions
 
