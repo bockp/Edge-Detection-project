@@ -52,7 +52,19 @@ by setting values inferior to the minimal value to be equal to the minimal value
 
 #### *logKernel()*
 
+#### *unitaryLoG()*
+
 #### *gaussianKernel()*
+
+#### *unitaryGaussian(x,y,sigma)*
+
+This function calculates the value of the Gaussian at a specific point in a matrix, using the formula for generating a Normal distribution in 2D, using __x__, __y__ and __sigma__ [^OST2017].
+Given the squaring of both __x__ and __y__, the values of the Gaussian distribution for (1,-1), (-1,1), (1,1) and (-1,-1) are the same, which gives the symmetrical aspect.
+
+#### *()*
+
+
+
 
 #### *theta4directions(theta)*
 
@@ -343,6 +355,8 @@ To achieve better performance, we will use the WebGL JavaScript API to use the G
 
 *TOUTES les citations doivent etre utilise*
 
+
+[^OST2017]: Cecilia Ostertag, Peter Bock, Ophelie Thierry. Edge Detection Report 1. 2017.
 
 [^ECMA2011]: ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
 
