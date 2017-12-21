@@ -92,6 +92,12 @@ const normalizeConvResult = (data,type) =>
  * @author Cecilia Ostertag
  */
 
+
+/* original non-functional version. tests indicate both versions return the samle output, but just in case:
+
+
+
+
 const theta4directions = (theta) =>
 {
 	// TODO functionalize
@@ -102,6 +108,15 @@ const theta4directions = (theta) =>
     	}
     return theta;
 }
+
+
+
+
+*/
+
+const theta4directionsFunct = (theta) => theta.map(x => ((Math.round(x * (5.0 / Math.PI)) + 5) % 5) % 4);
+
+
 
 /**
  * This function calculates the value of the Gaussian at a specific point in a matrix. given the squaring of both x and y,
