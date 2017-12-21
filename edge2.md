@@ -13,7 +13,7 @@ Edge detection is the process of finding the pixels belonging to the edges in an
 
 In our project, we began by documenting the main linear edge detection approaches and algorithms, and their implementation in the image processing software ImageJ[^SCH2015]:
 
-* Convolution with edge templates (Prewit[^PRE1970], Sobel[^SOB1968], Kirsch[^KIR1971])
+* Convolution with edge templates (Prewit[^PRE1970], Sobel[^SOB1968], Kirsch[^KIR1971], Robert's Cross[^ROB1963])
 * Zero-crossings of Laplacian of Gaussian convolution[^MAR1980]
 * Zero-crossings of directional derivatives of smoothed images (Canny[^CAN1986])
 
@@ -316,6 +316,8 @@ To achieve better performance, we will use the WebGL JavaScript API to use the G
 
 
 [^ECMA2011]: ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
+
+[^ROB1963]: Roberts LG. Machine perception of three-dimensional solids (Doctoral dissertation, Massachusetts Institute of Technology).
 
 [^ABD2015]: Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
 
