@@ -143,11 +143,11 @@ All of our principal functions take as first parameter the raster containing the
 
 The three following algorithm work following the same two steps :
 - Convolving the image with the horizontal and vertical kernels to approximate respectively the horizontal (Gx) and vertical (Gy) derivative of the image
-- Computing the gradient magnitude using Gx and Gy ([Fig.?])
+- Computing the gradient magnitude using Gx and Gy ([Fig.1])
 
-![Fig.?](images/kernels.jpg)
+![Fig.1](images/kernels.jpg)
 
-**Fig.?: Horizontal and vertical kernels 2D kernels : 1:Sobel operator, 2:Prewitt operator, 3:Robert's cross operator**
+**Fig.1: Horizontal and vertical kernels 2D kernels : 1:Sobel operator, 2:Prewitt operator, 3:Robert's cross operator**
 
 The result is an image in which the edges have high pixel values compared to the rest of the image.  The only difference is the kernels used by each algorithm 
 Those kernels are defined as global variables in the beginning of our script. Robert’s cross kernels are 2x2 so they have to be padded with zeros to be used in our *convolve()* function.
@@ -176,13 +176,13 @@ The Laplacian of Gaussian (LoG) algorithm we've chosen to implement is composed 
 
 - Generation of a LoG kernel of size 9 using the following formula:
 
-![Fig.?](images/LoG_formula.gif)
+![Fig.2](images/LoG_formula.gif)
 
-**Fig.?: Mathematical formula of the LoG kernel, created by combining the Laplacian kernel formula with the Gaussian kernel formula.**
+**Fig.2: Mathematical formula of the LoG kernel, created by combining the Laplacian kernel formula with the Gaussian kernel formula.**
 
-![Fig.?](images/LoG_9Ker.gif)
+![Fig.3](images/LoG_9Ker.gif)
 
-**Fig.?: Discrete representation of the 9X9 LoG kernel.**
+**Fig.3: Discrete representation of the 9X9 LoG kernel.**
 
 - Convolution of the image with the given LoG kernel.
 
@@ -199,6 +199,7 @@ The output is a uint8 binary image in which the edge pixels have the highest pix
 This function uses the utility functions *convolve()* and *logKernel()*.
 
 The following pseudo-code sums-up our implementation :
+
 ```
 Output = copy image pixel values from image raster
 Set output type to uint8
@@ -232,6 +233,8 @@ Set output.pixelData to contain Zero_cross
 
 RETURN output
 ```
+
+
 
 ### Edge detection using Canny’s algorithm :
 
@@ -312,53 +315,53 @@ RETURN edges
 
 ### Edge detection using Sobel, Prewitt, and Robert’s cross operators
 
-The two pictures below show the result given by ImageJ’s function FindEdges[^RUE2017] which uses Sobel operator, and our *sobel()* function. We can see that we obtain quite similar results [Fig.?]
+The two pictures below show the result given by ImageJ’s function FindEdges[^RUE2017] which uses Sobel operator, and our *sobel()* function. We can see that we obtain quite similar results [Fig.4]
 
-![Fig.?](images/sobel_comparison.jpg)
+![Fig.4](images/sobel_comparison.jpg)
 
-**Fig.?: Result of Sobel filtering. 1:original image, 2:output of our function, 3:output of ImageJ Find Edges**
+**Fig.4: Result of Sobel filtering. 1:original image, 2:output of our function, 3:output of ImageJ Find Edges**
 
 
-The two following pictures show the result of edge detection using our *prewitt()* and *robertscross()* function [Fig.?]. 
+The two following pictures show the result of edge detection using our *prewitt()* and *robertscross()* function [Fig.5]. 
 
-![Fig.?](images/prewitt_robert.jpg)
+![Fig.5](images/prewitt_robert.jpg)
 
-**Fig.?: Result of Prewitt and Robert’s cross filtering. 1:original image, 2:output of our prewitt() function, 3:output of our robertscross() functions**
+**Fig.5: Result of Prewitt and Robert’s cross filtering. 1:original image, 2:output of our prewitt() function, 3:output of our robertscross() functions**
 
 ### Edge detection using the Laplacian of Gaussian algorithm:
 
 The 4 pictures below show the results of applying the FeatureJ[^MEI2007] Laplacian to the Lena 8bit image, and compares it to the results obtained using our own implementation.
 
-![Fig.?](images/Lena-featureJ3-5-us2.jpg)
+![Fig.6](images/Lena-featureJ3-5-us2.jpg)
 
-**Fig.?: (1) original Lena 8bit image, (2) FeatureJ simple LaPlacian using Smoothing = 3, (3) FeatureJ simple LaPlacian using Smoothing = 5, (4) TIJ LoG with sigma = 2**
+**Fig.6: (1) original Lena 8bit image, (2) FeatureJ simple LaPlacian using Smoothing = 3, (3) FeatureJ simple LaPlacian using Smoothing = 5, (4) TIJ LoG with sigma = 2**
 
 As can be seen, LoG, the combination of the Laplacian kernel with the Gaussian, leads to much better results than a simple LaPlacian kernel, as used by FeatureJ[^MEI2007].
 
 The 3 images below compare the ImageJ plugin Mexican Hat[^PRO2015], which uses a LoG algorithm with a circular kernel (whose radius can be defined) to our own TIJ Ecmascript implementation:
 
 
-![Fig.?](images/Lena-mexican5-us2.jpg)
+![Fig.7](images/Lena-mexican5-us2.jpg)
 
-**Fig.?: (1) Lena 8bit image, (2) Mexican Hat/LoG filter with radius = 5, (3) TIJ LoG filter with Sigma = 2**
+**Fig.7: (1) Lena 8bit image, (2) Mexican Hat/LoG filter with radius = 5, (3) TIJ LoG filter with Sigma = 2**
 
 As can be seen, A Mexican Hat filter with radius 5 gives a similar result to our TIJ implementation with a sigma of 2, but we cannot truly compare the two, given one uses a circular kernel, and the other a rectangular one.
 
 Taking that into account, we can at least see that the results are comparable in quality.
 
-Compared with the plugin Log_Filter by Lokesh Taxali and Dr. Jesse Jin  ([Fig.?]) we can see that we do not have the same results with the same parameters either.
+Compared with the plugin Log_Filter by Lokesh Taxali and Dr. Jesse Jin  ([Fig.8]) we can see that we do not have the same results with the same parameters either.
 
-![Fig.?](images/log_comparison.jpg)
+![Fig.8](images/log_comparison.jpg)
 
-**Fig.?: Result of LoG filtering. 1:original image, 2:output of Log_Filter (sigma=1.4, kernel size=9), 3:output of Log_Filter (sigma=2, kernel size=3), 2:output of our function (sigma=1.4, kernel size=9)**
+**Fig.8: Result of LoG filtering. 1:original image, 2:output of Log_Filter (sigma=1.4, kernel size=9), 3:output of Log_Filter (sigma=2, kernel size=3), 2:output of our function (sigma=1.4, kernel size=9)**
 
 ### Edge detection using Canny’s algorithm :
 
 The following figure represents the result of the *canny()* function with parameters low threshold = 15.0, high threshold = 30.0, and sigma = 2.0. (REF) , compared with the result given by the plugin Canny Edge Detector[^GIB2011] with parameters low threshold = 2.5, high threshold = 5.0, and sigma = 2.0 [Fig.?]. The results are similar but the threshold values do not have the same effect for the detection of edges. Nonetheless, we can see that the edges of the face, hat and shoulder are well detected, as well as some details on the hat feathers. There are false edges at the bottom and right side of the picture, due to the Gaussian filtering step. Onces this function is replaced by the one coded by the “Filters” group it should give the expected result.  
 
-![Fig.?](images/canny_comparison.jpg)
+![Fig.9](images/canny_comparison.jpg)
 
-**Fig.?: Result of Canny filtering. 1:original image, 2:output of our function, 3:output of ImageJ Canny Edge Detector plugin**
+**Fig.9: Result of Canny filtering. 1:original image, 2:output of our function, 3:output of ImageJ Canny Edge Detector plugin**
 
 ### Benchmarking process
 
@@ -372,46 +375,46 @@ For this benchmark, we used the same picture (Lena, in uint8, uint16 or float32)
 
 #### Execution time
 
-The result of our benchmark for all of our functions for uint8 images ([Fig.?]) show us the result that we expected : the *sobel()*, *prewitt()* and *robertscross()* functions are the fastest and have an almost identical execution time, then the *LoG()* with a 9x9 kernel and sigma=1.4 , and finally the *canny()* function with thresholds equal to 15.0 and 30.0. All the functions take more execution time as the image gets bigger. We can also see that the differences between these three groups are widening as we increase the size of the input image : the results are similar for sizes of 128x128, 256x256 and 512x512 pixels, but for pictures of size 1024x1024 and 2048x2048 the LoG implementation takes twice the time of Sobel, Prewitt and Robert’s cross, and the Canny implementation takes three times the execution time. This result was expected for Canny because its  algorithm works in several passes contrarily to the others.
+The result of our benchmark for all of our functions for uint8 images ([Fig.10]) show us the result that we expected : the *sobel()*, *prewitt()* and *robertscross()* functions are the fastest and have an almost identical execution time, then the *LoG()* with a 9x9 kernel and sigma=1.4 , and finally the *canny()* function with thresholds equal to 15.0 and 30.0. All the functions take more execution time as the image gets bigger. We can also see that the differences between these three groups are widening as we increase the size of the input image : the results are similar for sizes of 128x128, 256x256 and 512x512 pixels, but for pictures of size 1024x1024 and 2048x2048 the LoG implementation takes twice the time of Sobel, Prewitt and Robert’s cross, and the Canny implementation takes three times the execution time. This result was expected for Canny because its  algorithm works in several passes contrarily to the others.
 
-![Fig.?](images/all_graph.jpeg)
+![Fig.10](images/all_graph.jpeg)
 
-**Fig.?: Execution time of all of our functions with five increasing image sizes (uint8 images)**
+**Fig.10: Execution time of all of our functions with five increasing image sizes (uint8 images)**
 
-We then compared each of our functions with the existing corresponding functions in ImageJ. First, for the Sobel operator we compared our function with the ImageJ function FindEdges ([Fig.?]). We can see that ImageJ’s function hasan execution time almost constant for all image sizes. With a picture of 2048x2048 pixels, the execution time of our function is more than ten times higher than the Find Edges function. This is due to the fact that the complexity of our function is *n²* because of the convolution step, while ImageJ’s function uses an optimized version of the convolution.
+We then compared each of our functions with the existing corresponding functions in ImageJ. First, for the Sobel operator we compared our function with the ImageJ function FindEdges ([Fig.11]). We can see that ImageJ’s function hasan execution time almost constant for all image sizes. With a picture of 2048x2048 pixels, the execution time of our function is more than ten times higher than the Find Edges function. This is due to the fact that the complexity of our function is *n²* because of the convolution step, while ImageJ’s function uses an optimized version of the convolution.
 
-![Fig.?](images/sobel_graph.jpeg)
+![Fig.11](images/sobel_graph.jpeg)
 
-**Fig.?: Execution time of all of our *sobel()* function and ImageJ FindEdges function, with five increasing image sizes (uint8 images)**
+**Fig.11: Execution time of all of our *sobel()* function and ImageJ FindEdges function, with five increasing image sizes (uint8 images)**
 
-For the LoG operator, we compared our function with the plugins Log_Filter by Lokesh Taxali and Dr. Jesse Jin (sigma=1.4, kernel size=9), and FeatureJ Laplace by Erik Meijering (sigma=1.4, kernel size=9) ([Fig.?]). Here we can see that our function outperforms FeatureJ’s for sizes up to 512x512 pixels, but is two time s  slower for 1024x1024 px images, and three times slower for 2048x2048 px images.
+For the LoG operator, we compared our function with the plugins Log_Filter by Lokesh Taxali and Dr. Jesse Jin (sigma=1.4, kernel size=9), and FeatureJ Laplace by Erik Meijering (sigma=1.4, kernel size=9) ([Fig.12]). Here we can see that our function outperforms FeatureJ’s for sizes up to 512x512 pixels, but is two time s  slower for 1024x1024 px images, and three times slower for 2048x2048 px images.
 
-![Fig.?](images/LoG_graph.jpeg)
+![Fig.12](images/LoG_graph.jpeg)
 
-**Fig.?: Execution time of all of our *LoG()* function and ImageJ Log_Filter and FeatureJ Laplace plugins, with five increasing image sizes (uint8 images)**
+**Fig.12: Execution time of all of our *LoG()* function and ImageJ Log_Filter and FeatureJ Laplace plugins, with five increasing image sizes (uint8 images)**
 
-Finally, for Canny algorithm, we compared our function with the plugins Canny Edge Detector by Tom Gibara (thresholds = 2.5 and 5.0, sigma=2) and FeatureJ Edges by Erik Meijering (thresholds = 2.5 and 5.0, sigma=2) ([Fig.?]). Our function outperforms the Canny Edge Detector function, which we showed in our previous report was unexpectedly time consuming.  For sizes up to 512x512 px, our function has a lower execution time than FeatureJ’s, for 1024x1024 px images, it takes twice the time, and is more than three times slower for 2048x2048 px images. 
-![Fig.?](images/canny_graph.jpeg)
+Finally, for Canny algorithm, we compared our function with the plugins Canny Edge Detector by Tom Gibara (thresholds = 2.5 and 5.0, sigma=2) and FeatureJ Edges by Erik Meijering (thresholds = 2.5 and 5.0, sigma=2) ([Fig.13]). Our function outperforms the Canny Edge Detector function, which we showed in our previous report was unexpectedly time consuming.  For sizes up to 512x512 px, our function has a lower execution time than FeatureJ’s, for 1024x1024 px images, it takes twice the time, and is more than three times slower for 2048x2048 px images. 
+![Fig.13](images/canny_graph.jpeg)
 
-**Fig.?: Execution time of all of our *canny()* function and ImageJCanny Edge Detector and FeatureJ Edges plugins, with five increasing image sizes (uint8 images)**
+**Fig.13: Execution time of all of our *canny()* function and ImageJCanny Edge Detector and FeatureJ Edges plugins, with five increasing image sizes (uint8 images)**
 
-With uint16 ([Fig.?]) and float32 ([Fig.?]) images, we can see that the execution time for *sobel()*, *prewitt()* and *robertscross()* functions do not vary, whereas it increases for the *LoG()* and *canny()* functions. However this is a small augmentation, so we can conclude that the type of the image does not have a strong impact on the processing time of our functions. 
+With uint16 ([Fig.14]) and float32 ([Fig.15]) images, we can see that the execution time for *sobel()*, *prewitt()* and *robertscross()* functions do not vary, whereas it increases for the *LoG()* and *canny()* functions. However this is a small augmentation, so we can conclude that the type of the image does not have a strong impact on the processing time of our functions. 
 
-![Fig.?](images/all_graph_16.jpeg)
+![Fig.14](images/all_graph_16.jpeg)
 
-**Fig.?: Execution time of all of our functions with five increasing image sizes, for uint16 images**
+**Fig.14: Execution time of all of our functions with five increasing image sizes, for uint16 images**
 
-![Fig.?](images/all_graph_32.jpeg)
+![Fig.15](images/all_graph_32.jpeg)
 
-**Fig.?: Execution time of all of our functions with five increasing image sizes, for float32 images**
+**Fig.15: Execution time of all of our functions with five increasing image sizes, for float32 images**
 
 #### Memory load
 
 We roughly estimated the memory usage of each of our functions by calculating the size allocated to the arrays (the allocation for the primitive data types are insignificant here). For example in the *sobel()* function we allocate 4 HxW arrays, 2 (H+k/2)x(W+k/2) arrays, and 1 kxk array (with H and W the height  and width of the image, and k the kernel dimension). We estimated this memory usage for uint8, uint16 and float32 images, and for the same image sizes as in our benchmark for the execution time. Our results ([Fig.?]) show that the *canny()* function is the most impacted both by the enlargement of the input image and by the type of the input image. This function allocates 1 HxW uint8 array, 10 HxW arrays of the image type, 3 (H+k/2)x(W+k/2) arrays, plus the kxk array for the gaussian blur and 2 arrays of the image type and variable length during the hysteresis phase, so it was expected to be memory expensive.  
 
-![Fig.?](images/all_memory.jpeg)
+![Fig.16](images/all_memory.jpeg)
 
-**Fig.?: Estimated memory allocation for of all of our functions, for five increasing image sizes and three image types (uint8, uint16, float32)**
+**Fig.16: Estimated memory allocation for of all of our functions, for five increasing image sizes and three image types (uint8, uint16, float32)**
 
 
 ## Discussion
@@ -438,13 +441,13 @@ To achieve better performance, we will use the WebGL JavaScript API to use the G
 
 ## Annex
 
-![Fig.?](images/nonmax.png)
+![annexe A](images/nonmax.png)
 
-**Fig.?: Principle of the non-maximum suppression step**
+**Annexe A: Principle of the non-maximum suppression step**
 
-![Fig.?](images/schema_hysteresis.png)
+![Annexe B](images/schema_hysteresis.png)
 
-**Fig.?: Principle of the edge tracing step using hysteresis**
+**Annexe B: Principle of the edge tracing step using hysteresis**
 
 
 
