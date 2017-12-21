@@ -60,8 +60,6 @@ This function computes gradient magnitude of an image (using the pixel values st
 
 It does so by convolving the image separately with the horizontal (__kerH__) and vertical kernels ( __kerV__), using the *convolve()* function, then combines the results using euclidean distance averaging. 
 
-[^Ref for wwhy euclidean distance can be used this way?]
-
 
 #### *normalizeConvResult(data,type)*
 
@@ -123,10 +121,6 @@ __W__ and __H__ are the image dimensions.
 #### *hysteresis(W, strong_edges, threshold_edges)*
 
 Performs hysteresis in 8-connectivity : first, the weak edge pixels next to strong edge pixels (__strong_edges__) are kept, and then the selected non selected weak edge pixels next to a strong edge pixel in several passes
-
-
-
----------------
 
 
 
@@ -357,7 +351,7 @@ Compared with the plugin Log_Filter by Lokesh Taxali and Dr. Jesse Jin  ([Fig.8]
 
 ### Edge detection using Canny’s algorithm :
 
-The following figure represents the result of the *canny()* function with parameters low threshold = 15.0, high threshold = 30.0, and sigma = 2.0. (REF) , compared with the result given by the plugin Canny Edge Detector[^GIB2011] with parameters low threshold = 2.5, high threshold = 5.0, and sigma = 2.0 [Fig.?]. The results are similar but the threshold values do not have the same effect for the detection of edges. Nonetheless, we can see that the edges of the face, hat and shoulder are well detected, as well as some details on the hat feathers. There are false edges at the bottom and right side of the picture, due to the Gaussian filtering step. Onces this function is replaced by the one coded by the “Filters” group it should give the expected result.  
+The following figure represents the result of the *canny()* function with parameters low threshold = 15.0, high threshold = 30.0, and sigma = 2.0. (REF) , compared with the result given by the plugin Canny Edge Detector[^GIB2011] with parameters low threshold = 2.5, high threshold = 5.0, and sigma = 2.0 [Fig.?]. The results are similar but the threshold values do not have the same effect for the detection of edges. Nonetheless, we can see that the edges of the face, hat and shoulder are well detected, as well as some details on the hat feathers. There are false edges at the bottom and right side of the picture, due to the Gaussian filtering step. Onces this function is replaced by the one coded by the “Filters” group it should give the expected result.
 
 ![Fig.9](images/canny_comparison.jpg)
 
@@ -377,34 +371,35 @@ For this benchmark, we used the same picture (Lena, in uint8, uint16 or float32)
 
 The result of our benchmark for all of our functions for uint8 images ([Fig.10]) show us the result that we expected : the *sobel()*, *prewitt()* and *robertscross()* functions are the fastest and have an almost identical execution time, then the *LoG()* with a 9x9 kernel and sigma=1.4 , and finally the *canny()* function with thresholds equal to 15.0 and 30.0. All the functions take more execution time as the image gets bigger. We can also see that the differences between these three groups are widening as we increase the size of the input image : the results are similar for sizes of 128x128, 256x256 and 512x512 pixels, but for pictures of size 1024x1024 and 2048x2048 the LoG implementation takes twice the time of Sobel, Prewitt and Robert’s cross, and the Canny implementation takes three times the execution time. This result was expected for Canny because its  algorithm works in several passes contrarily to the others.
 
-![Fig.10](images/all_graph.jpeg)
+![Fig.10](images/all_graph.jpeg){ width=50% height=50%}
 
 **Fig.10: Execution time of all of our functions with five increasing image sizes (uint8 images)**
 
 We then compared each of our functions with the existing corresponding functions in ImageJ. First, for the Sobel operator we compared our function with the ImageJ function FindEdges ([Fig.11]). We can see that ImageJ’s function hasan execution time almost constant for all image sizes. With a picture of 2048x2048 pixels, the execution time of our function is more than ten times higher than the Find Edges function. This is due to the fact that the complexity of our function is *n²* because of the convolution step, while ImageJ’s function uses an optimized version of the convolution.
 
-![Fig.11](images/sobel_graph.jpeg)
+![Fig.11](images/sobel_graph.jpeg){ width=50% height=50%}
 
 **Fig.11: Execution time of all of our *sobel()* function and ImageJ FindEdges function, with five increasing image sizes (uint8 images)**
 
 For the LoG operator, we compared our function with the plugins Log_Filter by Lokesh Taxali and Dr. Jesse Jin (sigma=1.4, kernel size=9), and FeatureJ Laplace by Erik Meijering (sigma=1.4, kernel size=9) ([Fig.12]). Here we can see that our function outperforms FeatureJ’s for sizes up to 512x512 pixels, but is two time s  slower for 1024x1024 px images, and three times slower for 2048x2048 px images.
 
-![Fig.12](images/LoG_graph.jpeg)
+![Fig.12](images/LoG_graph.jpeg){ width=50% height=50%}
 
 **Fig.12: Execution time of all of our *LoG()* function and ImageJ Log_Filter and FeatureJ Laplace plugins, with five increasing image sizes (uint8 images)**
 
 Finally, for Canny algorithm, we compared our function with the plugins Canny Edge Detector by Tom Gibara (thresholds = 2.5 and 5.0, sigma=2) and FeatureJ Edges by Erik Meijering (thresholds = 2.5 and 5.0, sigma=2) ([Fig.13]). Our function outperforms the Canny Edge Detector function, which we showed in our previous report was unexpectedly time consuming.  For sizes up to 512x512 px, our function has a lower execution time than FeatureJ’s, for 1024x1024 px images, it takes twice the time, and is more than three times slower for 2048x2048 px images. 
-![Fig.13](images/canny_graph.jpeg)
+
+![Fig.13](images/canny_graph.jpeg){ width=50% height=50%}
 
 **Fig.13: Execution time of all of our *canny()* function and ImageJCanny Edge Detector and FeatureJ Edges plugins, with five increasing image sizes (uint8 images)**
 
 With uint16 ([Fig.14]) and float32 ([Fig.15]) images, we can see that the execution time for *sobel()*, *prewitt()* and *robertscross()* functions do not vary, whereas it increases for the *LoG()* and *canny()* functions. However this is a small augmentation, so we can conclude that the type of the image does not have a strong impact on the processing time of our functions. 
 
-![Fig.14](images/all_graph_16.jpeg)
+![Fig.14](images/all_graph_16.jpeg){ width=50% height=50%}
 
 **Fig.14: Execution time of all of our functions with five increasing image sizes, for uint16 images**
 
-![Fig.15](images/all_graph_32.jpeg)
+![Fig.15](images/all_graph_32.jpeg){ width=50% height=50%}
 
 **Fig.15: Execution time of all of our functions with five increasing image sizes, for float32 images**
 
@@ -412,7 +407,7 @@ With uint16 ([Fig.14]) and float32 ([Fig.15]) images, we can see that the execut
 
 We roughly estimated the memory usage of each of our functions by calculating the size allocated to the arrays (the allocation for the primitive data types are insignificant here). For example in the *sobel()* function we allocate 4 HxW arrays, 2 (H+k/2)x(W+k/2) arrays, and 1 kxk array (with H and W the height  and width of the image, and k the kernel dimension). We estimated this memory usage for uint8, uint16 and float32 images, and for the same image sizes as in our benchmark for the execution time. Our results ([Fig.?]) show that the *canny()* function is the most impacted both by the enlargement of the input image and by the type of the input image. This function allocates 1 HxW uint8 array, 10 HxW arrays of the image type, 3 (H+k/2)x(W+k/2) arrays, plus the kxk array for the gaussian blur and 2 arrays of the image type and variable length during the hysteresis phase, so it was expected to be memory expensive.  
 
-![Fig.16](images/all_memory.jpeg)
+![Fig.16](images/all_memory.jpeg){ width=50% height=50%}
 
 **Fig.16: Estimated memory allocation for of all of our functions, for five increasing image sizes and three image types (uint8, uint16, float32)**
 
@@ -445,13 +440,12 @@ To achieve better performance, we will use the WebGL JavaScript API to use the G
 
 **Annexe A: Principle of the non-maximum suppression step**
 
-![Annexe B](images/schema_hysteresis.png)
+
+![Annexe B](images/schema_hysteresis.png){ height=99%}
 
 **Annexe B: Principle of the edge tracing step using hysteresis**
 
 
-
-*TOUTES les citations doivent etre utilise*
 
 
 [^GIB2011]: Gibara T. Canny Edge Detector plugin for ImageJ image processor.
