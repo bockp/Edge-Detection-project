@@ -519,7 +519,7 @@ const hysteresis = (W, strong_edges, thresholded_edges) =>
 }
 
 /**
- * Find edges in an image using Canny Algorithm
+ * Find edges in an image using Canny Algorithm. This implementation follows the algorithm presented at https://rosettacode.org/wiki/Canny_edge_detector and was dapted to the use of Javascript, functionnal programming, and the use of 1 dimensionnal arrays
  *
  *
  * @param {number} low_thr - Low threshold for hysteresis
