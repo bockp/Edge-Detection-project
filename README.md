@@ -1,24 +1,4 @@
-
-
-* To use crazybiocomputing/Times distant in a local git repository, do the initial clone like this:
-
- git clone --recursive <project url>
-
-or in an existing local repository:
-
-git submodule update --init --recursive
-
-Else the crazybiocomputing/times submodules will be empty in your computer.
-
-# To do:
-
-- [ ] number the figures
-- [ ] add the whatever to set up properly the size of the images for the convertion to pdf
-- [ ] Check no comments remain in edge2.md
-- [ ] check the PDF is properly generated with pandoc
-- [ ] send report to Taveau if everything is in order.
-
-- [ ] Joke: send report to Taveau for Christmas (Yes, I know you read the githubs from time to time, sir ;) )
+To use, clone first crazybiocomputing/times repository on your computer, then in the same directory clone this repository.
 
 # Edge detection functions:
 
