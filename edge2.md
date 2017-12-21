@@ -54,7 +54,11 @@ by setting values inferior to the minimal value to be equal to the minimal value
 
 #### *gaussianKernel()*
 
-#### *theta4directions()*
+#### *theta4directions(theta)*
+
+Rounds the gradient orientation (__theta__, representing the image gradient orientation values) values into four directions : 0, 45, 90, and 135 degrees represented by the numbers 0, 1, 2, and 3.
+
+
 
 #### *nonmax()*
 
