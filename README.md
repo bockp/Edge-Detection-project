@@ -20,6 +20,11 @@ Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
 - [x] add ref for Robert's cross in the introduction (at the same lace as sobel prewitt and kirch)
 - [ ] add the whatever to set up properly the size of the images for the convertion to pdf
 - [ ] check that all the code is still working well !!
+- [ ] Check no comments remain in edge2.md
+- [ ] check the PDF is properly generated with pandoc
+- [ ] send report to Taveau if everything is in order.
+
+- [ ] Joke: send report to Taveau for Christmas (Yes, I know you read these from timle to time, sir ;) )
 
 # Tiny Image in Javascript (TIJ) project
 
