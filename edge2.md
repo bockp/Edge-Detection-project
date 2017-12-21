@@ -31,8 +31,6 @@ https://github.com/bockp/Edge-Detection-project
 
 ## Material & Methods
 
-*Describe in detail for each function the algorithm used in the implementation. Add a diagram or pseudo-code if necessary. This section is very important because it must help the reading of the source code.*
-
 ### Utility functions :
 
 
