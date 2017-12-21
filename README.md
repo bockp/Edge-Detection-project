@@ -13,7 +13,6 @@ Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
 # To do:
 
 - [ ] describe the parameters of each functions for the benchmark (in the materials and methods part, look at the benchmark.js and benchmarkForTiji.js for the values of the parameters, values chosen because they give similar visual results)
-- [ ] benchmark for uint16 and float32 images for our functions - I'm on it (Cecilia)
 - [ ] write properly the discussion, I have written basically what we need to say but we need to write it better
 - [ ] add name of the authors of the imageJ plugins (see previous report)
 - [ ] describe briefly the utility functions (basically what is written in the documentation of each function)
