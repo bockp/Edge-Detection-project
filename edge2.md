@@ -20,7 +20,7 @@ In our project, we began by documenting the main linear edge detection approache
 We then performed a benchmark on the ImageJ plugins, in order to compare their execution time and the memory load for the Java Virtual Machine (JVM).
 
 
-For this second part of our project, we have chosen to make our own implementations of the Sobel, Canny and Laplacian of Gaussian Operators using ECMAscript6[^ECMA2011].
+For this second part of our project, we have chosen to make our own implementations of the Sobel, Prewitt, Robert's cros, Canny and Laplacian of Gaussian operators using ECMAscript6[^ECMA2011].
 
 
 
@@ -30,8 +30,6 @@ https://github.com/bockp/Edge-Detection-project
 
 
 ## Material & Methods
-
-*Describe in detail for each function the algorithm used in the implementation. Add a diagram or pseudo-code if necessary. This section is very important because it must help the reading of the source code.*
 
 ### Utility functions :
 
@@ -141,7 +139,7 @@ While describing which utility functions are used by our different edge detectio
 
 All of our principal functions take as first parameter the raster containing the pixels values of an image, and output a modified raster. They all work with uint8, uint16, and float32 images. To avoid using FOR loops as much as possible they were replaced by the use of Ecmascript *map* and *forEach* functions. Also to avoid accumulating IF… ELSE conditional statements, they were replaced when possible  the use of the ternary operator and compacted with the use of OR and AND logical operators.
 
-### Edge detection using Sobel, Prewitt, and Robert’s cross operators :
+### Implementation of Sobel, Prewitt, and Robert’s cross operators :
 
 The three following algorithm work following the same two steps :
 - Convolving the image with the horizontal and vertical kernels to approximate respectively the horizontal (Gx) and vertical (Gy) derivative of the image
@@ -348,6 +346,12 @@ As can be seen, A Mexican Hat filter with radius 5 gives a similar result to our
 
 Taking that into account, we can at least see that the results are comparable in quality.
 
+Compared with the plugin Log_Filter by Lokesh Taxali and Dr. Jesse Jin  ([Fig.?]) we can see that we do not have the same results with the same parameters either.
+
+![Fig.?](images/log_comparison.jpg)
+
+**Fig.?: Result of LoG filtering. 1:original image, 2:output of Log_Filter (sigma=1.4, kernel size=9), 3:output of Log_Filter (sigma=2, kernel size=3), 2:output of our function (sigma=1.4, kernel size=9)**
+
 ### Edge detection using Canny’s algorithm :
 
 The following figure represents the result of the *canny()* function with parameters low threshold = 15.0, high threshold = 30.0, and sigma = 2.0. (REF) , compared with the result given by the plugin Canny Edge Detector[^GIB2011] with parameters low threshold = 2.5, high threshold = 5.0, and sigma = 2.0 [Fig.?]. The results are similar but the threshold values do not have the same effect for the detection of edges. Nonetheless, we can see that the edges of the face, hat and shoulder are well detected, as well as some details on the hat feathers. There are false edges at the bottom and right side of the picture, due to the Gaussian filtering step. Onces this function is replaced by the one coded by the “Filters” group it should give the expected result.  
@@ -368,7 +372,7 @@ For this benchmark, we used the same picture (Lena, in uint8, uint16 or float32)
 
 #### Execution time
 
-The result of our benchmark for all of our functions for uint8 images ([Fig.?]) show us the result that we expected : the *sobel()*, *prewitt()* and *robertscross()* functions are the fastest and have an almost identical execution time, then the *LoG()* with a 9x9 kernel and sigma=1.4 , and finally the *canny()* function with thresholds equal to 2.5 and 5.0. All the functions take more execution time as the image gets bigger. We can also see that the differences between these three groups are widening as we increase the size of the input image : the results are similar for sizes of 128x128, 256x256 and 512x512 pixels, but for pictures of size 1024x1024 and 2048x2048 the LoG implementation takes twice the time of Sobel, Prewitt and Robert’s cross, and the Canny implementation takes three times the execution time. This result was expected for Canny because its  algorithm works in several passes contrarily to the others.
+The result of our benchmark for all of our functions for uint8 images ([Fig.?]) show us the result that we expected : the *sobel()*, *prewitt()* and *robertscross()* functions are the fastest and have an almost identical execution time, then the *LoG()* with a 9x9 kernel and sigma=1.4 , and finally the *canny()* function with thresholds equal to 15.0 and 30.0. All the functions take more execution time as the image gets bigger. We can also see that the differences between these three groups are widening as we increase the size of the input image : the results are similar for sizes of 128x128, 256x256 and 512x512 pixels, but for pictures of size 1024x1024 and 2048x2048 the LoG implementation takes twice the time of Sobel, Prewitt and Robert’s cross, and the Canny implementation takes three times the execution time. This result was expected for Canny because its  algorithm works in several passes contrarily to the others.
 
 ![Fig.?](images/all_graph.jpeg)
 
@@ -380,13 +384,13 @@ We then compared each of our functions with the existing corresponding functions
 
 **Fig.?: Execution time of all of our *sobel()* function and ImageJ FindEdges function, with five increasing image sizes (uint8 images)**
 
-For the LoG operator, we compared our function with the plugins Log_Filter by ??? and FeatureJ Laplace by ??? ([Fig.?]). Here we can see that our function outperforms FeatureJ’s for sizes up to 512x512 pixels, but is two times slower for 1024x1024 px images, and three times slower for 2048x2048 px images.
+For the LoG operator, we compared our function with the plugins Log_Filter by Lokesh Taxali and Dr. Jesse Jin (sigma=1.4, kernel size=9), and FeatureJ Laplace by Erik Meijering (sigma=1.4, kernel size=9) ([Fig.?]). Here we can see that our function outperforms FeatureJ’s for sizes up to 512x512 pixels, but is two time s  slower for 1024x1024 px images, and three times slower for 2048x2048 px images.
 
 ![Fig.?](images/LoG_graph.jpeg)
 
 **Fig.?: Execution time of all of our *LoG()* function and ImageJ Log_Filter and FeatureJ Laplace plugins, with five increasing image sizes (uint8 images)**
 
-Finally, for Canny algorithm, we compared our function with the plugins Canny Edge Detector by ??? and FeatureJ Edges by ??? ([Fig.?]). Our function outperforms the Canny Edge Detector function, which we showed in our previous report was unexpectedly time consuming.  For sizes up to 512x512 px, our function has a lower execution time than FeatureJ’s, for 1024x1024 px images, it takes twice the time, and is more than three times slower for 2048x2048 px images.
+Finally, for Canny algorithm, we compared our function with the plugins Canny Edge Detector by Tom Gibara (thresholds = 2.5 and 5.0, sigma=2) and FeatureJ Edges by Erik Meijering (thresholds = 2.5 and 5.0, sigma=2) ([Fig.?]). Our function outperforms the Canny Edge Detector function, which we showed in our previous report was unexpectedly time consuming.  For sizes up to 512x512 px, our function has a lower execution time than FeatureJ’s, for 1024x1024 px images, it takes twice the time, and is more than three times slower for 2048x2048 px images. 
 ![Fig.?](images/canny_graph.jpeg)
 
 **Fig.?: Execution time of all of our *canny()* function and ImageJCanny Edge Detector and FeatureJ Edges plugins, with five increasing image sizes (uint8 images)**
@@ -414,13 +418,15 @@ We roughly estimated the memory usage of each of our functions by calculating th
 
 ### Qualitative Comparison
 
-same results for sobel, we cannot compare for prewitt and roberts, for LoG the implemenation is different(thresholding) so not the same visual results but edges are well identifies as well as details, for canny the thresholds give different results when used on our function and on imageJ, but we can have similar results although the contours are more erratic than those given by ImageJ's functions
+While we cannot compare our results for the Prewitt and Robert’s cross operator with a function from ImageJ, we obtain the same results for the implementation of Sobel’s operator, which has an identical algorithm, so it is safe to say that the two other functions give the expected results as well.
+
+For the LoG and Canny algorithm implementation,  we do not obtain the same results as the ImageJ plugins with the same parameters, but we can obtain similar output images by changing the values of these parameters. Our functions can detect “obvious” edges as well as small details in our images. However they are more sensitive to noise because of the Gaussian blurring step that has not been optimized, this leads to false edges in the output, as well as some edges being interrupted or a bit erratic.
 
 ### Performance Comparison
 
-our functions can handle the processing of pictures up to 2048x2048 px, maybe higher, they can use uint8, uint16 and float32 images
+Our functions can handle the processing of pictures up to 2048x2048 pixels and maybe higher, and three types : uint8, uint16, and float32. This was also the case of ImageJ’s functions.
 
-our functions are slow but it was expected, the time ups when the size is incresed (expected also), this is due to the convolutions, and for canny algorithm to the fact that several passes are necessay to elongate (is this a word ??) the edges 
+They have an important execution time, which increases with the size of the input images. This was expected because our functions rely mostly on convolutions and successive operations on the input pixels. Our implementation of Canny’s algorithm is the slowest of our functions, and gets quickly slower because it needs several passes to elongate the edges.
 
 In terms of memory load, the implementation of Canny’s algorithm is very expensive, while the LoG implementation is closer to Sobel, Prewitt, and Robert’s cross, so the *LoG()* function is a good compromise to have well detected edges without using too much memory.
 
@@ -442,7 +448,6 @@ To achieve better performance, we will use the WebGL JavaScript API to use the G
 
 
 
-
 *TOUTES les citations doivent etre utilise*
 
 
@@ -456,45 +461,13 @@ To achieve better performance, we will use the WebGL JavaScript API to use the G
 
 [^ROB1963]: Roberts LG. Machine perception of three-dimensional solids (Doctoral dissertation, Massachusetts Institute of Technology).
 
-[^ABD2015]: Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
-
 [^BOV2009]: Bovik AC, editor. The essential guide to image processing. Academic Press; 2009 Jul 8.
 
 [^CAN1986]: Canny J. A computational approach to edge detection. IEEE Transactions on pattern analysis and machine intelligence. 1986 Nov(6):679-98.
 
-[^CHAA2014]: Chaabane SB, Fnaiech F. Color edges extraction using statistical features and automatic threshold technique: application to the breast cancer cells. Biomedical engineering online. 2014 Jan 23;13(1):4.
-
-[^CHO2016]: Choudhry P. High-Throughput Method for Automated Colony and Cell Counting by Digital Image Analysis Based on Edge Detection. PLoS One. 2016; 11(2): e0148469.
-
-[^DAV1975]: Davis LS. A survey of edge detection techniques. Computer graphics and image processing. 1975 Sep 1;4(3):248-70.
-
-[^DER1987]: Deriche R. Using Canny's criteria to derive a recursively implemented optimal edge detector. International journal of computer vision. 1987 Jun 1;1(2):167-87.
-
-[^DIN2001]: Ding L, Goshtasby A. On the Canny edge detector. Pattern Recognition. 2001 Mar 31;34(3):721-5.
-
-[^GRE2016]: Grega M, Matiolanski A, Leszczuk M. Automated Detection of Firearms and Knives in a CCTV Image. Sensors 2016, 16, 47; doi:10.3390/s16010047.
-
-[^HAQ2015]: Haq I, Anwar S, Shah K, Khan MT, Shah SA. Fuzzy Logic Based Edge Detection in Smooth and Noisy Clinical Images. PLoS One. 10(9):e0138712, 2015.
-
-[^JAL2017]: Jalalian A, Mashohor S, Mahmud R, Karasfi B, Saripan MIB, Ramli ARB. Foundation and Methodologies in computer-aided diagnosis systems for breast cancer detection. EXCLI Journal, 16:113-137, 2017.
-
-[^KEK2010]: Kekre HB, Gharge SM. Image segmentation using extended edge operator for mammographic images. International journal on computer science and Engineering. 2010;2(4):1086-91.
-
-[^KIR1971]: Kirsch RA. Computer determination of the constituent structure of biological images. Computers and biomedical research. 1971 Jun 1;4(3):315-28.
-
-[^LUO2017]: Luo S, Yang J, Gao Q, Zhou S, Zhan CA. The Edge Detectors Suitable for Retinal OCT Image Segmentation. Journal of Healthcare Engineering 2017; 2017: 3978410.
-
-[^MAI2009]: Maini R, Aggarwal H. Study and comparison of various image edge detection techniques. International journal of image processing (IJIP). 2009 Jan;3(1):1-1.
-
 [^MAR1980]: Marr D, Hildreth E. Theory of edge detection. Proceedings of the Royal Society of London B: Biological Sciences. 1980 Feb 29;207(1167):187-217.
 
 [^PRE1970]: Prewitt JM. Object enhancement and extraction. Picture processing and Psychopictorics. 1970 Jan 1;10(1):15-9.
-
-[^RIC1945]: Rice SO. Mathematical analysis of random noise. The Bell System Technical Journal. 1945 Jan;24(1):46-156.
-
-[^SCH1997]: Scharcanski J and Venetsanopoulos A.N. Edge detection of color images using directional operators. IEEE Trans. Circuits Syst. Video Technol., 7(2):397–401, 1997.
-
-[^SCH2015]: Schindelin J, Rueden CT, Hiner MC, Eliceiri KW. The ImageJ ecosystem: An open platform for biomedical image analysis. Molecular reproduction and development. 2015 Jul 1;82(7-8):518-29.
 
 [^SOB1968]: Sobel I. An isotropic 3× 3 image gradient operator, presentation at Stanford Artificial Intelligence Project (SAIL).
 
