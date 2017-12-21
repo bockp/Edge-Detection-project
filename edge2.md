@@ -35,7 +35,24 @@ https://github.com/bockp/Edge-Detection-project
 
 ### Utility functions :
 
-#### *convolve()*
+
+#### padding(data,W,H,pad,copy_mode=true)
+
+Returns a padded version of an image (whose pixel values are in the __data__ array), so it can be entirely convolved by a kernel whose radius is equivalent to __pad__.
+
+The __W__ and __H__ arguments represent the image's height and width, respectively.
+
+
+#### *convolve(raster, kernel, copy_mode=true)*
+
+This function convolves the image (pixel values stored in the __raster__) using the given kernel __kernel__.
+
+First, it checks if the kernel's dimensions are correct (the kernel must have an uneven size), and throws an error if not.
+
+It then pads the image with enough 0 pixels (half the kernel's size, floored downwards) to enable the kernel to be applied to every pixel of the original image, including edge pixels.
+
+it then aplies the kernel to every pixel in the original image,
+only taking the padding into account to calculate values for edge pixels, and saves the new pixel values in a separate array that is returned to the user.
 
 
 
@@ -95,17 +112,24 @@ Uses the *kernelGenerator()* and *normalize()* functions to create a normalized 
 
 Rounds the gradient orientation (__theta__, representing the image gradient orientation values) values into four directions : 0, 45, 90, and 135 degrees represented by the numbers 0, 1, 2, and 3.
 
-#### padding(data,W,H,pad,copy_mode=true)
-
-Returns a padded version of an image (whose pixel values are in the __data__ array), so it can be entirely convolved by a kernel whose radius is equivalent to __pad__.
-
-The __W__ and __H__ arguments represent the image's height and width, respectively.
 
 
+#### *nonmax(W, H, grad; theta, type)*
 
-#### *nonmax()*
+Performs non maximum suppression in 8-connectivity : pixels that are not the maximum value in their gradient direction (__grad__) are replaced by the lowest pixel value according to the image __type__.
 
-#### *hysteresis()*
+__W__ and __H__ are the image dimensions.
+
+
+
+#### *hysteresis(W, strong_edges, threshold_edges)*
+
+Performs hysteresis in 8-connectivity : first, the weak edge pixels next to strong edge pixels (__strong_edges__) are kept, and then the selected non selected weak edge pixels next to a strong edge pixel in several passes
+
+
+
+---------------
+
 
 
 
