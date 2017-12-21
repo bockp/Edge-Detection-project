@@ -17,7 +17,7 @@ Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
 - [] write properly the discussion, I have written basically what we need to say but we need to write it better
 - [] add name of the authors of the imageJ plugins (see previous report)
 - [] describe briefly the utility functions (basically what is written in the documentation of each function)
-- [] add ref for Robert's cross in the introduction (at the same lace as sobel prewitt and kirch)
+- [x] add ref for Robert's cross in the introduction (at the same lace as sobel prewitt and kirch)
 - [] add the whatever to set up properly the size of the images for the convertion to pdf
 - [] check that all the code is still working well !!
 
