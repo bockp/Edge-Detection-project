@@ -314,7 +314,7 @@ RETURN edges
 
 ### Edge detection using Sobel, Prewitt, and Robert’s cross operators
 
-The two pictures below show the result given by ImageJ’s function FindEdges which uses Sobel operator, and our *sobel()* function. We can see that we obtain quite similar results [Fig.?]
+The two pictures below show the result given by ImageJ’s function FindEdges[^RUE2017] which uses Sobel operator, and our *sobel()* function. We can see that we obtain quite similar results [Fig.?]
 
 ![Fig.?](images/sobel_comparison.jpg)
 
@@ -337,7 +337,7 @@ The 4 pictures below show the results of applying the FeatureJ[^MEI2007] Laplaci
 
 As can be seen, LoG, the combination of the Laplacian kernel with the Gaussian, leads to much better results than a simple LaPlacian kernel, as used by FeatureJ[^MEI2007].
 
-The 3 images below compare the ImageJ plugin Mexican Hat, which uses a LoG algorithm with a circular kernel whose radius can be defined, to our own TIJ Ecmascript implementation:
+The 3 images below compare the ImageJ plugin Mexican Hat[^PRO2015], which uses a LoG algorithm with a circular kernel (whose radius can be defined) to our own TIJ Ecmascript implementation:
 
 
 ![Fig.?](images/Lena-mexican5-us2.jpg)
@@ -350,7 +350,7 @@ Taking that into account, we can at least see that the results are comparable in
 
 ### Edge detection using Canny’s algorithm :
 
-The following figure represents the result of the *canny()* function with parameters low threshold = 15.0, high threshold = 30.0, and sigma = 2.0. (REF) , compared with the result given by the plugin Canny Edge Detector with parameters low threshold = 2.5, high threshold = 5.0, and sigma = 2.0 [Fig.?]. The results are similar but the threshold values do not have the same effect for the detection of edges. Nonetheless, we can see that the edges of the face, hat and shoulder are well detected, as well as some details on the hat feathers. There are false edges at the bottom and right side of the picture, due to the Gaussian filtering step. Onces this function is replaced by the one coded by the “Filters” group it should give the expected result.  
+The following figure represents the result of the *canny()* function with parameters low threshold = 15.0, high threshold = 30.0, and sigma = 2.0. (REF) , compared with the result given by the plugin Canny Edge Detector[^GIB2011] with parameters low threshold = 2.5, high threshold = 5.0, and sigma = 2.0 [Fig.?]. The results are similar but the threshold values do not have the same effect for the detection of edges. Nonetheless, we can see that the edges of the face, hat and shoulder are well detected, as well as some details on the hat feathers. There are false edges at the bottom and right side of the picture, due to the Gaussian filtering step. Onces this function is replaced by the one coded by the “Filters” group it should give the expected result.  
 
 ![Fig.?](images/canny_comparison.jpg)
 
@@ -446,6 +446,10 @@ To achieve better performance, we will use the WebGL JavaScript API to use the G
 *TOUTES les citations doivent etre utilise*
 
 
+[^GIB2011]: Gibara T. Canny Edge Detector plugin for ImageJ image processor.
+
+[^MEI2007]: Meijering E. FeatureJ: A Java Package for Image Feature Extraction.
+
 [^OST2017]: Cecilia Ostertag, Peter Bock, Ophelie Thierry. Edge Detection Report 1. 2017.
 
 [^ECMA2011]: ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
@@ -493,3 +497,7 @@ To achieve better performance, we will use the WebGL JavaScript API to use the G
 [^SCH2015]: Schindelin J, Rueden CT, Hiner MC, Eliceiri KW. The ImageJ ecosystem: An open platform for biomedical image analysis. Molecular reproduction and development. 2015 Jul 1;82(7-8):518-29.
 
 [^SOB1968]: Sobel I. An isotropic 3× 3 image gradient operator, presentation at Stanford Artificial Intelligence Project (SAIL).
+
+[^RUE2017]: Rueden, C. T.; Schindelin, J. & Hiner, M. C. et al. (2017), "ImageJ2: ImageJ for the next generation of scientific image data", BMC Bioinformatics 18:529, doi:10.1186/s12859-017-1934-z. 
+
+[^PRO2015]: Dimiter Prodanov, Mexican Hat LoG filter plugin for ImageJ
