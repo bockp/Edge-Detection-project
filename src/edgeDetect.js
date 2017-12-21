@@ -92,29 +92,7 @@ const normalizeConvResult = (data,type) =>
  * @author Cecilia Ostertag
  */
 
-
-/* original non-functional version. tests indicate both versions return the samle output, but just in case:
-
-
-
-
-const theta4directions = (theta) =>
-{
-	// TODO functionalize
-    let i;
-    for (i=0; i<theta.length; i++)
-    {
-    	theta[i] = ((Math.round(theta[i] * (5.0 / Math.PI)) + 5) % 5) %4;
-    	}
-    return theta;
-}
-
-
-
-
-*/
-
-const theta4directionsFunct = (theta) => theta.map(x => ((Math.round(x * (5.0 / Math.PI)) + 5) % 5) % 4);
+const theta4directions = (theta) => theta.map(x => ((Math.round(x * (5.0 / Math.PI)) + 5) % 5) % 4);
 
 
 
@@ -408,7 +386,7 @@ const LoG = (kerSize=9,sigma=2.0) => (raster, copy_mode=true) =>
 	let zero_cross=[];
 	thr_img.forEach((px,i) =>
 	{
-		( (thr_img[i] === 255) && ( (thr_img[i%W-1+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W-1+W*Math.floor(i/W)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W)] === 0)  || (thr_img[i%W-1+W*Math.floor(i/W +1)] === 0) || (thr_img[i%W+W*Math.floor(i/W +1)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W +1)] === 0) ) )  ? zero_cross.push(255) : zero_cross.push(0); ;
+		( (thr_img[i] === 255) && ( (thr_img[i%W-1+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W+W*Math.floor(i/W -1)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W -1)] === 0) || (thr_img[i-1] === 0) || (thr_img[i+1] === 0)  || (thr_img[i%W-1+W*Math.floor(i/W +1)] === 0) || (thr_img[i%W+W*Math.floor(i/W +1)] === 0) || (thr_img[i%W+1+W*Math.floor(i/W +1)] === 0) ) )  ? zero_cross.push(255) : zero_cross.push(0); ;
     //foreground point has at least one background neighbor so it is a zero-crossing.
 	});
 
@@ -476,7 +454,7 @@ const hysteresis = (W, strong_edges, thresholded_edges) =>
 	edges.forEach((val,i) =>
 	{
 
-		if ( (thresholded_edges[i] === 1) && ( (thresholded_edges[i%W-1+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W-1+W*Math.floor(i/W)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W)] === 2)  || (thresholded_edges[i%W-1+W*Math.floor(i/W+1)] === 2) || (thresholded_edges[i%W+W*Math.floor(i/W +1)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W +1)] === 2) ) ) //weak edge is next to a strong edge (8-connectivity)
+		if ( (thresholded_edges[i] === 1) && ( (thresholded_edges[i%W-1+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W-1)] === 2) || (thresholded_edges[i-1] === 2) || (thresholded_edges[i+1] === 2)  || (thresholded_edges[i%W-1+W*Math.floor(i/W+1)] === 2) || (thresholded_edges[i%W+W*Math.floor(i/W +1)] === 2) || (thresholded_edges[i%W+1+W*Math.floor(i/W +1)] === 2) ) ) //weak edge is next to a strong edge (8-connectivity)
 		{
 			chosen_pixels.push(i); //we keep the pixel
 			edges[i]=255;
@@ -511,12 +489,12 @@ const hysteresis = (W, strong_edges, thresholded_edges) =>
 			if ( (thresholded_edges[i%W-1+W*Math.floor(i/W)] === 1) && (edges[i%W-1+W*Math.floor(i/W)] === 0) )
 			{
 				new_pixels.push(i%W-1+W*Math.floor(i/W)); //we keep the pixel
-				edges[i%W-1+W*Math.floor(i/W)]=255;
+				edges[i-1]=255;
 			}
 			if ( (thresholded_edges[i%W+1+W*Math.floor(i/W)] === 1) && (edges[i%W+1+W*Math.floor(i/W)] === 0) )
 			{
 				new_pixels.push(i%W+1+W*Math.floor(i/W)); //we keep the pixel
-				edges[i%W+1+W*Math.floor(i/W)]=255;
+				edges[i+1]=255;
 			}
 			if ( (thresholded_edges[i%W-1+W*Math.floor(i/W + 1)] === 1) && (edges[i%W-1+W*Math.floor(i/W + 1)] === 0) )
 			{
