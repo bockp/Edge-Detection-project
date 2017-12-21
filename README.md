@@ -12,6 +12,7 @@ Else the crazybiocomputing/times submodules will be empty in your computer.
 
 # To do:
 
+- [ ] number the figures
 - [ ] add the whatever to set up properly the size of the images for the convertion to pdf
 - [ ] Check no comments remain in edge2.md
 - [ ] check the PDF is properly generated with pandoc
