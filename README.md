@@ -24,7 +24,7 @@ Sinon le submodule crazybiocomputing/times sera vide sur vos ordis.
 - [ ] check the PDF is properly generated with pandoc
 - [ ] send report to Taveau if everything is in order.
 
-- [ ] Joke: send report to Taveau for Christmas (Yes, I know you read the githubs from timle to time, sir ;) )
+- [ ] Joke: send report to Taveau for Christmas (Yes, I know you read the githubs from time to time, sir ;) )
 
 # Tiny Image in Javascript (TIJ) project
 
