@@ -1,5 +1,9 @@
 To use, clone first crazybiocomputing/times repository on your computer, then in the same directory clone this repository.
 
+# Edge detection functions with WEBGL 2:
+In src/gpu : display.js : basic display of an image , canny.js : gaussian blur and canny functions
+In examples : testGaussianBlur.js and testGaussianBlur.html : example of 3x3 and 5x5 gaussian blur next to original image
+
 # Edge detection functions:
 
 All of our functions are in src/process/edgeDetect.js .
