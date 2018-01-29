@@ -1,5 +1,4 @@
 
-'use script';
 
 const gpuDisplay = (raster, graphContext, copy_mode = true) => 
 {
