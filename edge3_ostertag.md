@@ -11,18 +11,11 @@ In our project, we will examine one specific field of image processing called ed
 The physical notion of edge comes from the shape of three dimensional objects or from their material properties. But, seeing as the acquisition process translates 3D scenes to 2D representations, this definition does not apply to image processing. In this report we will use the following definition by Bovik[^BOV2009] (2009): "An edge can generally be defined as a boundary or contour that separates adjacent image regions having relatively distinct characteristics according to some features of interest. Most often this feature is gray level or luminance”. According to this definition, the pixels of an image belonging to an edge are the pixels located in regions of abrupt gray level changes. Moreover, to avoid counting noise pixels as edges, the pixels have to be part of a contour-like structure.
 Edge detection is the process of finding the pixels belonging to the edges in an image, and producing a binary image showing the locations of the edge pixels.
 
-In our project, we began by documenting the main linear edge detection approaches and algorithms, and their implementation in the image processing software ImageJ[^SCH2015]:
-
-* Convolution with edge templates (Prewit[^PRE1970], Sobel[^SOB1968], Kirsch[^KIR1971], Robert's Cross[^ROB1963])
-* Zero-crossings of Laplacian of Gaussian convolution[^MAR1980]
-* Zero-crossings of directional derivatives of smoothed images (Canny[^CAN1986])
-
-We then performed a benchmark on the ImageJ plugins, in order to compare their execution time and the memory load for the Java Virtual Machine (JVM).
-
+In our project, we began by documenting the main linear edge detection approaches and algorithms, and their implementation in the image processing software ImageJ. We then performed a benchmark on the ImageJ plugins, in order to compare their execution time and the memory load for the Java Virtual Machine (JVM).
 
 For the second part of our project, we made our own implementations of the Sobel, Prewitt, Robert's cros, Canny and Laplacian of Gaussian operators using ECMAscript6[^ECMA2011].
 
-In this report, I will present the last part of our project : the implementation of Canny's algorithm using the GPU via the API WebGL 2.
+In this report, I will present the last part of our project : the implementation of Canny's algorithm using the GPU via the API WebGL 2. Finally, I will be able to compare qualitatively and quantitatively the CPU and GPU implementations, and to compare the GPU implementation with ImageJ plugin's implemenation.
 
 
 
@@ -49,6 +42,7 @@ Canny’s algorithm uses the following steps:
 All of the fragment shaders used for this implementation are adapted from Seth George Hall's thesis [^HAL2014] showing an implementation of Canny edge detection using OpenGL ES 2.0. It uses a pipeline of five fragment shaders, linked together via framebuffers [Fig.1] :
 
 ![Fig.1](images/pipeline.png)
+
 **Fig.1: Canny edge detection pipeline using OpenGL ES 2.0[^HAL2014]**
 
 The first two shaders correspond to a gaussian blur performed in two passes, horizontal and vertical, using a 5x5 kernel. The kernel is passed to the shader as a *uniform* float array, containing the following values : 0.0625, 0.25, 0.375, 0.25, 0.0625. The output is the resulting pixel value.
