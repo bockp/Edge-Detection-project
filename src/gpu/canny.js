@@ -1,5 +1,6 @@
-const canny = (low_thr,high_thr) => (raster, graphContext, copy_mode = true) => 
+const gpuEdgeCanny = (low_thr,high_thr) => (raster, graphContext, copy_mode = true) => 
 {
+
 	let id='canny'
 	
 	console.log(id)
@@ -55,6 +56,10 @@ let src_fs_blurH = `#version 300 es
 
 let shader_blurH = gpu.createProgram(graphContext,src_vs,src_fs_blurH);
  
+	var startTime1,endTime1,time1;
+
+ 	startTime1 = Date.now();
+
    let gproc_blurH = gpu.createGPU(graphContext,raster.width,raster.height)
   	.redirectTo('fbo01','float32',0)
     .size(raster.width,raster.height)
@@ -69,6 +74,9 @@ let shader_blurH = gpu.createProgram(graphContext,src_vs,src_fs_blurH);
     .uniform('u_image',0)
     .uniform('u_kernel', new Float32Array([0.0625,0.25,0.375,0.25,0.0625]) )
     .run(); 
+
+	endTime1 = Date.now();	
+	time1 = endTime1 - startTime1;
     
     console.log("horizontal blur done..."); 
  
@@ -101,6 +109,10 @@ let src_fs_blurV = `#version 300 es
 
 let shader_blurV = gpu.createProgram(graphContext,src_vs,src_fs_blurV);
 
+	var startTime2,endTime2,time2;
+
+ 	startTime2 = Date.now();
+
 let gproc_blurV = gpu.createGPU(graphContext)
     .size(raster.width,raster.height)
     .geometry(gpu.rectangle(raster.width,raster.height))
@@ -115,6 +127,9 @@ let gproc_blurV = gpu.createGPU(graphContext)
     .uniform('u_image',0)
     .uniform('u_kernel', new Float32Array([0.0625,0.25,0.375,0.25,0.0625]) )
     .run();
+
+	endTime2 = Date.now();	
+	time2 = endTime2 - startTime2;	
     
 	console.log("vertical blur done..."); 
   
@@ -169,6 +184,10 @@ let src_fs_sobel = `#version 300 es
 let shader_sobel = gpu.createProgram(graphContext,src_vs,src_fs_sobel);
 
   console.log('sobel filter done...');
+
+	var startTime3,endTime3,time3;
+
+ 	startTime3 = Date.now();
  
    let gproc_sobel = gpu.createGPU(graphContext,raster.width,raster.height)
     .size(raster.width,raster.height)
@@ -185,6 +204,9 @@ let shader_sobel = gpu.createProgram(graphContext,src_vs,src_fs_sobel);
     .uniform('u_kernel_H', new Float32Array([1,0,-1,2,0,-2,1,0,-1]))
     .uniform('u_kernel_V', new Float32Array([-1,-2,-1,0,0,0,1,2,1]))
     .run(); 
+
+	endTime3 = Date.now();	
+	time3 = endTime3 - startTime3;
     
 // Fragment Shader
 let src_fs_nonmax = `#version 300 es
@@ -216,6 +238,10 @@ let shader_nonmax = gpu.createProgram(graphContext,src_vs,src_fs_nonmax);
 
   console.log('non maximum suppression done...');    
     
+	var startTime4,endTime4,time4;
+
+ 	startTime4 = Date.now();
+
     let gproc_nonmax = gpu.createGPU(graphContext,raster.width,raster.height)
     .size(raster.width,raster.height)
     .geometry(gpu.rectangle(raster.width,raster.height))
@@ -230,6 +256,9 @@ let shader_nonmax = gpu.createProgram(graphContext,src_vs,src_fs_nonmax);
     .uniform('u_image',0)
     .uniform('threshold', new Float32Array([low_thr/valmax,high_thr/valmax]))
     .run(); 
+
+	endTime4 = Date.now();	
+	time4 = endTime4 - startTime4;
     
 // Fragment Shader
 let src_fs_hysteresis = `#version 300 es
@@ -268,7 +297,11 @@ let src_fs_hysteresis = `#version 300 es
 
 let shader_hysteresis = gpu.createProgram(graphContext,src_vs,src_fs_hysteresis);
 
-  console.log('hysteresis done...');    
+  console.log('hysteresis done...'); 
+
+	var startTime5,endTime5,time5;
+
+ 	startTime5 = Date.now();   
     
     let gproc_hysteresis = gpu.createGPU(graphContext,raster.width,raster.height)
     .size(raster.width,raster.height)
@@ -282,6 +315,9 @@ let shader_hysteresis = gpu.createProgram(graphContext,src_vs,src_fs_hysteresis)
     .uniform('u_resolution',new Float32Array([1.0/raster.width,1.0/raster.height]))
     .uniform('u_image',0)
     .run(); 
+
+	endTime5 = Date.now();	
+	time5 = endTime5 - startTime5;
  
   return raster;
   
