@@ -16,5 +16,5 @@ let img3 = new T.Image(type,256,256);
 img3.setPixels(new Uint8Array(pix));
 
 let gpuEnv3 = gpu.getGraphicsContext("preview2");
-canny(50.0,100.0)(img3.getRaster(),gpuEnv3);
+gpuEdgeCanny(50.0,100.0)(img3.getRaster(),gpuEnv3);
 
