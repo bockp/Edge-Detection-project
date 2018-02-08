@@ -5,6 +5,9 @@ In src/gpu : display.js : basic display of an image , canny.js : gpuEdgeCanny fu
 
 In examples : testCanny.js and testCanny.html : example of Canny edge detector, benchmarkForTijiGPU.js : benchmark function to test Canny GPU implementation
 
+
+[Example of Canny, 8bit, 16bit, float32](https://rawgit.com/bockp/Edge-Detection-project/master/examples/testCanny.html)
+
 #NEED TO ADD BENCHMARK.JS (for ImageJ) AND BENCHMARK FILE FOR CPU FUNCTIONS (to use with the files in cpu branch)
 
 
