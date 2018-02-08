@@ -3,7 +3,7 @@ To use, clone first crazybiocomputing/times repository on your computer, then in
 # Edge detection functions with WEBGL 2:
 In src/gpu : display.js : basic display of an image , canny.js : gpuEdgeCanny function (Canny edge detector) #NEED TO ADD COMMENTS, DESCRIPTIONS, SOURCE, AND AUTHOR#
 
-In examples : testCanny.js and testCanny.html : example of Canny edge detector, benchmarkForTijiGPU.js : benchmark function to test Canny GPU implementation
+In examples : testCanny.js and testCanny.html : example of Canny edge detector, benchmarkForTijiGPU.js : benchmark function to test Canny GPU implementation, STILL BUG WITH 16bit IMAGES
 
 
 [Example of Canny, 8bit, 16bit, float32](https://rawgit.com/bockp/Edge-Detection-project/master/examples/testCanny.html)
@@ -16,6 +16,8 @@ In examples : testCanny.js and testCanny.html : example of Canny edge detector, 
 All of our functions are in src/process/edgeDetect.js .
 
 To test our results, you can use the file examples/testEdge.js, using a 256x256 uint8 version of Lena as input for our five functions : *sobel()*, *prewitt()*, *robertscross()*, *LoG()*, and *canny()*.
+
+[Examples](https://rawgit.com/bockp/Edge-Detection-project/cpu/examples/testEdge.html)
 
 # Tiny Image in Javascript (TIJ) project
 
