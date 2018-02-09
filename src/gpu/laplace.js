@@ -204,7 +204,7 @@ let shader_sobel = gpu.createProgram(graphContext,src_vs,src_fs_sobel);
     .uniform('u_image',0)
        .uniform('u_kernel_H', new Float32Array(logKernel(3,2)))
        .uniform('u_kernel_V', new Float32Array(logKernel(3,2)))
-    .run(); 
+    .run(); // ne plus rediriger, et eliminer les gprocs apres celui ci, rend un lena juste legerement floutée X/
 
 	endTime3 = Date.now();	
 	time3 = endTime3 - startTime3;
