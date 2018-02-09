@@ -173,10 +173,11 @@ let src_fs_sobel = `#version 300 es
 	// I should be able to adjust the value in x according to the result step gives applied to it.
 
 	float stepRes = step(255.0,laplace.x);
-	if (stepRes == 1.0){laplace.x = 255.0;};
+	if (stepRes == 1.0){laplace.x = 0.0;};
 	
 	outColor.r = laplace.x; 
-
+	outColor.g = laplace.x;
+	outColor.b = laplace.x; // utiliser les 3 canaux rend presque tout blanc X/
 	outColor.a = 1.0;
 	
     }`;
