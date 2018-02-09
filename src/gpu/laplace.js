@@ -135,58 +135,52 @@ let src_fs_sobel = `#version 300 es
     // this uniform float double table will contain the calculated LoG kernel for a given sigma.
     uniform float u_kernel_H[9];
     uniform float u_kernel_V[9];
-
+    
     out vec4 outColor;
     
     void main(){
-		
-		float stepSizeX = 1.0 / float(textureSize(u_image,0).x);
-		float stepSizeY = 1.0 / float(textureSize(u_image,0).y);
-		
-		//get the 9 neighboring pixel intensities
-		float a11 = texture(u_image, v_texCoord - vec2(stepSizeX,stepSizeY)).r;
-		float a12 = texture(u_image, vec2(v_texCoord.s, v_texCoord.t - stepSizeY)).r;
-		float a13 = texture(u_image, vec2(v_texCoord.s + stepSizeX, v_texCoord.t - stepSizeY)).r;
-		
-		float a21 = texture(u_image, vec2(v_texCoord.s - stepSizeX, v_texCoord.t)).r;
+	
+	float stepSizeX = 1.0 / float(textureSize(u_image,0).x);
+	float stepSizeY = 1.0 / float(textureSize(u_image,0).y);
+	
+	//get the 9 neighboring pixel intensities
+	float a11 = texture(u_image, v_texCoord - vec2(stepSizeX,stepSizeY)).r;
+	float a12 = texture(u_image, vec2(v_texCoord.s, v_texCoord.t - stepSizeY)).r;
+	float a13 = texture(u_image, vec2(v_texCoord.s + stepSizeX, v_texCoord.t - stepSizeY)).r;
+	
+	float a21 = texture(u_image, vec2(v_texCoord.s - stepSizeX, v_texCoord.t)).r;
 		float a22 = texture(u_image, v_texCoord).r;
-		float a23 = texture(u_image, vec2(v_texCoord.s + stepSizeX, v_texCoord.t)).r;
-		
-		float a31 = texture(u_image, vec2(v_texCoord.s - stepSizeX, v_texCoord.t + stepSizeY)).r;
-		float a32 = texture(u_image, vec2(v_texCoord.s, v_texCoord.t + stepSizeX)).r;
-		float a33 = texture(u_image, v_texCoord + vec2(stepSizeX,stepSizeY)).r;
-		
+	float a23 = texture(u_image, vec2(v_texCoord.s + stepSizeX, v_texCoord.t)).r;
+	
+	float a31 = texture(u_image, vec2(v_texCoord.s - stepSizeX, v_texCoord.t + stepSizeY)).r;
+	float a32 = texture(u_image, vec2(v_texCoord.s, v_texCoord.t + stepSizeX)).r;
+	float a33 = texture(u_image, v_texCoord + vec2(stepSizeX,stepSizeY)).r;
+	
 	//gradient vector
-
+	
 	// this is where the results differ from Cecilia's work.
 	// Given that the Laplacian kernel CANNOT be separated into Horizontal and Vertical aspects, it is necessary to calculate an entire kernel using the unitary LoG JS transposed into glsl.
 	// This also makes the entire Blurring/Gaussian step in Cecilia's algorithm unnecessary, as LoG includes the Gaussian blur in it's kernel already.
+
+	// not sure how to do this without the vec2, but since I'll only be using the X component I can just leave it as a vec2 anyway.
 	
-		vec2 sobel = vec2 (u_kernel_H[0] * a11 + u_kernel_H[1] * a12 + u_kernel_H[2] * a13 + u_kernel_H[3] * a21 + u_kernel_H[4] * a22 + u_kernel_H[5] * a23 + u_kernel_H[6] * a31 + u_kernel_H[7] * a32 + u_kernel_H[8] * a33, u_kernel_V[0] * a11 + u_kernel_V[1] * a12 + u_kernel_V[2] * a13 + u_kernel_V[3] * a21 + u_kernel_V[4] * a22 + u_kernel_V[5] * a23 + u_kernel_V[6] * a31 + u_kernel_V[7] * a32 + u_kernel_V[8] * a33);
-	//vec2 sobelAbs = abs(sobel);
-
-
-
-	// Figure out how to change this so it gives the right result, then replace hysteresis and non-max with the laplacian after-treatment code.
-	// THEN use cecilia's report as a template to write my own.
-
-
+	vec2 laplace = vec2 (u_kernel_H[0] * a11 + u_kernel_H[1] * a12 + u_kernel_H[2] * a13 + u_kernel_H[3] * a21 + u_kernel_H[4] * a22 + u_kernel_H[5] * a23 + u_kernel_H[6] * a31 + u_kernel_H[7] * a32 + u_kernel_H[8] * a33,0);
+	
 
 	
-		
-		vec2 rotatedSobel = ROTATION_MATRIX * sobel;
-		vec2 quadrantSobel = vec2(rotatedSobel.x * rotatedSobel.x - rotatedSobel.y * rotatedSobel.y, 2.0 * rotatedSobel.x * rotatedSobel.y);
-		
-		//gradient direction
-		vec2 neighDir = vec2(step(-1.5, sign(quadrantSobel.x) + sign(quadrantSobel.y)), step(0.0, - quadrantSobel.x) - step(0.0, quadrantSobel.x) * step(0.0, - quadrantSobel.y));
-		
-		//outColor.r = (sobelAbs.x + sobelAbs.y) * 0.125; //gradient magnitude 
-		outColor.r = sqrt(sobel.x*sobel.x + sobel.y*sobel.y); //gradient magnitude
-		outColor.gb = neighDir * 0.5 + vec2(0.5); // gradient direction
-		outColor.a = 0.0;
-     
+	
+	// I need to do a filtering step, and step(a,b) seems like it fits the bill.
+	// I should be able to adjust the value in x according to the result step gives applied to it.
+
+	float stepRes = step(255.0,laplace.x);
+	if (stepRes == 1.0){laplace.x = 255.0;};
+	
+	outColor.r = laplace.x; 
+
+	outColor.a = 1.0;
+	
     }`;
-
+    
 let shader_sobel = gpu.createProgram(graphContext,src_vs,src_fs_sobel);
 
   console.log('sobel filter done...');
