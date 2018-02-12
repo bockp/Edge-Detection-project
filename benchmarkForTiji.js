@@ -1,11 +1,11 @@
-//Author : Cecilia Ostertag
+//Authors : Peter Bock, Cecilia Ostertag
 
 function benchmark(img,timeList)
 {
 	var startTime,endTime,time,memory;
 
  	startTime = Date.now();
-	func = prewitt();
+	func = sobel();//sobel() , prewitt(), robertscross(), LoG(9,1.4), canny(10.0,40.0,2.0);
 	func(img.getRaster());
 	endTime = Date.now();	
 	time = endTime - startTime;
@@ -23,7 +23,7 @@ function runBenchmark(pixels,dim)
 	var timeList=[],memoryList=[];
 	for(var i = 0; i<5; i++){
 
-		let img = new T.Image('uint8',dim,dim);
+		let img = new T.Image('float32',dim,dim);
 		img.setPixels(pixels);
 		benchmark(img,timeList);
 
@@ -44,13 +44,13 @@ function runBenchmark(pixels,dim)
 		var loops = 10;
 		for(var j = 0; j < loops; j++){
 			console.log("j=",j);
-			let img = new T.Image('uint8',dim,dim);
+			let img = new T.Image('float32',dim,dim);
 			img.setPixels(pixels);
 			benchmark(img,timeList);
 		}
 
 	console.log("End of benchmark\n");
-	console.log("prewitt_"+dim+"\t"+timeList.join("\nprewitt_"+dim+"\t"));
+	console.log("sobel_"+dim+"\t"+timeList.join("\nsobel_"+dim+"\t"));
 }
 
 // Main program
@@ -63,7 +63,9 @@ dimsList=[128,256,512,1024,2048];
 
 for (var i=0; i<imgList.length; i++)
 {
-	runBenchmark(imgList[i],dimsList[i]);
+	//pixels=imgList[i].map ( (px) => px * 256); //uint16
+	pixels=imgList[i].map( (px) => px/128.0 - 1.0); //float32
+	runBenchmark(pixels,dimsList[i]);
 }
 
 
