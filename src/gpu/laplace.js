@@ -216,13 +216,13 @@ let src_fs_threshold = `#version 300 es
 		float a32 = texture(u_image, vec2(v_texCoord.s, v_texCoord.t + stepSizeX)).r;
 		float a33 = texture(u_image, v_texCoord + vec2(stepSizeX,stepSizeY)).r;
 		
-		if ((a22 == 1.0) && ( (a11 == 0.0) || (a12 == 0.0) || (a13 == 0.0) || (a21 == 0.0) || (a23 == 0.0) || (a31 == 0.0) || (a32 == 0.0) || (a33 == 0.0) ))
+		if ((a22 == 0.0) && ( (a11 == 1.0) || (a12 == 1.0) || (a13 == 1.0) || (a21 == 1.0) || (a23 == 1.0) || (a31 == 1.0) || (a32 == 1.0) || (a33 == 1.0) ))
 		{
-			outColor.r = 0.0;
+			outColor.r = 1.0;
 		}
 		else
 		{
-			outColor.r = 1.0;
+			outColor.r = 0.0;
 		}
 		outColor.g = outColor.r;
 		outColor.b = outColor.r;
