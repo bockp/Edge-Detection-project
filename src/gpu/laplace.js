@@ -134,7 +134,6 @@ let src_fs_sobel = `#version 300 es
     const mat2 ROTATION_MATRIX = mat2(0.92388, 0.38268, -0.38268, 0.92388); // 1/16 turn rotation matrix
     // this uniform float double table will contain the calculated LoG kernel for a given sigma.
     uniform float u_kernel_H[9];
-    uniform float u_kernel_V[9];
     
     out vec4 outColor;
     
@@ -164,7 +163,7 @@ let src_fs_sobel = `#version 300 es
 
 	// not sure how to do this without the vec2, but since I'll only be using the X component I can just leave it as a vec2 anyway.
 	
-	vec2 laplace = vec2 (u_kernel_H[0] * a11 + u_kernel_H[1] * a12 + u_kernel_H[2] * a13 + u_kernel_H[3] * a21 + u_kernel_H[4] * a22 + u_kernel_H[5] * a23 + u_kernel_H[6] * a31 + u_kernel_H[7] * a32 + u_kernel_H[8] * a33,0);
+	float laplace = step(0.1, (u_kernel_H[0] * a11 + u_kernel_H[1] * a12 + u_kernel_H[2] * a13 + u_kernel_H[3] * a21 + u_kernel_H[4] * a22 + u_kernel_H[5] * a23 + u_kernel_H[6] * a31 + u_kernel_H[7] * a32 + u_kernel_H[8] * a33));
 	
 
 	
@@ -172,12 +171,10 @@ let src_fs_sobel = `#version 300 es
 	// I need to do a filtering step, and step(a,b) seems like it fits the bill.
 	// I should be able to adjust the value in x according to the result step gives applied to it.
 
-	float stepRes = step(255.0,laplace.x);
-	if (stepRes == 1.0){laplace.x = 0.0;};
 	
-	outColor.r = laplace.x; 
-	outColor.g = laplace.x;
-	outColor.b = laplace.x; // utiliser les 3 canaux rend presque tout blanc X/
+	outColor.r = laplace; 
+	outColor.g = outColor.r;
+	outColor.b = outColor.r; // utiliser les 3 canaux rend presque tout blanc X/
 	outColor.a = 1.0;
 	
     }`;
@@ -202,8 +199,7 @@ let shader_sobel = gpu.createProgram(graphContext,src_vs,src_fs_sobel);
     .preprocess()
     .uniform('u_resolution',new Float32Array([1.0/raster.width,1.0/raster.height]))
     .uniform('u_image',0)
-       .uniform('u_kernel_H', new Float32Array(logKernel(3,2)))
-       .uniform('u_kernel_V', new Float32Array(logKernel(3,2)))
+       .uniform('u_kernel_H', new Float32Array(logKernel(3,1)))
     .run(); // ne plus rediriger, et eliminer les gprocs apres celui ci, rend un lena juste legerement floutée X/
 
 	endTime3 = Date.now();	
