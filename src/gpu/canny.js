@@ -1,3 +1,13 @@
+/**
+ * Find edges in an image using Canny Algorithm. This implementation follows the algorithm presented in Seth George Hall's thesis "GPU Accelerated Feature Algorithms for Mobile Devices", and was adapted for 8bit, 16 bit and float32 images.
+ *
+ *
+ * @param {number} low_thr - Low threshold for hysteresis
+ * @param {number} high_thr - High threshold for hysteresis
+ *
+ * @author Cecilia Ostertag
+ */
+
 const gpuEdgeCanny = (low_thr,high_thr) => (raster, graphContext, copy_mode = true) => 
 {
 	let id='canny'
@@ -438,9 +448,6 @@ let shader_nonmax = gpu.createProgram(graphContext,src_vs,getFragmentSource_nonm
     in vec2 v_texCoord;
     const float maxUint16 = 65535.0;
     uniform ${samplerType} u_image;
-    const mat2 ROTATION_MATRIX = mat2(0.92388, 0.38268, -0.38268, 0.92388); // 1/16 turn rotation matrix
-    uniform float u_kernel_H[9]; //wrong kernels (not flipped) in original version !! hahahahaha I am the best :)
-    uniform float u_kernel_V[9];
     
     out vec4 outColor;
     
