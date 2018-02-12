@@ -1,15 +1,18 @@
 To use, clone first crazybiocomputing/times repository on your computer, then in the same directory clone this repository.
 
 # Edge detection functions with WEBGL 2:
-In src/gpu : display.js : basic display of an image , canny.js : gpuEdgeCanny function (Canny edge detector) #NEED TO ADD COMMENTS, DESCRIPTIONS, SOURCE, AND AUTHOR#
+In src/gpu : display.js : basic display of an image , canny.js : gpuEdgeCanny function (Canny edge detector) 
 
 In examples : testCanny.js and testCanny.html : example of Canny edge detector, benchmarkForTijiGPU.js : benchmark function to test Canny GPU implementation, STILL BUG WITH 16bit IMAGES
 
 
 [Example of Canny, 8bit, 16bit, float32](https://rawgit.com/bockp/Edge-Detection-project/master/examples/testCanny.html)
 
-#NEED TO ADD BENCHMARK.JS (for ImageJ) AND BENCHMARK FILE FOR CPU FUNCTIONS (to use with the files in cpu branch)
+Benchmark files for CPU : branch cpu, main folder
 
+Benchmark files for GPU : branch master, examples folder
+
+Benchmark file for ImageJ : branch master, main folder
 
 # Edge detection functions with ES6 (see cpu branch):
 
