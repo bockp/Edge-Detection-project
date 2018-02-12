@@ -5,7 +5,7 @@ function benchmark(img,timeList)
 	var startTime,endTime,time,memory;
 
  	startTime = Date.now();
-	func = sobel();//sobel() , prewitt(), robertscross(), LoG(9,1.4), canny(10.0,40.0,2.0);
+	func = canny(10.0,40.0,2.0);//sobel() , prewitt(), robertscross(), LoG(9,1.4), canny(10.0,40.0,2.0);
 	func(img.getRaster());
 	endTime = Date.now();	
 	time = endTime - startTime;
@@ -14,7 +14,7 @@ function benchmark(img,timeList)
 	//memoryList.push(memory/1048576);//convert bytes to MB
 }
 
-function runBenchmark(pixels,dim)
+function runBenchmark(pixels,W,H)
 {
 	console.log("Front loading...\n");
 	//------------------------------------FRONT-LOADING------------------------------
@@ -23,7 +23,7 @@ function runBenchmark(pixels,dim)
 	var timeList=[],memoryList=[];
 	for(var i = 0; i<5; i++){
 
-		let img = new T.Image('float32',dim,dim);
+		let img = new T.Image('uint8',W,H);
 		img.setPixels(pixels);
 		benchmark(img,timeList);
 
@@ -44,28 +44,31 @@ function runBenchmark(pixels,dim)
 		var loops = 10;
 		for(var j = 0; j < loops; j++){
 			console.log("j=",j);
-			let img = new T.Image('float32',dim,dim);
+			let img = new T.Image('uint8',W,H);
 			img.setPixels(pixels);
 			benchmark(img,timeList);
 		}
 
 	console.log("End of benchmark\n");
-	console.log("sobel_"+dim+"\t"+timeList.join("\nsobel_"+dim+"\t"));
+	console.log("canny_"+W+"\t"+timeList.join("\ncanny_"+W+"\t"));
 }
 
 // Main program
 
-imgList=[Lenna_128,Lenna_256,Lenna_512,Lenna_1024,Lenna_2048];
-dimsList=[128,256,512,1024,2048];
+imgList=[coins_128,coins_128,coins_300,coins_300,coins_512,coins_512,coins_1024,coins_1024,coins_2048,coins_2048];
+dimsList=[128,105,300,246,512,420,1024,840,2048,1679];
 
 //LoG(9,1.4) , canny(10.0,40.0,2.0)
 
 
-for (var i=0; i<imgList.length; i++)
+for (var i=0; i<dimsList.length; i+=2)
 {
+	pixels=imgList[i];
+	W=dimsList[i];
+	H=dimsList[i+1];
 	//pixels=imgList[i].map ( (px) => px * 256); //uint16
-	pixels=imgList[i].map( (px) => px/128.0 - 1.0); //float32
-	runBenchmark(pixels,dimsList[i]);
+	//pixels=imgList[i].map( (px) => px/128.0 - 1.0); //float32
+	runBenchmark(pixels,W,H);
 }
 
 
