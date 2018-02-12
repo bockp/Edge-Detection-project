@@ -89,18 +89,12 @@ const logKernel = (kernelSize,sigma) => normalize(kernelGenerator( kernelSize, s
 
 
 
-const gpuEdgeLaplace = (low_thr,high_thr) => (raster, graphContext, copy_mode = true) => 
+const gpuEdgeLaplace = () => (raster, graphContext, copy_mode = true) => 
 {
 
 	let id='laplace'
 	
 	console.log(id)
-	
-	let valmax;
-	if (raster.type === 'uint8')
-	{
-		valmax=255;
-	}
 	
 // Vertex Shader
 	let src_vs = `#version 300 es
@@ -123,7 +117,7 @@ const gpuEdgeLaplace = (low_thr,high_thr) => (raster, graphContext, copy_mode = 
 // 1. Laplacian  of Gaussian application
     
 // Fragment Shader 
-let src_fs_sobel = `#version 300 es
+let src_fs_log = `#version 300 es
     // idem to Cecilia's work
     // I (peter bock) have no idea how to make heads or tails of this. so I just studied Cecilia's work till I could make out which part should be different for the LoG algorithm.
     // pretty much none of this is my work.
@@ -131,8 +125,6 @@ let src_fs_sobel = `#version 300 es
     
     in vec2 v_texCoord;
     uniform sampler2D u_image;
-    const mat2 ROTATION_MATRIX = mat2(0.92388, 0.38268, -0.38268, 0.92388); // 1/16 turn rotation matrix
-    // this uniform float double table will contain the calculated LoG kernel for a given sigma.
     uniform float u_kernel_H[9];
     
     out vec4 outColor;
@@ -163,7 +155,7 @@ let src_fs_sobel = `#version 300 es
 
 	// not sure how to do this without the vec2, but since I'll only be using the X component I can just leave it as a vec2 anyway.
 	
-	float laplace = step(0.1, (u_kernel_H[0] * a11 + u_kernel_H[1] * a12 + u_kernel_H[2] * a13 + u_kernel_H[3] * a21 + u_kernel_H[4] * a22 + u_kernel_H[5] * a23 + u_kernel_H[6] * a31 + u_kernel_H[7] * a32 + u_kernel_H[8] * a33));
+	float laplace = step(0.0,u_kernel_H[0] * a11 + u_kernel_H[1] * a12 + u_kernel_H[2] * a13 + u_kernel_H[3] * a21 + u_kernel_H[4] * a22 + u_kernel_H[5] * a23 + u_kernel_H[6] * a31 + u_kernel_H[7] * a32 + u_kernel_H[8] * a33);
 	
 
 	
@@ -179,143 +171,24 @@ let src_fs_sobel = `#version 300 es
 	
     }`;
     
-let shader_sobel = gpu.createProgram(graphContext,src_vs,src_fs_sobel);
-
-  console.log('sobel filter done...');
-
-	var startTime3,endTime3,time3;
-
- 	startTime3 = Date.now();
+let shader_log = gpu.createProgram(graphContext,src_vs,src_fs_log);
+  console.log('log filter done...');
  
    let gproc_sobel = gpu.createGPU(graphContext,raster.width,raster.height)
     .size(raster.width,raster.height)
-    .redirectTo('fbo1','float32',0)
     .geometry(gpu.rectangle(raster.width,raster.height))
     .attribute('a_vertex',2,'float', 16,0)      // X, Y
     .attribute('a_texCoord',2, 'float', 16, 8)  // S, T
     .texture(raster)
-    .packWith(shader_sobel) // VAO
+    .packWith(shader_log) // VAO
     .clearCanvas([0.0,1.0,1.0,1.0])
     .preprocess()
     .uniform('u_resolution',new Float32Array([1.0/raster.width,1.0/raster.height]))
     .uniform('u_image',0)
-       .uniform('u_kernel_H', new Float32Array(logKernel(3,1)))
+    .uniform('u_kernel_H', new Float32Array([1,1,1,1,-8,1,1,1,1]))//logKernel(3,1)
     .run(); // ne plus rediriger, et eliminer les gprocs apres celui ci, rend un lena juste legerement floutée X/
 
-	endTime3 = Date.now();	
-	time3 = endTime3 - startTime3;
-    
-// Fragment Shader
-let src_fs_nonmax = `#version 300 es
-  
-    precision mediump float;
-    
-    in vec2 v_texCoord;
-    uniform sampler2D u_image;
-    uniform vec2 threshold;
-
-    out vec4 outColor;
-    
-    void main(){
-
-		float stepSizeX = 1.0 / float(textureSize(u_image,0).x);
-		float stepSizeY = 1.0 / float(textureSize(u_image,0).y);
-
-		vec4 texCoord = texture(u_image, v_texCoord);
-		vec2 neighDir = texCoord.gb * 2.0 - vec2(1.0);
-		
-		vec4 n1 = texture(u_image, v_texCoord + (neighDir * vec2(stepSizeX,stepSizeY))); //grad of neighboring pixel in grad direction
-		vec4 n2 = texture(u_image, v_texCoord - (neighDir * vec2(stepSizeX,stepSizeY))); //grad of opposite neighboring pixel in grad direction
-		float edgeStrength = texCoord.r * step(max(n1.r,n2.r), texCoord.r); // step returns 0 if grad is not a maximum , returns 1 if grad is a maximum, then multiplied by grad of the current pixel
-		outColor = vec4(smoothstep(threshold.s, threshold.t, edgeStrength),0.0,0.0,0.0); //returns a value between 0 and 1 if grad is between low thr and high thr 
-     
-    }`;
-
-let shader_nonmax = gpu.createProgram(graphContext,src_vs,src_fs_nonmax);
-
-  console.log('non maximum suppression done...');    
-    
-	var startTime4,endTime4,time4;
-
- 	startTime4 = Date.now();
-
-    let gproc_nonmax = gpu.createGPU(graphContext,raster.width,raster.height)
-    .size(raster.width,raster.height)
-    .geometry(gpu.rectangle(raster.width,raster.height))
-    .attribute('a_vertex',2,'float', 16,0)      // X, Y
-    .attribute('a_texCoord',2, 'float', 16, 8)  // S, T
-    .texture(gproc_sobel.framebuffers['fbo1'])
-    .redirectTo('fbo2','float32',0)
-    .packWith(shader_nonmax) // VAO
-    .clearCanvas([0.0,1.0,1.0,1.0])
-    .preprocess()
-    .uniform('u_resolution',new Float32Array([1.0/raster.width,1.0/raster.height]))
-    .uniform('u_image',0)
-    .uniform('threshold', new Float32Array([low_thr/valmax,high_thr/valmax]))
-    .run(); 
-
-	endTime4 = Date.now();	
-	time4 = endTime4 - startTime4;
-    
-// Fragment Shader
-let src_fs_hysteresis = `#version 300 es
-  
-    precision mediump float;
-    
-    in vec2 v_texCoord;
-    uniform sampler2D u_image;
-    
-    out vec4 outColor;
-    
-    void main(){
-		
-		float stepSizeX = 1.0 / float(textureSize(u_image,0).x);
-		float stepSizeY = 1.0 / float(textureSize(u_image,0).y);
-	
-		float edgeStrength = texture(u_image, v_texCoord).r;
-	
-		//get the 8 neighboring pixels' edge strength
-		float a11 = texture(u_image, v_texCoord - vec2(stepSizeX,stepSizeY)).r;
-		float a12 = texture(u_image, vec2(v_texCoord.s, v_texCoord.t - stepSizeY)).r;
-		float a13 = texture(u_image, vec2(v_texCoord.s + stepSizeX, v_texCoord.t - stepSizeY)).r;
-		
-		float a21 = texture(u_image, vec2(v_texCoord.s - stepSizeX, v_texCoord.t)).r;
-		float a23 = texture(u_image, vec2(v_texCoord.s + stepSizeX, v_texCoord.t)).r;
-		
-		float a31 = texture(u_image, vec2(v_texCoord.s - stepSizeX, v_texCoord.t + stepSizeY)).r;
-		float a32 = texture(u_image, vec2(v_texCoord.s, v_texCoord.t + stepSizeX)).r;
-		float a33 = texture(u_image, v_texCoord + vec2(stepSizeX,stepSizeY)).r;
-		
-		float strongPixel = step(2.0, edgeStrength + a11 + a12 + a13 + a21 + a23 + a31 + a32 + a33); //accept weak pixel if the sum of edge strength is > 2.0
-		float px = strongPixel + (edgeStrength - strongPixel) * step(0.49, abs(edgeStrength - 0.5)); // 1 if edge, 0 if not edge
-		outColor = vec4(px,px,px,1.0); // white if edge, black if not edge
-     
-    }`;
-
-let shader_hysteresis = gpu.createProgram(graphContext,src_vs,src_fs_hysteresis);
-
-  console.log('hysteresis done...'); 
-
-	var startTime5,endTime5,time5;
-
- 	startTime5 = Date.now();   
-    
-    let gproc_hysteresis = gpu.createGPU(graphContext,raster.width,raster.height)
-    .size(raster.width,raster.height)
-    .geometry(gpu.rectangle(raster.width,raster.height))
-    .attribute('a_vertex',2,'float', 16,0)      // X, Y
-    .attribute('a_texCoord',2, 'float', 16, 8)  // S, T
-    .texture(gproc_nonmax.framebuffers['fbo2'])
-    .packWith(shader_hysteresis) // VAO
-    .clearCanvas([0.0,1.0,1.0,1.0])
-    .preprocess()
-    .uniform('u_resolution',new Float32Array([1.0/raster.width,1.0/raster.height]))
-    .uniform('u_image',0)
-    .run(); 
-
-	endTime5 = Date.now();	
-	time5 = endTime5 - startTime5;
- 
+ console.log(logKernel(3,1.4));
   return raster;
   
 }
