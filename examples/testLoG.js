@@ -17,3 +17,8 @@ img1.setPixels(new Uint8Array(uint8_lena));
 let gpuEnv1 = gpu.getGraphicsContext("preview1");
 gpuLoG()(img1.getRaster(),gpuEnv1);
 
+let img2 = new T.Image('uint8',W,H);
+img2.setPixels(new Uint8Array(uint8_lena));
+let gpuEnv2 = gpu.getGraphicsContext("preview2");
+gpuEdgeLaplace()(img1.getRaster(),gpuEnv2);
+
