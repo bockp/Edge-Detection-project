@@ -37,7 +37,7 @@ Canny’s algorithm uses the following steps:
 
 ### Fragment shaders :
 
-All of the fragment shaders used for this implementation are adapted from Seth George Hall's thesis [^HAL2014] showing an implementation of Canny edge detection using OpenGL ES 2.0. It uses a pipeline of five fragment shaders, linked together via framebuffers ([Fig.1]) :
+All of the fragment shaders used for this implementation are adapted from Seth George Hall's thesis "GPU Accelerated Feature Algorithms for Mobile Devices" [^HAL2014] showing an implementation of Canny edge detection using OpenGL ES 2.0. It uses a pipeline of five fragment shaders, linked together via framebuffers ([Fig.1]) :
 
 ![Fig.1](images/pipeline.png)
 
