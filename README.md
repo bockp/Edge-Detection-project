@@ -8,6 +8,8 @@ In examples : testCanny.js and testCanny.html : example of Canny edge detector, 
 
 [Example of Canny, 8bit, 16bit, float32](https://rawgit.com/bockp/Edge-Detection-project/master/examples/testCanny.html)
 
+[Example of Sobel, Prewitt, Robert's cross on 8bit images](https://rawgit.com/bockp/Edge-Detection-project/master/examples/testEdge.html)
+
 Benchmark files for CPU : branch cpu, main folder
 
 Benchmark files for GPU : branch master, examples folder
