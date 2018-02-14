@@ -6,13 +6,19 @@ const ROBERT_H = [0, -1, 0, 1, 0, 0, 0, 0, 0];
 const ROBERT_V = [-1, 0, 0, 0, 1, 0, 0, 0, 0];
 
 const gpuEdgePrewitt = () => (raster, gpuEnv, copy = true) =>
-  {gpuEdge(raster, gpuEnv, PREWITT_H, PREWITT_V);};
+  {gpuEdge(raster, gpuEnv, PREWITT_H, PREWITT_V);
+  return raster;
+  };
 
 const gpuEdgeSobel = () => (raster, gpuEnv, copy = true) =>
-  {gpuEdge(raster, gpuEnv, SOBEL_H, SOBEL_V);};
+  {gpuEdge(raster, gpuEnv, SOBEL_H, SOBEL_V);
+  return raster;
+  };
 
 const gpuEdgeRobert = () => (raster, gpuEnv, copy = true) =>
-  {gpuEdge(raster, gpuEnv, ROBERT_H, ROBERT_V);};
+  {gpuEdge(raster, gpuEnv, ROBERT_H, ROBERT_V);
+  return raster;
+  };
 
 
 const gpuEdge = (raster, gpuEnv, kernelH, kernelV) =>
