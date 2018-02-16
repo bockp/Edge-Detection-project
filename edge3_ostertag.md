@@ -55,7 +55,7 @@ Finally, the last shader, in *getFragmentSource_hysteresis()*, performs the edge
 
 ### Benchmarking process
 
-The benchmark was done using a computer with an Intel core I7 @4.0 Ghz, on Linux Ubuntu 16.04 64 bits with a kernel 4.10. The GPU is a nvidia gtx1070. The version of ImageJ is the 1.51q, using Java 1.8.0\_112 (64 bits). I fixed the choice of processor with the taskset command to avoid a sharing of the processor load, and fixed the processes with a high priority to avoid preemption.
+The benchmark was done using a computer with an Intel core I7-6700K @4.0 Ghz, on Linux Ubuntu 16.04 64 bits with a kernel 4.10. The GPU is a nvidia gtx1070. The version of ImageJ is the 1.51q, using Java 1.8.0\_112 (64 bits). I fixed the choice of processor with the taskset command to avoid a sharing of the processor load, and fixed the processes with a high priority to avoid preemption.
 
 For this benchmark, I used the same picture ("coins", in uint8), in five different sizes : 128x105 px, 300x246 px, 512x420 px, 1024x840px, and 2048x1679 px, to show how the performance of the functions vary when increasing the complexity of the input image. I tried to use a 4096x3360 image but that raised an "out of memory" error with the CPU function and a crash of the navigator with the GPU function. 
 
@@ -69,7 +69,7 @@ The following figure represents the result of the *gpuEdgeCanny()* function with
 
 **Fig.2: Result of Canny edge detection. 1:original image, 2:output of GPU function, 3:output of CPU function, 4:output of ImageJ Canny Edge Detector plugin (uint8 image)**
 
-The function works well with float32 images, but there is a problem for uint16 images : the values of the gradient are too high, which results in very thick edges in the output ([Fig.3]). The problem seems to be when the result of the first fragment shader is passed to the second via the framebuffer.
+The function works well with float32 images, but there is a problem for uint16 images : the values of the gradient are too high, which results in very thick edges in the output ([Fig.3]). The problem seems to be when the result of the first fragment shader is passed to the second via the framebuffer, but I did not manage to indentify and solve it.
 
 ![Fig.3](images/all_gpu.png)
 
@@ -77,15 +77,15 @@ The function works well with float32 images, but there is a problem for uint16 i
 
 ### Benchmark results
 
-I compared my function with the plugins Canny Edge Detector by Tom Gibara [^GIB2011] (thresholds = 2.5 and 5.0, sigma=2), FeatureJ Edges by Erik Meijering [^MEI2007] (thresholds = 2.5 and 5.0, sigma=2), and my previous JavaScript implementation, using uint8 images ([Fig.4]). This function outperforms the Canny Edge Detector function, which we showed in our previous report was unexpectedly time consuming, so I did not display it on the graph. Contrarly to the CPU implementation, where the execution time was drastically increasing with the dimension of the input image, the GPU implementation has an exetuction time similar to FeatureJ plugin. This result confirms that using the GPU for graphic computation is faster than using the CPU. Also the GPU implementation does not use any loops or IF statements, which also reduces the execution time.
+I compared my function with the plugins Canny Edge Detector by Tom Gibara [^GIB2011] (thresholds = 2.5 and 5.0, sigma=2), FeatureJ Edges by Erik Meijering [^MEI2007] (thresholds = 2.5 and 5.0, sigma=2), and my previous JavaScript implementation, using uint8 images ([Fig.4]). This function outperforms the Canny Edge Detector function, which we showed in our previous report was unexpectedly time consuming, so I did not display it on the graph. Contrarly to the CPU implementation, where the execution time was drastically increasing with the dimension of the input image, the GPU implementation has an exetuction time similar to FeatureJ plugin. We can see that for 2024x1679 images, the GPU implementation is 4 times faster than the CPU javascript implementation. This result confirms that using the GPU for graphic computation is faster than using the CPU. Also the GPU implementation does not use any loops or IF statements, which also reduces the execution time.
 
-![Fig.4](images/bench_time_GPU.jpeg){width=50% height=50%}
+![Fig.4](images/bench_time_GPU.jpeg){width=80% height=80%}
 
 **Fig.4: Execution time of FeatureJ Edges plugin, CPU implementation, and GPU implemenation, with five increasing image sizes (uint8 images)**
 
 With uint16 and float32 images ([Fig.5]), we can see that the execution times are almost the same. It seems to be a bit higher with uint16 images, but it is difficult to interpret this result given that the processing of uint16 images is not completely functionnal.
 
-![Fig.4](images/alltypes_GPU.jpeg){width=50% height=50%}
+![Fig.4](images/alltypes_GPU.jpeg){width=60% height=60%}
 
 **Fig.4: Execution time of gpuEdgeCanny() function, with five increasing image sizes, for uint8, uint16, and float32 images**
 
@@ -93,10 +93,11 @@ With uint16 and float32 images ([Fig.5]), we can see that the execution times ar
 
 Canny Edge Detector implemented with WebGL 2 can handle the processing of pictures up to 2048x1679 pixels before a crash of the navigator. My implementation handles uint8 and float32 images. Visually, it is more sensible to details than the CPU and ImageJ functions, even with high threshold values, which results in the detection of high quality contours.
 
-The execution time is smaller than the one for the CPU implementation, and roughly the same as ImageJ's functions, meaning that it is a successfull adaptation from ImageJ's java implementation to WebGL. It allows a user to process images as efficiently but directly using the navigator.
+The execution time is smaller than the one for the CPU implementation, and roughly the same as ImageJ's functions, meaning that it is a successfull adaptation from ImageJ's java implementation to WebGL. It allows a user to process images as efficiently but directly using the navigator. However, these functions were benchmarked using a powerfull CPU and GPU, so the performance will be lower using for example a laptop or a smartphone.
 
-However, these functions were benchmarked using a powerfull CPU and GPU, so the performance will be lower using for example a laptop or a smartphone.
+Moreover, with the WebGL implementation, the CPU sends data to the GPU, which adds some time.
 
+WebGL2.0 is based on OpenGLES3.0 which supports vertex and fragment shader, better suited for 3D graphic applications. CUDA, OpenCL, WebCL and OpenGLES3.1 Compute Shader might be better optimized for our application (source : khronos.org, nvidia.com). 
 
 [^GIB2011]: Gibara T. Canny Edge Detector plugin for ImageJ image processor.
 
