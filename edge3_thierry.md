@@ -3,7 +3,7 @@
 Authors : Ophélie Thierry
 
 [comment]: <>
-[comment]: <this is a comment>
+[comment]: <for exemple, this is a comment>
 
 ## Introduction
 
@@ -33,8 +33,27 @@ This repport will be focused on the three convolutions with edge templates : Pre
 
 The link to our github repository containing our reports in markdown format, the images, and the code for the benchmark and algorithms is : https://github.com/bockp/Edge-Detection-project.
 
+
+
 ## Material & Methods
-[comment]: <Material & Methods: A very detailed description of the algorithm you implemented.>
+
+### Implementation of the functions
+
+![Fig.1](images/kernels.jpg)
+
+**Fig.1: Horizontal and vertical kernels 2D kernels : 1:Sobel operator, 2:Prewitt operator, 3:Robert's cross operator**
+
+![Fig.2](images/prewitt_horizontal_kernel_in_tupple.PNG){ width=50% height=50%}
+
+**Fig.2: Implementation of the Prewitt horizontal kernel in a list.**
+
+As the three convolution share the same process, a general function has been implementated, taking into argument the raster, the graphical environment and a specific kernel. This function will be called by three functions, each one specialized in a specific convolution. All the specific vertical and horizontal kernels for each convolution are implemented in lists outside the main functions. In order to facilitate the implementation, the six lists have the same size.
+
+#### *gpuEdge ()*
+
+
+
+#### *gpuEdgeSobel()*,  *gpuEdgePrewitt ()*, *gpuEdgeRobert ()*
 
 
 
