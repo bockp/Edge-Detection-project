@@ -21,7 +21,7 @@ const gpuEdgeRobert = () => (raster, gpuEnv, copy = true) =>
   };
 
 
-const gpuEdge = (raster, gpuEnv, kernelH, kernelV) =>
+const gpuEdge = (raster, gpuEnv, kernelH, kernelV, copy = true) =>
 {
   //let gpuEnv = gpu.getGraphicsContext('preview');
   //console.log(gpuEnv);
@@ -50,8 +50,8 @@ const gpuEdge = (raster, gpuEnv, kernelH, kernelV) =>
 
   // other types : "uint8" "float32" "rgba"
 
-  let ajustRasterTypePrefix = (raster.type == "uint16" ) ? "float(" : "" ;
-  let ajustRasterTypeSuffix = (raster.type == "uint16" ) ? ")" : "" ;
+  let ajustRasterTypePrefix = (raster.type == "uint16" ) ? `float(` : `` ;
+  let ajustRasterTypeSuffix = (raster.type == "uint16" ) ? `)` : `` ;
 
   //console.log(ajustTypeRasterSuffix);
 
