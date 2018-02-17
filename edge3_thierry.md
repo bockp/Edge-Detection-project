@@ -39,7 +39,7 @@ The link to our github repository containing our reports in markdown format, the
 
 ### Implementation of the functions
 
-![Fig.1](images/kernels.jpg)
+![Fig.1](images/kernels2.jpg)
 
 **Fig.1: Horizontal and vertical kernels 2D kernels : 1:Sobel operator, 2:Prewitt operator, 3:Robert's cross operator**
 
