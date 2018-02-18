@@ -15,10 +15,14 @@ gpuDisplay(img.getRaster(),gpuEnv);
 let img1 = new T.Image('uint8',W,H);
 img1.setPixels(new Uint8Array(uint8_lena));
 let gpuEnv1 = gpu.getGraphicsContext("preview1");
-gpuLoG()(img1.getRaster(),gpuEnv1);
+gpuEdgeLaplace()(img1.getRaster(),gpuEnv1);
 
-let img2 = new T.Image('uint8',W,H);
-img2.setPixels(new Uint8Array(uint8_lena));
+let img2 = new T.Image('uint16',W,H);
+img2.setPixels(new Uint16Array(uint16_lena));
 let gpuEnv2 = gpu.getGraphicsContext("preview2");
-gpuEdgeLaplace()(img1.getRaster(),gpuEnv2);
+gpuEdgeLaplace()(img2.getRaster(),gpuEnv2);
 
+let img3 = new T.Image('float32',W,H);
+img3.setPixels(new Float32Array(float_lena));
+let gpuEnv3 = gpu.getGraphicsContext("preview3");
+gpuEdgeLaplace()(img3.getRaster(),gpuEnv3);

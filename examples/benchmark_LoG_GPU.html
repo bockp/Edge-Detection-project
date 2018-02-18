@@ -2,15 +2,16 @@
 <html>
 <head>
 <meta charset="utf8">
-<title>Test</title>
+<title>Benchmarks</title>
 <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="../css/times.css">
 <script type="text/javascript" src="../javascripts/TIMES.bundle.js"></script>
-<script type="text/javascript" src="../samples/Lenna256x256.js"></script>
-<script type="text/javascript" src="../src/gpu/testLaplace.js"></script>
+<script type="text/javascript" src="../samples/for_benchmark/coins_128.js"></script>
+<script type="text/javascript" src="../samples/for_benchmark/coins_300.js"></script>
+<script type="text/javascript" src="../samples/for_benchmark/coins_512.js"></script>
+<script type="text/javascript" src="../samples/for_benchmark/coins_1024.js"></script>
+<script type="text/javascript" src="../samples/for_benchmark/coins_2048.js"></script>
 <script type="text/javascript" src="../src/gpu/laplace.js"></script>
-<script type="text/javascript" src="../src/gpu/display.js"></script>
-<script type="text/javascript" src="../src/gpu/edge.js"></script>
 
 
 </head>
@@ -22,9 +23,6 @@
 </header>
 <content>
 <canvas id="preview" width="256" height="256"></canvas>
-<canvas id="preview1" width="256" height="256"></canvas>
-<canvas id="preview2" width="256" height="256"></canvas>
-<canvas id="preview3" width="256" height="256"></canvas>
 </content>
 <footer class="tfooter">
 <p class="tstatus" id="boats_status"></p>
@@ -33,6 +31,6 @@
 
 </div>
 
-<script type="text/javascript" src="./testLoG.js"></script>
+<script type="text/javascript" src="./benchmarkForLOGGPU.js"></script>
 </body>
 </html>
