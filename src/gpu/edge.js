@@ -5,6 +5,17 @@ const PREWITT_V = [-1, -1, -1, 0, 0, 0, 1, 1, 1];
 const ROBERT_H = [0, -1, 0, 1, 0, 0, 0, 0, 0];
 const ROBERT_V = [-1, 0, 0, 0, 1, 0, 0, 0, 0];
 
+
+/**
+ * gpuEdgePrewitt, gpuEdgeSobel and gpuEdgeRobert : Find the edges in an image using respectively Prewitt, Sobel and Robert operators.
+ *
+ *
+ * @param {raster} raster - Input raster
+ * @param {} gpuEnv - Graphical environment
+ *
+ * @author Ophelie Thierry
+ */
+
 const gpuEdgePrewitt = () => (raster, gpuEnv, copy = true) =>
   {gpuEdge(raster, gpuEnv, PREWITT_H, PREWITT_V);
   return raster;
@@ -20,6 +31,19 @@ const gpuEdgeRobert = () => (raster, gpuEnv, copy = true) =>
   return raster;
   };
 
+
+
+/**
+ * Find the edges in an image according to a specific kernel given in argument. 
+ *
+ *
+ * @param {raster} raster - Input raster
+ * @param {} gpuEnv - Graphical environment
+ * @param {array} kernelH - Horizontal kernel
+ * @param {array} kernelV - Vertical kernel
+ *
+ * @author Ophelie Thierry
+ */
 
 const gpuEdge = (raster, gpuEnv, kernelH, kernelV, copy = true) =>
 {
@@ -43,8 +67,6 @@ const gpuEdge = (raster, gpuEnv, kernelH, kernelV, copy = true) =>
     }`;
 
   console.log("vertex shader done");
-
-  // outputV = (x >= threshold) ? 255 : 0;
 
   console.log(raster.type);
 
