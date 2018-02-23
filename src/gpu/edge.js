@@ -18,17 +18,23 @@ const ROBERT_V = [-1, 0, 0, 0, 1, 0, 0, 0, 0];
 
 const gpuEdgePrewitt = () => (raster, gpuEnv, copy = true) =>
   {gpuEdge(raster, gpuEnv, PREWITT_H, PREWITT_V);
-  return raster;
+    let id = "prewitt";
+    console.log(id);
+    return raster;
   };
 
 const gpuEdgeSobel = () => (raster, gpuEnv, copy = true) =>
   {gpuEdge(raster, gpuEnv, SOBEL_H, SOBEL_V);
-  return raster;
+    let id = "sobel";
+    console.log(id);
+    return raster;
   };
 
 const gpuEdgeRobert = () => (raster, gpuEnv, copy = true) =>
   {gpuEdge(raster, gpuEnv, ROBERT_H, ROBERT_V);
-  return raster;
+    let id = "robert";
+    console.log(id);
+    return raster;
   };
 
 
@@ -49,9 +55,6 @@ const gpuEdge = (raster, gpuEnv, kernelH, kernelV, copy = true) =>
 {
   //let gpuEnv = gpu.getGraphicsContext('preview');
   //console.log(gpuEnv);
-
-  let id = "sobel";
-  console.log(id);
 
   // Vertex Shader
   const src_vs = `#version 300 es
