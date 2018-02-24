@@ -125,14 +125,12 @@ The LoG Detector implemented with WebGL 2 can handle the processing of pictures 
 
 Given that I wasn't able to adapt my function to use the same size of kernel as the CPU function, and that I couldn't run my benchmark on the same kind of computer as the previous benchmarks, the only things I can really add in terms of conclusion is that the script needs to be improved to run using a 9X9 kernel.
 
-[^GIB2011]: Gibara T. Canny Edge Detector plugin for ImageJ image processor.
-
-[^MEI2007]: Meijering E. FeatureJ: A Java Package for Image Feature Extraction.
-
 [^ECMA2011]: ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
+
+[^OST2017]: Cecilia Ostertag, Peter Bock, Ophelie Thierry. Edge Detection Report 1. 2017.
 
 [^BOV2009]: Bovik AC, editor. The essential guide to image processing. Academic Press; 2009 Jul 8.
 
-[^CAN1986]: Canny J. A computational approach to edge detection. IEEE Transactions on pattern analysis and machine intelligence. 1986 Nov(6):679-98.
+[^PRO2015]: Dimiter Prodanov, Mexican Hat LoG filter plugin for ImageJ
 
 [^HAL2014]: Hall SG. GPU Accelerated Feature Algorithms for Mobile Devices. March 2014.
