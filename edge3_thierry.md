@@ -94,25 +94,23 @@ The figures [Fig.3] and [Fig.4] show the result of the process on uint8 and floa
 
 **Fig.3: Comparaison of the execution time (in ms) of the implemented process in Javascript (JS) and WebGL2 (WGL2) according to the size of the picture (px).**
 
+Without taking into account the 2048x1679px picture, the correlation coefficient calculated remain superior to 0.97 with a slope of nearly 0.30 for each implementation in JavaScript, whereas respectively 0.80 and 0.02 for the WebGL implementation. 
 
+## Discussion and Conclusion.
 
-[comment]: <Results: A comparison between ImageJ, CPU and GPU depending of image size and kernel size.>
+For pictures of small size (less than 500x500px), the implementation in Javascript seem to consume less calculation time than the WebGL2. But the calculation time increase rapidly for the process implemented in JavaScript according to the image size, unlike for the implementation in WebGL2 for which the calculation time remain generally constant. 
 
+For small size pictures, the calcul time consumption seem correlate to the picture size for the JavaScript implementation (until 1000x1000px at least), unlike the WebGL2 implementation. It will be interasting to assess the correlation of the calculation time with the size of the picture, increase the number of repetitions used for the benchmark and use a wider range of small picture in order to improve the correlation calculation for the curve. 
 
+For each implementation language, the Robert cross seem to be the most advantageous in calcul time consumption, but not according to the display, where the orther seems to highlight more details than it. 
 
-## Discussion
-[comment]: <Discussion: what about the benchmarks.>
-
-
-
-## Conclusion
-[comment]: <Conclusion: conclusion, improvements, perspectives>
+Several improvement are still needed in order to make the process works on uint16 pictures.
 
 
 
 ## References
 
-[^ABD2015]: Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
+### Used in the present repport 
 
 [^BIE2013]: Bienfait B, Ertl P. JSME: a free molecule editor in JavaScript. Journal of Cheminformatics. 2013;5:24. doi:10.1186/1758-2946-5-24.
 
@@ -120,51 +118,11 @@ The figures [Fig.3] and [Fig.4] show the result of the process on uint8 and floa
 
 [^CAN1986]: Canny J. A computational approach to edge detection. IEEE Transactions on pattern analysis and machine intelligence. 1986 Nov(6):679-98.
 
-[^CHAA2014]: Chaabane SB, Fnaiech F. Color edges extraction using statistical features and automatic threshold technique: application to the breast cancer cells. Biomedical engineering online. 2014 Jan 23;13(1):4.
-
-[^CHO2016]: Choudhry P. High-Throughput Method for Automated Colony and Cell Counting by Digital Image Analysis Based on Edge Detection. PLoS One. 2016; 11(2): e0148469.
-
-[^DAV1975]: Davis LS. A survey of edge detection techniques. Computer graphics and image processing. 1975 Sep 1;4(3):248-70.
-
-[^DER1987]: Deriche R. Using Canny's criteria to derive a recursively implemented optimal edge detector. International journal of computer vision. 1987 Jun 1;1(2):167-87.
-
-[^DIN2001]: Ding L, Goshtasby A. On the Canny edge detector. Pattern Recognition. 2001 Mar 31;34(3):721-5.
-
 [^DOH2012]: Doherty G, Mettrick K, Grainge I, Lewis PJ. Harwood C, Wipat A (Ed). Chapter 4 - Imaging fluorescent protein fusions in live bacteria. In Methods in Microbiology, Systems Biology of Bacteria. Academic Press. 2012; 39(4):107-126
 
 [^ECMA2011]: ECMAScript EC. European Computer Manufacturers Association and others. ECMAScript language specification. 2011.
 
 [^ELI2015]: Eliceiri KW, Berthold MR, Goldberg IG, et al. Biological Imaging Software Tools. Nature methods. 2012;9(7):697-710. doi:10.1038/nmeth.2084.
-
-[^GRE2016]: Grega M, Matiolanski A, Leszczuk M. Automated Detection of Firearms and Knives in a CCTV Image. Sensors 2016, 16, 47; doi:10.3390/s16010047.
-
-[^HAQ2015]: Haq I, Anwar S, Shah K, Khan MT, Shah SA. Fuzzy Logic Based Edge Detection in Smooth and Noisy Clinical Images. PLoS One. 10(9):e0138712, 2015.
-
-[^JAC2018]: Jackson D, Gilbert J. WebGL 2.0 Specification. 2018. https://www.khronos.org/registry/webgl/specs/latest/2.0/
-
-[^JAL2017]: Jalalian A, Mashohor S, Mahmud R, Karasfi B, Saripan MIB, Ramli ARB. Foundation and Methodologies in computer-aided diagnosis systems for breast cancer detection. EXCLI Journal, 16:113-137, 2017.
-
-[^KEK2010]: Kekre HB, Gharge SM. Image segmentation using extended edge operator for mammographic images. International journal on computer science and Engineering. 2010;2(4):1086-91.
-
-[^KAI2015]: Kainz P, Mayrhofer-Reinhartshuber M, Ahammer H. IQM: An Extensible and Portable Open Source Application for Image and Signal Analysis in Java. Martens L, ed. PLoS ONE. 2015;10(1):e0116329. doi:10.1371/journal.pone.0116329.
-
-[^KIR1971]: Kirsch RA. Computer determination of the constituent structure of biological images. Computers and biomedical research. 1971 Jun 1;4(3):315-28.
-
-[^LUO2017]: Luo S, Yang J, Gao Q, Zhou S, Zhan CA. The Edge Detectors Suitable for Retinal OCT Image Segmentation. Journal of Healthcare Engineering 2017; 2017: 3978410.
-
-[^MAI2009]: Maini R, Aggarwal H. Study and comparison of various image edge detection techniques. International journal of image processing (IJIP). 2009 Jan;3(1):1-1.
-
-[^MAR1980]: Marr D, Hildreth E. Theory of edge detection. Proceedings of the Royal Society of London B: Biological Sciences. 1980 Feb 29;207(1167):187-217.
-
-[^PRE1970]: Prewitt JM. Object enhancement and extraction. Picture processing and Psychopictorics. 1970 Jan 1;10(1):15-9.
-
-[^RIC1945]: Rice SO. Mathematical analysis of random noise. The Bell System Technical Journal. 1945 Jan;24(1):46-156.
-
-[^ROS2015]: Rose AS, Hildebrand PW. NGL Viewer: a web application for molecular visualization. Nucleic Acids Research. 2015;43(Web Server issue):W576-W579. doi:10.1093/nar/gkv402.
-
-[^RUE2017]: Rueden CT, Schindelin J, Hiner MC, DeZonia BE, Walter AE, Arena ET, Eliceiri KW. ImageJ2: ImageJ for the next generation of scientific image data. BMC Bioinformatics. 2017; 18:529.
-
-[^SCH1997]: Scharcanski J and Venetsanopoulos A.N. Edge detection of color images using directional operators. IEEE Trans. Circuits Syst. Video Technol., 7(2):397–401, 1997.
 
 [^SCH2012]: Schneider CA, Rasband WS, Eliceiri KW. NIH Image to ImageJ: 25 years of Image Analysis. Nature methods. 2012;9(7):671-675.
 
@@ -176,13 +134,58 @@ The figures [Fig.3] and [Fig.4] show the result of the process on uint8 and floa
 
 [^SOB1968]: Sobel I. An isotropic 3× 3 image gradient operator, presentation at Stanford Artificial Intelligence Project (SAIL).
 
+[^WOL2013]: Wollny G, Kellman P, Ledesma-Carbayo MJ, Skinner MM, Hublin JJ, Hierl T. MIA - A free and open source software for gray scale medical image analysis. Source Code Biol Med. 2013; 8:20. doi:10.1186/1751-0473-8-20.
+
+
+### Used in previous repports
+
+[^ABD2015]: Abdelsamea MM, Gnecco G, Gaber MM, Elyan E. On the relationship between variational level set-based and som-based active contours. Computational intelligence and neuroscience. 2015 Jan 1;2015:34.
+
+[^CHAA2014]: Chaabane SB, Fnaiech F. Color edges extraction using statistical features and automatic threshold technique: application to the breast cancer cells. Biomedical engineering online. 2014 Jan 23;13(1):4.
+
+[^CHO2016]: Choudhry P. High-Throughput Method for Automated Colony and Cell Counting by Digital Image Analysis Based on Edge Detection. PLoS One. 2016; 11(2): e0148469.
+
+[^DAV1975]: Davis LS. A survey of edge detection techniques. Computer graphics and image processing. 1975 Sep 1;4(3):248-70.
+
+[^DER1987]: Deriche R. Using Canny's criteria to derive a recursively implemented optimal edge detector. International journal of computer vision. 1987 Jun 1;1(2):167-87.
+
+[^DIN2001]: Ding L, Goshtasby A. On the Canny edge detector. Pattern Recognition. 2001 Mar 31;34(3):721-5.
+
+[^GRE2016]: Grega M, Matiolanski A, Leszczuk M. Automated Detection of Firearms and Knives in a CCTV Image. Sensors 2016, 16, 47; doi:10.3390/s16010047.
+
+[^HAQ2015]: Haq I, Anwar S, Shah K, Khan MT, Shah SA. Fuzzy Logic Based Edge Detection in Smooth and Noisy Clinical Images. PLoS One. 10(9):e0138712, 2015.
+
+[^JAC2018]: Jackson D, Gilbert J. WebGL 2.0 Specification. 2018. https://www.khronos.org/registry/webgl/specs/latest/2.0/
+
+[^JAL2017]: Jalalian A, Mashohor S, Mahmud R, Karasfi B, Saripan MIB, Ramli ARB. Foundation and Methodologies in computer-aided diagnosis systems for breast cancer detection. EXCLI Journal, 16:113-137, 2017.
+
+[^KEK2010]: Kekre HB, Gharge SM. Image segmentation using extended edge operator for mammographic images. International journal on computer science and Engineering. 2010;2(4):1086-91.
+
+[^MAI2009]: Maini R, Aggarwal H. Study and comparison of various image edge detection techniques. International journal of image processing (IJIP). 2009 Jan;3(1):1-1.
+
+[^LUO2017]: Luo S, Yang J, Gao Q, Zhou S, Zhan CA. The Edge Detectors Suitable for Retinal OCT Image Segmentation. Journal of Healthcare Engineering 2017; 2017: 3978410.
+
+[^RIC1945]: Rice SO. Mathematical analysis of random noise. The Bell System Technical Journal. 1945 Jan;24(1):46-156.
+
+[^SCH1997]: Scharcanski J and Venetsanopoulos A.N. Edge detection of color images using directional operators. IEEE Trans. Circuits Syst. Video Technol., 7(2):397–401, 1997.
+
+[^KAI2015]: Kainz P, Mayrhofer-Reinhartshuber M, Ahammer H. IQM: An Extensible and Portable Open Source Application for Image and Signal Analysis in Java. Martens L, ed. PLoS ONE. 2015;10(1):e0116329. doi:10.1371/journal.pone.0116329.
+
+[^KIR1971]: Kirsch RA. Computer determination of the constituent structure of biological images. Computers and biomedical research. 1971 Jun 1;4(3):315-28.
+
+[^MAR1980]: Marr D, Hildreth E. Theory of edge detection. Proceedings of the Royal Society of London B: Biological Sciences. 1980 Feb 29;207(1167):187-217.
+
+[^PRE1970]: Prewitt JM. Object enhancement and extraction. Picture processing and Psychopictorics. 1970 Jan 1;10(1):15-9.
+
+[^ROS2015]: Rose AS, Hildebrand PW. NGL Viewer: a web application for molecular visualization. Nucleic Acids Research. 2015;43(Web Server issue):W576-W579. doi:10.1093/nar/gkv402.
+
+[^RUE2017]: Rueden CT, Schindelin J, Hiner MC, DeZonia BE, Walter AE, Arena ET, Eliceiri KW. ImageJ2: ImageJ for the next generation of scientific image data. BMC Bioinformatics. 2017; 18:529.
+
 [^TRA1993]: Trahanias P.E and Venetsanopoulos A.N. Color edge detection using vector order statistics. IEEE Trans. Image Process., 2(2):259–264, 1993.
 
 [^TRE2013]: Treloas KK, Simpson MJ, Kabla AJ. Sensitivity of Edge Detection Methods for Quantifying Cell Migration Assays. PLoS One, 8(6):e67389, 2013.
 
 [^VIN2009]: Vincent OR, Folorunso O. A descriptive algorithm for sobel image edge detection. InProceedings of Informing Science & IT Education Conference (InSITE) 2009 Jun 12 (Vol. 40, pp. 97-107).
-
-[^WOL2013]: Wollny G, Kellman P, Ledesma-Carbayo MJ, Skinner MM, Hublin JJ, Hierl T. MIA - A free and open source software for gray scale medical image analysis. Source Code Biol Med. 2013; 8:20. doi:10.1186/1751-0473-8-20.
 
 [^ZHA2012]: Zhao J, Zheng W, Zhang L, Tian H. Segmentation of ultrasound images of thyroid nodule for assisting fine needle aspiration cytology. Health information science and systems. 2013 Dec 1;1(1):5.
 
