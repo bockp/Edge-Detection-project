@@ -70,6 +70,18 @@ The pictures used for the benchmark are the *"coins"* pictures in uint8 with fiv
 
 ## Results
 
+![Fig.3](images/EdgeDetectionUnit8.PNG)
+
+**Fig.3: Result of the implementation of WebGL edge detection process (respectively from the left to the right : without processing, with prewitt, sobel and robert operators) on uint8 pictures.**
+
+
+![Fig.4](images/EdgeDetectionFloat32.PNG)
+
+**Fig.4: Result of the implementation of WebGL edge detection process (respectively from the left to the right : without processing, with prewitt, sobel and robert operators) on float32 pictures.**
+
+The figures [Fig.3] and [Fig.4] show the result of the process on uint8 and float32 pictures. When the process is used on uint16 pictures, the process report an error and refuse to display the result. 
+
+
 | EdgeDetectionMethod  | 128px |	300px |	512px |	1024px | 2048px |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | Prewit (JS) | 3.6 |	25.6 |	83.3 | 261.3 | 1193.7 |
