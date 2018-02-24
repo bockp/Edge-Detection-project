@@ -75,7 +75,7 @@ The pictures used for the benchmark are the *"coins"* pictures in uint8 with fiv
 **Fig.3: Result of the implementation of WebGL edge detection process (respectively from the left to the right : without processing, with prewitt, sobel and robert operators) on uint8 pictures.**
 
 
-![Fig.4](images/EdgeDetectionFloat32.PNG)
+![Fig.4](images/EdgeDetectionFloat32.png)
 
 **Fig.4: Result of the implementation of WebGL edge detection process (respectively from the left to the right : without processing, with prewitt, sobel and robert operators) on float32 pictures.**
 
