@@ -66,7 +66,7 @@ The following figure represents the result of the *gpuEdgeLaplace()* function, u
 
 ![Fig.2](images/Lena8bit_Lena-mexicanHat-5_Lena-FeatureJ2_Lena-FeatureJ3_Lena-myalgoCPU-Lena-myalgoGPU)
 
-**Fig.2: Result of LoG edge detection. 1:original 8bit image, 2:output of Mexican Hat function, 3:output of ImageJ FeatureJ plugin 3X3 kernel function, 4: ImageJ FeatureJ plugin 9X9 kernel function 5: my JS CPU implementation with 9X9 kernel, 6: my WebGL GPU implementation **
+**Fig.2: Result of LoG edge detection. 1:original 8bit image, 2:output of Mexican Hat function, 3:output of ImageJ FeatureJ plugin 3X3 kernel function, 4: ImageJ FeatureJ plugin 9X9 kernel function 5: my JS CPU implementation with 9X9 kernel, 6: my WebGL GPU implementation**
 
 
 ### Benchmark results
