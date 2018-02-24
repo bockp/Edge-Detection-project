@@ -70,7 +70,8 @@ The pictures used for the benchmark are the *"coins"* pictures in uint8 with fiv
 
 ## Results
 
-| EdgeDetectionMethod | 128px |	300px |	512px |	1024px | 2048px |
+| EdgeDetectionMethod  | 128px |	300px |	512px |	1024px | 2048px |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
 | Prewit (JS) | 3.6 |	25.6 |	83.3 | 261.3 | 1193.7 |
 | Sobel (JS) | 3.7 | 24 | 75.7| 252.5 | 1268.2 |
 | Robet (JS) | 5.3 | 23.4 | 75.7 | 249.8 | 1097.3 |
