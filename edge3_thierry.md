@@ -43,17 +43,28 @@ The link to our github repository containing our reports in markdown format, the
 
 **Fig.1: Horizontal and vertical kernels 2D kernels : 1:Sobel operator, 2:Prewitt operator, 3:Robert's cross operator**
 
-![Fig.2](images/prewitt_horizontal_kernel_in_tupple.PNG){ width=50% height=50%}
+![Fig.2](images/prewitt_horizontal_kernel_in_tupple.PNG)
 
 **Fig.2: Implementation of the Prewitt horizontal kernel in a list.**
 
-As the three convolution share the same process, a general function has been implementated, taking into argument the raster, the graphical environment and a specific kernel. This function will be called by three functions, each one specialized in a specific convolution. All the specific vertical and horizontal kernels for each convolution are implemented in lists outside the main functions. In order to facilitate the implementation, the six lists have the same size.
+The corresponding script is in the */src/gpu/edge.js* file, and the related exemples in the *exemples/* repository in the files *testEdge.html* and *testEdge.js*.
 
-#### *gpuEdge ()*
+As the three convolution share the same process, a general function has been implementated, taking into argument the raster, the graphical environment and a specific kernel. This function will be called by three functions, each one specialized in a specific convolution. All the specific vertical and horizontal kernels for each convolution are implemented as lists in constant global variable outside the main functions. In order to facilitate the implementation, the six lists have the same size, and zero are add to the Robert cross kernels. The result is an image in which the edges have high pixel values compared to the rest of the image.
 
-
+In order to facilitate the localization of the result in the webpage, the gpuEnv where the picture has to be displayed is takken as argument for each function.
 
 #### *gpuEdgeSobel()*,  *gpuEdgePrewitt ()*, *gpuEdgeRobert ()*
+
+These three functions are build in the same way. Each of them take into account the image and the graphical environment, and call the *gpuEdge()* function with the lists corresponding to the specific kernel.
+
+#### *gpuEdge()*
+
+It's the general function which will be called by the three others. It take four arguments : the picture, the graphical environment where the picture has to be displayed and the vertical and horizontal kernel (*kernelV* and *kernelH*) used for treating the picture. This function use only one shader.
+
+The vertex shader is defined as the constant *src_vs* which transform the image coordinates in order to make them compatible with the displaying in the canvas. The fragment shader, defined as the constant *src_fs*, for each coordinate get the values of the corresponding neighboring elements and use it to realise the convolution according to the values of the kernel used as argument. The final value is stored in the vec4 *outputColor* for each coordinate.
+
+### Benchmark
+
 
 
 
