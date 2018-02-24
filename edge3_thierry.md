@@ -63,12 +63,29 @@ It's the general function which will be called by the three others. It take four
 
 The vertex shader is defined as the constant *src_vs* which transform the image coordinates in order to make them compatible with the displaying in the canvas. The fragment shader, defined as the constant *src_fs*, for each coordinate get the values of the corresponding neighboring elements and use it to realise the convolution according to the values of the kernel used as argument. The final value is stored in the vec4 *outputColor* for each coordinate.
 
-### Benchmark
 
+The pictures used for the benchmark are the *"coins"* pictures in uint8 with five different sizes in pixels : 128x105, 300x246, 512x420, 1024x840, and 2048x1679. The benchmark process was encoded by Cecilia Ostertag. 
 
 
 
 ## Results
+
+| EdgeDetectionMethod | 128px |	300px |	512px |	1024px | 2048px |
+| Prewit (JS) | 3.6 |	25.6 |	83.3 | 261.3 | 1193.7 |
+| Sobel (JS) | 3.7 | 24 | 75.7| 252.5 | 1268.2 |
+| Robet (JS) | 5.3 | 23.4 | 75.7 | 249.8 | 1097.3 |
+| Prewit (WGL2) | 50.3 |	50.8 |	51.2 |	65 | 204.4 |
+| Sobel (WGL2) | 52 |	49.5 |	55.5 |	73.4 | 187.6 |
+| Robet (WGL2) | 43.3 |	39.4 | 44.3 | 60.4 | 118.1 |
+
+**Tab.1: Average the different execution times in ms of the differents implemented process in Javascript (JS) and WebGL2 (WGL2). Ten repetitions have been done on pictures of different sizes.**
+
+![Fig.3](images/EdgeDetection_JS_WebGL2.PNG)
+
+**Fig.3: Comparaison of the execution time (in ms) of the implemented process in Javascript (JS) and WebGL2 (WGL2) according to the size of the picture (px).**
+
+
+
 [comment]: <Results: A comparison between ImageJ, CPU and GPU depending of image size and kernel size.>
 
 
