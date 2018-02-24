@@ -51,8 +51,9 @@ The kernel is defined as a *uniform* parameter, and, given difficulties discover
 The second shader, in *src_fs_threshold()*, performs the zero-crossing detection, by comparing each pixel ot it's neighbours values, with the definition that only the foreground pixels with at least one background pixel neighbour are zero-crossings.
 
 ### Benchmarking process
-Given this time around the we were supposed to write our reports in separate parts, I've had to run the benchmark on a different computer than the last one's
-The previous benchmarks were done using a computer with an Intel core I7-6700K @4.0 Ghz, on Linux Ubuntu 16.04 64 bits with a kernel 4.10. The GPU is a nvidia gtx1070. The version of ImageJ is the 1.51q, using Java 1.8.0\_112 (64 bits). the choice of processor was fixed using the taskset to avoid a sharing of the processor load, and fixed the processes with a high priority to avoid preemption.
+
+Given this time around the we were supposed to write our reports in separate parts, I've had to run the benchmark on a different computer than for the previous 2 benchmarks[^OST2017] of the LoG algorithm (the ImageJ and CPU versions).
+The previous benchmarks were done using a computer with an Intel core I7-6700K @4.0 Ghz, on Linux Ubuntu 16.04 64 bits with a kernel 4.10. The GPU is a nvidia gtx1070. The version of ImageJ is 1.51q, using Java 1.8.0\_112 (64 bits). the choice of processor was fixed using the taskset to avoid a sharing of the processor load, and fixed the processes with a high priority to avoid preemption.
 
 For this benchmark, We used the same picture ("coins", in uint8), in five different sizes : 128x105 px, 300x246 px, 512x420 px, 1024x840px, and 2048x1679 px, to show how the performance of the functions vary when increasing the complexity of the input image.
 
@@ -60,36 +61,69 @@ For this benchmark, We used the same picture ("coins", in uint8), in five differ
 
 ### Edge detection on a test image :
 
-The following figure represents the result of the *gpuEdgeLaplace()* function, using a 3*3 kernel, compared with the result of the CPU *laplace()* function which uses a 9*9, and the Canny Edge Detector[^GIB2011] plugin ([Fig.2]). We can see that a simple 3*3 kernel is in no way sufficient, as a lot of noise stays evident in the image.
+The following figure represents the result of the *gpuEdgeLaplace()* function, using a 3*3 kernel, compared with the result of the CPU *laplace()* function which uses a 9*9, the Mexican Hat ImageJ plugin[^PRO2015], and the FeatureJ ImageJ LoG plugin ([Fig.2]). We can see that a simple 3*3 kernel is in no way sufficient, as a lot of noise stays evident in the image, but the GPU script still finds the edges we expect from a functional LoG implementation.
 
-![Fig.2](images/canny_comparison_GPU.jpg)
 
-**Fig.2: Result of LoG edge detection. 1:original image, 2:output of GPU function, 3:output of CPU function, 4:output of ImageJ Canny Edge Detector plugin (uint8 image)**
+![Fig.2](images/Lena8bit_Lena-mexicanHat-5_Lena-FeatureJ2_Lena-FeatureJ3_Lena-myalgoCPU-Lena-myalgoGPU)
+
+**Fig.2: Result of LoG edge detection. 1:original 8bit image, 2:output of Mexican Hat function, 3:output of ImageJ FeatureJ plugin 3X3 kernel function, 4: ImageJ FeatureJ plugin 9X9 kernel function 5: my JS CPU implementation with 9X9 kernel, 6: my WebGL GPU implementation **
 
 
 ### Benchmark results
 
-I compared my function with the plugins Canny Edge Detector by Tom Gibara [^GIB2011] (thresholds = 2.5 and 5.0, sigma=2), FeatureJ Edges by Erik Meijering [^MEI2007] (thresholds = 2.5 and 5.0, sigma=2), and my previous JavaScript implementation, using uint8 images ([Fig.4]). This function outperforms the Canny Edge Detector function, which we showed in our previous report was unexpectedly time consuming, so I did not display it on the graph. Contrarly to the CPU implementation, where the execution time was drastically increasing with the dimension of the input image, the GPU implementation has an exetuction time similar to FeatureJ plugin. We can see that for 2024x1679 images, the GPU implementation is 4 times faster than the CPU javascript implementation. This result confirms that using the GPU for graphic computation is faster than using the CPU. Also the GPU implementation does not use any loops or IF statements, which also reduces the execution time.
+Given that I have no experience with benchmarking, am using a computer completely different in both build and OS, and did not manage to properly implement a script comparable in output to the previous implementations, I believe it is best not to make comparisons between the speed of this implementation and that of the previous one's.
 
-![Fig.3](images/bench_time_GPU.jpeg){width=80% height=80%}
+I'll add the raw CSV data in a table here:
 
-**Fig.3: Execution time of FeatureJ Edges plugin, CPU implementation, and GPU implemenation, with five increasing image sizes (uint8 images)**
+| image size (px) | time (ms) |
+|-----------------|-----------|
+| LoG_300         | 267       |
+| LoG_300         | 215       |
+| LoG_300         | 253       |
+| LoG_300         | 229       |
+| LoG_300         | 317       |
+| LoG_300         | 1013      |
+| LoG_300         | 199       |
+| LoG_300         | 270       |
+| LoG_300         | 196       |
+| LoG_300         | 743       |
+| LoG_512         | 1835      |
+| LoG_512         | 241       |
+| LoG_512         | 235       |
+| LoG_512         | 197       |
+| LoG_512         | 1140      |
+| LoG_512         | 264       |
+| LoG_512         | 334       |
+| LoG_512         | 246       |
+| LoG_512         | 253       |
+| LoG_512         | 262       |
+| LoG_1024        | 344       |
+| LoG_1024        | 338       |
+| LoG_1024        | 333       |
+| LoG_1024        | 312       |
+| LoG_1024        | 364       |
+| LoG_1024        | 3974      |
+| LoG_1024        | 443       |
+| LoG_1024        | 512       |
+| LoG_1024        | 616       |
+| LoG_1024        | 2817      |
+| LoG_2048        | 1136      |
+| LoG_2048        | 18427     |
+| LoG_2048        | 1126      |
+| LoG_2048        | 18119     |
+| LoG_2048        | 1542      |
+| LoG_2048        | 8090      |
+| LoG_2048        | 1130      |
+| LoG_2048        | 18352     |
+| LoG_2048        | 1171      |
+| LoG_2048        | 18353     |
 
-With uint16 and float32 images ([Fig.5]), we can see that the execution times are almost the same. It seems to be a bit higher with uint16 images, but it is difficult to interpret this result given that the processing of uint16 images is not completely functionnal.
-
-![Fig.4](images/alltypes_GPU.jpeg){width=60% height=60%}
-
-**Fig.4: Execution time of gpuEdgeCanny() function, with five increasing image sizes, for uint8, uint16, and float32 images**
 
 ## Discussion and Conclusion
 
-The LoG Detector implemented with WebGL 2 can handle the processing of pictures up to 2048x1679 pixels before a crash of the navigator.
+The LoG Detector implemented with WebGL 2 can handle the processing of pictures up to 2048x1679 pixels before a crash .
 
-Given that I wasn't able to adapt my function to use the same size of kernel as the CPU function, and that I couldn't run my  
-
-Moreover, with the WebGL implementation, the CPU sends data to the GPU, which adds some time.
-
-WebGL2.0 is based on OpenGLES3.0 which supports vertex and fragment shader, better suited for 3D graphic applications. CUDA, OpenCL, WebCL and OpenGLES3.1 Compute Shader might be better optimized for our application (source : khronos.org, nvidia.com).
+Given that I wasn't able to adapt my function to use the same size of kernel as the CPU function, and that I couldn't run my benchmark on the same kind of computer as the previous benchmarks, the only things I can really add in terms of conclusion is that the script needs to be improved to run using a 9X9 kernel.
 
 [^GIB2011]: Gibara T. Canny Edge Detector plugin for ImageJ image processor.
 
