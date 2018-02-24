@@ -81,12 +81,12 @@ The figures [Fig.3] and [Fig.4] show the result of the process on uint8 and floa
 
 | EdgeDetectionMethod  | 128px |	300px |	512px |	1024px | 2048px |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| Prewit (JS) | 3.6 |	25.6 |	83.3 | 261.3 | 1193.7 |
-| Sobel (JS) | 3.7 | 24 | 75.7| 252.5 | 1268.2 |
-| Robet (JS) | 5.3 | 23.4 | 75.7 | 249.8 | 1097.3 |
-| Prewit (WGL2) | 50.3 |	50.8 |	51.2 |	65 | 204.4 |
-| Sobel (WGL2) | 52 |	49.5 |	55.5 |	73.4 | 187.6 |
-| Robet (WGL2) | 43.3 |	39.4 | 44.3 | 60.4 | 118.1 |
+| Prewit (WGL2) | 3.6 |	25.6 |	83.3 | 261.3 | 1193.7 |
+| Sobel (WGL2) | 3.7 | 24 | 75.7| 252.5 | 1268.2 |
+| Robet (WGL2) | 5.3 | 23.4 | 75.7 | 249.8 | 1097.3 |
+| Prewit (JS) | 50.3 |	50.8 |	51.2 |	65 | 204.4 |
+| Sobel (JS) | 52 |	49.5 |	55.5 |	73.4 | 187.6 |
+| Robet (JS) | 43.3 |	39.4 | 44.3 | 60.4 | 118.1 |
 
 **Tab.1: Average the different execution times in ms of the differents implemented process in Javascript (JS) and WebGL2 (WGL2). Ten repetitions have been done on pictures of different sizes.**
 
