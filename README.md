@@ -1,3 +1,8 @@
+
+To use the complete set of Image Processing functions in your browser, head on over to [our teacher's TIMES project](https://github.com/crazybiocomputing/times), which integrates the different algorithms developed by us and the rest of our colleagues from the Bioinformatics Master degree of Bordeaux.
+
+---------------
+
 To use, clone first crazybiocomputing/times repository on your computer, then in the same directory clone this repository.
 
 # Edge detection functions with WEBGL 2:
